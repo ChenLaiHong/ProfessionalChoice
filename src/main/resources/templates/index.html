@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="save" content="history">
+<meta name="renderer" content="webkit">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="/favicon.ico" />
+<title>广东东软学院教学管理系统</title>
+<meta name="keywords" content="广东东软学院教务系统，广东东软学院">
+
+<!-- CSS -->
+<link rel="stylesheet" href="/css/newlogin2.css">
+	<link rel="stylesheet" href="/css/layui.css">
+	<STYLE>
+		body{
+			background: #ebebeb;
+			font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft YaHei","\9ED1\4F53",Arial,sans-serif;
+			color:  #98FB98;
+			font-size: 12px;
+		}
+		*{padding: 0px;margin: 0px;}
+
+		.ipt{
+			border: 1px solid #d3d3d3;
+			padding: 10px 10px;
+			width: 290px;
+			border-radius: 4px;
+			padding-left: 35px;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+			-webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+			-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s
+		}
+		.ipt:focus{
+			border-color: #29e;
+			outline: 0;
+			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+		}
+		.u_logo{
+			background: url("/images/username.png") no-repeat;
+			padding: 10px 10px;
+			position: absolute;
+			top: 43px;
+			left: 60px;
+		}
+		.p_logo{
+			background: url("/images/password.png") no-repeat;
+			padding: 10px 10px;
+			position: absolute;
+			top: 12px;
+			left: 60px;
+		}
+		.divcss{
+			color: #00bbee;
+		}
+		a{
+			text-decoration: none;
+		}
+	</STYLE>
+
+</head>
+
+<body>
+
+<div class="page-container">
+	<div class="login_bg">
+		<div class="left_box">
+			<img src="/images/title-company.png"/>
+		</div>
+		<div class="main_box">
+			<div class="login_box">
+				<div class="login_logo">
+					<img src="/images/logo_school.png" >
+				</div>
+		<form action="/login" method="post">
+			<DIV style=" border-image: none; width: 400px; height: 200px; text-align: center;">
+
+				<P style="padding: 30px 0px 10px; position: relative;">
+					<SPAN class="u_logo"></SPAN>
+					<INPUT id="adminName" required lay-verify="required" name="adminName" class="ipt" type="text" placeholder="请输入用户名">
+				</P>
+				<P style="position: relative;">
+					<SPAN class="p_logo"></SPAN>
+					<INPUT id="adminPassword" required lay-verify="required" name="adminPassword" class="ipt"  type="password" placeholder="请输入密码">
+				</P>
+				<br>
+				<div class="divcss">
+				<input type="radio" name="person" value="1" checked>学生
+				<input type="radio" name="person" value="2">教职工
+				<input type="radio" name="person" value="3">管理员
+				</div>
+				<DIV style="height: 50px; line-height: 50px; margin-top: 30px; border-top-color: rgb(231, 231, 231); border-top-width: 1px; border-top-style: solid;">
+					<SPAN style="float: left;">
+						<p style="color: #CC2222" th:text="${msg}"></p>
+						</SPAN>
+					<P style="margin: 0px 35px 20px 45px;">
+
+						<SPAN style="float: right;">
+						  <input type="submit" style=" padding: 7px 10px; border-radius: 4px; border: 1px solid rgb(231, 231, 231); border-image: none; color: #29e; font-weight: bold;" value="登录"/>
+						</SPAN>
+
+					</P>
+
+				</DIV>
+			</DIV>
+		</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- Javascript -->
+<script type="text/javascript" src="/js/avalon.min.js" ></script>
+<script type="text/javascript" src="/js/base64.js"></script>
+<script type="text/javascript" src="/js/layui.js"></script>
+
+</body>
+</html>
