@@ -42,10 +42,10 @@ public class PageController {
         String password = request.getParameter("adminPassword");
         //当登陆用户是管理员
         if(person.equals(3)){
-            return "main";
+            return "AdminMain";
         }
         System.out.println(person+"是多少");
-        map.put("msg", "密码或账号错误!");
+       // map.put("msg", "密码或账号错误!");
         return "index";
     }
 
