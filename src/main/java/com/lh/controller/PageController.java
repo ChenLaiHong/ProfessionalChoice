@@ -40,9 +40,9 @@ public class PageController {
     public String login(HttpServletRequest request, Integer person,Map<String,Object> map){
         String name = request.getParameter("adminName");
         String password = request.getParameter("adminPassword");
-        //当登陆用户是学生
-        if(person.equals(1)){
-
+        //当登陆用户是管理员
+        if(person.equals(3)){
+            return "main";
         }
         System.out.println(person+"是多少");
         map.put("msg", "密码或账号错误!");
