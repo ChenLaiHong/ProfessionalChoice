@@ -46,6 +46,7 @@ public class ShiroConfig {
         filterMap.put("/login", "anon");
         //登录界面
         filterMap.put("/index", "anon");
+
         filterMap.put("/*","authc");
 
         //还没登陆时拦截后调整回登陆页面
