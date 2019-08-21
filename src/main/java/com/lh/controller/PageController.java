@@ -1,14 +1,14 @@
 package com.lh.controller;
 
-import com.lh.pojo.Admin;
-import com.lh.service.AdminService;
 import com.lh.service.StudentService;
+import com.lh.utils.MdUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,8 +23,7 @@ public class PageController {
 
     @Autowired
     private StudentService studentService;
-    @Autowired
-    private AdminService adminService;
+
 
     //访问登陆页面
     @RequestMapping("/index")
@@ -52,23 +51,28 @@ public class PageController {
     public String login(HttpServletRequest request, Integer person,Map<String,Object> map) {
         String name = request.getParameter("adminName");
         String password = request.getParameter("adminPassword");
+        //获取subject
+        Subject subject = SecurityUtils.getSubject();
+        //封装用户信息
+        UsernamePasswordToken token = new UsernamePasswordToken(name, MdUtil.md5(password));
 
-        //当登陆用户是管理员
-        if (person.equals(3)) {
-            Admin admin = adminService.login(name, password);
-            if (admin == null) {
-                map.put("msg", "密码或账号错误!");
-                return "index";
-            }
-            request.getSession().setAttribute("adminInfo", admin);
+        try {
+            subject.login(token);
 
-            return "/admin/AdminMain";
-        } else if (person.equals(1)) {
-
+        }catch (UnknownAccountException e){
+            //登陆用户名不存在
+            map.put("msg", "用户不存在!");
+            return "index";
+        }catch (IncorrectCredentialsException e){
+            //登陆失败，密码错误
+            map.put("msg", "密码错误!");
+            return "index";
         }
-        System.out.println(person + "是多少");
-        // map.put("msg", "密码或账号错误!");
-        return "index";
+        //登陆成功
+
+        return "/admin/AdminMain";
+
+
 
 
     }
