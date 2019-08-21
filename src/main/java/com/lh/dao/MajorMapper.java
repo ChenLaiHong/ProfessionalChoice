@@ -4,7 +4,9 @@ import com.lh.pojo.Major;
 import com.lh.pojo.MajorExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MajorMapper {
     long countByExample(MajorExample example);
 
@@ -33,4 +35,6 @@ public interface MajorMapper {
     int updateByPrimaryKeyWithBLOBs(Major record);
 
     int updateByPrimaryKey(Major record);
+
+    int insertCodeBatch(List<Major> majorList);
 }

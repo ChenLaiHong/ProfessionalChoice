@@ -338,4 +338,23 @@
       person_name = #{personName,jdbcType=VARCHAR}
     where major_id = #{majorId,jdbcType=INTEGER}
   </update>
+
+  <!-- 批量插入 -->
+  <insert id ="insertCodeBatch" parameterType="java.util.List" >
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+               order= "AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey >
+    insert into major
+    (major_name, major_code,major_year, major_money, department_name,major_details)
+    values
+    <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+      (
+      #{reddemCode.majorName}, #{reddemCode.majorCode},
+      #{reddemCode.majorYear},
+      #{reddemCode.majorMoney},
+      #{reddemCode.departmentName}, #{reddemCode.majorDetails}
+      )
+    </foreach >
+  </insert >
 </mapper>

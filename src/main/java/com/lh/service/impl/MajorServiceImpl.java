@@ -6,6 +6,8 @@ import com.lh.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by laiHom on 2019/8/20.
  */
@@ -18,5 +20,10 @@ public class MajorServiceImpl implements MajorService {
     public Major getMajorById(Integer id) {
         Major major = majorMapper.selectByPrimaryKey(id);
         return major;
+    }
+
+    @Override
+    public int inputAll(List<Major> majorList) {
+        return majorMapper.insertCodeBatch(majorList);
     }
 }

@@ -1,18 +1,25 @@
 package com.lh.pojo;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import java.util.Date;
 
 public class Major {
     private Integer majorId;
 
+    @Excel(name = "专业名称",orderNum = "1")
     private String majorName;
 
+    @Excel(name = "专业代码",orderNum = "2")
     private String majorCode;
 
+    @Excel(name = "专业学制",orderNum = "3")
     private Integer majorYear;
 
+    @Excel(name = "专业学费",orderNum = "4")
     private Integer majorMoney;
 
+    @Excel(name = "专业院系",orderNum = "5")
     private String departmentName;
 
     private Date selectTime;
@@ -21,6 +28,7 @@ public class Major {
 
     private String personName;
 
+    @Excel(name = "专业介绍",orderNum = "6")
     private String majorDetails;
 
     public Integer getMajorId() {
@@ -101,5 +109,21 @@ public class Major {
 
     public void setMajorDetails(String majorDetails) {
         this.majorDetails = majorDetails == null ? null : majorDetails.trim();
+    }
+
+    public Major() {
+    }
+
+    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date selectTime, Date updateTime, String personName, String majorDetails) {
+        this.majorId = majorId;
+        this.majorName = majorName;
+        this.majorCode = majorCode;
+        this.majorYear = majorYear;
+        this.majorMoney = majorMoney;
+        this.departmentName = departmentName;
+        this.selectTime = selectTime;
+        this.updateTime = updateTime;
+        this.personName = personName;
+        this.majorDetails = majorDetails;
     }
 }
