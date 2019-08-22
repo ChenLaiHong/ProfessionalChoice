@@ -58,6 +58,11 @@ public class PageController {
     public String toMajor(){
         return "/admin/majorPage";
     }
+
+    @RequestMapping("/toNotice")
+    public String toNotice(){
+        return "/admin/noticePage";
+    }
     //登陆操作
     @PostMapping("/login")
     public ModelAndView login(HttpServletRequest request, Integer person, Map<String,Object> map, ModelAndView mv, Model model) {
