@@ -22,8 +22,6 @@ public class Major {
     @Excel(name = "专业院系",orderNum = "5")
     private String departmentName;
 
-    private Date selectTime;
-
     private Date updateTime;
 
     private String personName;
@@ -79,14 +77,6 @@ public class Major {
         this.departmentName = departmentName == null ? null : departmentName.trim();
     }
 
-    public Date getSelectTime() {
-        return selectTime;
-    }
-
-    public void setSelectTime(Date selectTime) {
-        this.selectTime = selectTime;
-    }
-
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -114,14 +104,13 @@ public class Major {
     public Major() {
     }
 
-    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date selectTime, Date updateTime, String personName, String majorDetails) {
+    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date updateTime, String personName, String majorDetails) {
         this.majorId = majorId;
         this.majorName = majorName;
         this.majorCode = majorCode;
         this.majorYear = majorYear;
         this.majorMoney = majorMoney;
         this.departmentName = departmentName;
-        this.selectTime = selectTime;
         this.updateTime = updateTime;
         this.personName = personName;
         this.majorDetails = majorDetails;

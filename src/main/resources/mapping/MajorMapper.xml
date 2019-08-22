@@ -8,7 +8,6 @@
     <result column="major_year" jdbcType="INTEGER" property="majorYear" />
     <result column="major_money" jdbcType="INTEGER" property="majorMoney" />
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
-    <result column="select_time" jdbcType="TIMESTAMP" property="selectTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
   </resultMap>
@@ -74,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    major_id, major_name, major_code, major_year, major_money, department_name, select_time, 
-    update_time, person_name
+    major_id, major_name, major_code, major_year, major_money, department_name, update_time, 
+    person_name
   </sql>
   <sql id="Blob_Column_List">
     major_details
@@ -131,12 +130,12 @@
   <insert id="insert" parameterType="com.lh.pojo.Major">
     insert into major (major_id, major_name, major_code, 
       major_year, major_money, department_name, 
-      select_time, update_time, person_name, 
-      major_details)
+      update_time, person_name, major_details
+      )
     values (#{majorId,jdbcType=INTEGER}, #{majorName,jdbcType=VARCHAR}, #{majorCode,jdbcType=VARCHAR}, 
       #{majorYear,jdbcType=INTEGER}, #{majorMoney,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, 
-      #{selectTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{personName,jdbcType=VARCHAR}, 
-      #{majorDetails,jdbcType=LONGVARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{personName,jdbcType=VARCHAR}, #{majorDetails,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.lh.pojo.Major">
     insert into major
@@ -158,9 +157,6 @@
       </if>
       <if test="departmentName != null">
         department_name,
-      </if>
-      <if test="selectTime != null">
-        select_time,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -190,9 +186,6 @@
       </if>
       <if test="departmentName != null">
         #{departmentName,jdbcType=VARCHAR},
-      </if>
-      <if test="selectTime != null">
-        #{selectTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -232,9 +225,6 @@
       <if test="record.departmentName != null">
         department_name = #{record.departmentName,jdbcType=VARCHAR},
       </if>
-      <if test="record.selectTime != null">
-        select_time = #{record.selectTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -257,7 +247,6 @@
       major_year = #{record.majorYear,jdbcType=INTEGER},
       major_money = #{record.majorMoney,jdbcType=INTEGER},
       department_name = #{record.departmentName,jdbcType=VARCHAR},
-      select_time = #{record.selectTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       person_name = #{record.personName,jdbcType=VARCHAR},
       major_details = #{record.majorDetails,jdbcType=LONGVARCHAR}
@@ -273,7 +262,6 @@
       major_year = #{record.majorYear,jdbcType=INTEGER},
       major_money = #{record.majorMoney,jdbcType=INTEGER},
       department_name = #{record.departmentName,jdbcType=VARCHAR},
-      select_time = #{record.selectTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       person_name = #{record.personName,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -298,9 +286,6 @@
       <if test="departmentName != null">
         department_name = #{departmentName,jdbcType=VARCHAR},
       </if>
-      <if test="selectTime != null">
-        select_time = #{selectTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
@@ -320,7 +305,6 @@
       major_year = #{majorYear,jdbcType=INTEGER},
       major_money = #{majorMoney,jdbcType=INTEGER},
       department_name = #{departmentName,jdbcType=VARCHAR},
-      select_time = #{selectTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       person_name = #{personName,jdbcType=VARCHAR},
       major_details = #{majorDetails,jdbcType=LONGVARCHAR}
@@ -333,7 +317,6 @@
       major_year = #{majorYear,jdbcType=INTEGER},
       major_money = #{majorMoney,jdbcType=INTEGER},
       department_name = #{departmentName,jdbcType=VARCHAR},
-      select_time = #{selectTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       person_name = #{personName,jdbcType=VARCHAR}
     where major_id = #{majorId,jdbcType=INTEGER}
@@ -346,15 +329,32 @@
       SELECT LAST_INSERT_ID()
     </selectKey >
     insert into major
-    (major_name, major_code,major_year, major_money, department_name,major_details)
+    (major_name, major_code,major_year, major_money, department_name,major_details,update_time,person_name)
     values
     <foreach collection ="list" item="reddemCode" index= "index" separator =",">
       (
       #{reddemCode.majorName}, #{reddemCode.majorCode},
       #{reddemCode.majorYear},
       #{reddemCode.majorMoney},
-      #{reddemCode.departmentName}, #{reddemCode.majorDetails}
+      #{reddemCode.departmentName}, #{reddemCode.majorDetails},
+      now(),#{reddemCode.personName}
       )
     </foreach >
   </insert >
+
+  <!-- list集合 -->
+  <select id="list" parameterType="Map" resultMap="ResultMapWithBLOBs">
+    select * from major
+    order by update_time DESC
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <!-- getTotal -->
+  <select id="getTotal" parameterType="Map" resultType="Long">
+    select count(*) from major
+  </select>
+
+
 </mapper>

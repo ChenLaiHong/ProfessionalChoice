@@ -90,7 +90,6 @@ public class PageController {
             mv.setViewName("/admin/AdminMain");
         }else if (person == 1){
             mv.setViewName("/student/studentMain");
-
         }
         return mv;
 

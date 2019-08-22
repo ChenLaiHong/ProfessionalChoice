@@ -3,10 +3,10 @@ package com.lh.dao;
 import com.lh.pojo.Major;
 import com.lh.pojo.MajorExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import java.util.Map;
 
-@Repository
+import org.apache.ibatis.annotations.Param;
+
 public interface MajorMapper {
     long countByExample(MajorExample example);
 
@@ -37,4 +37,10 @@ public interface MajorMapper {
     int updateByPrimaryKey(Major record);
 
     int insertCodeBatch(List<Major> majorList);
+
+    List<Major> list(Map<String, Object> map);
+
+    Long getTotal(Map<String, Object> map);
+
+
 }

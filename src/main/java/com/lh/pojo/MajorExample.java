@@ -495,66 +495,6 @@ public class MajorExample {
             return (Criteria) this;
         }
 
-        public Criteria andSelectTimeIsNull() {
-            addCriterion("select_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeIsNotNull() {
-            addCriterion("select_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeEqualTo(Date value) {
-            addCriterion("select_time =", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeNotEqualTo(Date value) {
-            addCriterion("select_time <>", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeGreaterThan(Date value) {
-            addCriterion("select_time >", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("select_time >=", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeLessThan(Date value) {
-            addCriterion("select_time <", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeLessThanOrEqualTo(Date value) {
-            addCriterion("select_time <=", value, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeIn(List<Date> values) {
-            addCriterion("select_time in", values, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeNotIn(List<Date> values) {
-            addCriterion("select_time not in", values, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeBetween(Date value1, Date value2) {
-            addCriterion("select_time between", value1, value2, "selectTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andSelectTimeNotBetween(Date value1, Date value2) {
-            addCriterion("select_time not between", value1, value2, "selectTime");
-            return (Criteria) this;
-        }
-
         public Criteria andUpdateTimeIsNull() {
             addCriterion("update_time is null");
             return (Criteria) this;

@@ -2,11 +2,14 @@ package com.lh.service.impl;
 
 import com.lh.dao.MajorMapper;
 import com.lh.pojo.Major;
+import com.lh.pojo.MajorExample;
 import com.lh.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
+import java.util.*;
 
 /**
  * Created by laiHom on 2019/8/20.
@@ -23,7 +26,52 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public int inputAll(List<Major> majorList) {
-        return majorMapper.insertCodeBatch(majorList);
+    public int inputAll(List<Major> majorList,HttpServletRequest request) {
+
+        String name = (String) request.getSession().getAttribute("userName");
+        List<Major> newMajorList = majorList;
+        for (int i=0; i<majorList.size();i++){
+            newMajorList.get(i).setPersonName(name);
+        }
+        System.out.println(newMajorList);
+        return majorMapper.insertCodeBatch(newMajorList);
+    }
+
+    @Override
+    public List<Major> findAll() {
+        return majorMapper.selectByExampleWithBLOBs(null);
+    }
+
+    @Override
+    public List<Major> list(Map<String, Object> map) {
+        return majorMapper.list(map);
+    }
+
+    @Override
+    public Long getTotal(Map<String, Object> map) {
+        return majorMapper.getTotal(map);
+    }
+
+    @Override
+    public int addMajor(Major major) {
+        return majorMapper.insertSelective(major);
+    }
+
+    @Override
+    public int updateMajor(Major major) {
+        return majorMapper.updateByPrimaryKey(major);
+    }
+
+    @Override
+    public int delete(String[] idsStr) {
+        List ints = new ArrayList();
+        for(int i =0;i<idsStr.length;i++){
+            ints.add(Integer.parseInt(idsStr[i]));
+        }
+
+        MajorExample example = new MajorExample();
+        MajorExample.Criteria criteria = example.createCriteria();
+        criteria.andMajorIdIn(ints);
+        return majorMapper.deleteByExample(example);
     }
 }
