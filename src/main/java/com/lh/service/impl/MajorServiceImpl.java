@@ -70,6 +70,12 @@ public class MajorServiceImpl implements MajorService {
         MajorExample example = new MajorExample();
         MajorExample.Criteria criteria = example.createCriteria();
         criteria.andMajorIdIn(StringIds(idsStr));
+
         return majorMapper.deleteByExample(example);
+    }
+
+    @Override
+    public List<Major> getAll() {
+        return majorMapper.selectByExample(null);
     }
 }

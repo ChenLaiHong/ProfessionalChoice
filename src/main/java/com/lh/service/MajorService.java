@@ -26,4 +26,6 @@ public interface MajorService {
     int updateMajor(Major major);
 
     int delete(String[] idsStr);
+
+    List<Major> getAll();
 }

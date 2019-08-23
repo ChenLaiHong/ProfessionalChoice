@@ -367,4 +367,27 @@
       role_id = #{roleId,jdbcType=INTEGER}
     where login_id = #{loginId,jdbcType=VARCHAR}
   </update>
+
+  <!-- 批量插入 -->
+  <insert id ="inputAll" parameterType="java.util.List" >
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+               order= "AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey >
+    insert into person
+    (login_id, name, password,grades, gender, phone,
+    major_id, grade, person_static,
+    qq_number, enrollment_year, email,
+    student_status, static_live, role_id)
+    values
+    <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+      (
+      #{reddemCode.loginId}, #{reddemCode.name},#{reddemCode.password},
+      #{reddemCode.grades},#{reddemCode.gender}, #{reddemCode.phone},
+      #{reddemCode.majorId},#{reddemCode.grade}, #{reddemCode.personStatic},
+      #{reddemCode.qqNumber},#{reddemCode.enrollmentYear}, #{reddemCode.email},
+      1,0, 1
+      )
+    </foreach >
+  </insert >
 </mapper>

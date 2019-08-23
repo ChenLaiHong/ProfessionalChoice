@@ -10,12 +10,14 @@ import com.lh.pojo.PageBean;
 import com.lh.service.MajorService;
 import com.lh.utils.DateJsonValueProcessor;
 import com.lh.utils.ResponseUtil;
+import com.lh.utils.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +101,18 @@ public class MajorController {
         ResponseUtil.write(response, result);
         return null;
 
+
+    }
+
+    @RequestMapping("/getAll")
+    @ResponseBody
+
+        public ResultData<List<Major>> getAll() throws Exception {
+            List<Major> banners = majorService.getAll();
+            ResultData<List<Major>> resultData = new ResultData<>();
+            resultData.setResult(banners);
+            resultData.setCode("ok");
+            return resultData;
 
     }
 

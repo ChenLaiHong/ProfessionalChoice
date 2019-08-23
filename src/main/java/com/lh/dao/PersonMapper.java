@@ -27,4 +27,6 @@ public interface PersonMapper {
     int updateByPrimaryKeySelective(Person record);
 
     int updateByPrimaryKey(Person record);
+
+    int inputAll(List<Person> lists);
 }

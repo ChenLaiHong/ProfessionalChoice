@@ -51,7 +51,7 @@ public class PageController {
 
     @RequestMapping("/toStudent")
     public String toStudent(){
-        return "student";
+        return "/admin/studentPage";
     }
 
     @RequestMapping("/toMajor")

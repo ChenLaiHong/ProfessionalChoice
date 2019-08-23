@@ -1,28 +1,43 @@
 package com.lh.pojo;
 
-public class Person extends InputPerson{
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Person {
+    @Excel(name = "学号")
     private String loginId;
 
+    @Excel(name = "姓名")
     private String name;
 
+    @Excel(name = "密码")
     private String password;
 
+    @Excel(name = "班级")
     private String grades;
 
+    @Excel(name = "性别",replace ={"男_0","女_1"})
     private Integer gender;
 
+    @Excel(name = "联系电话")
     private String phone;
 
     private Integer majorId;
 
+    @Excel(name = "年级")
     private Integer grade;
 
+    @Excel(name = "学生状态",replace = {"在读_1","毕业_2","休学_3","退学_4"})
     private Integer personStatic;
 
+    @Excel(name = "联系qq")
     private String qqNumber;
 
+    @Excel(name = "入学年份")
     private Integer enrollmentYear;
 
+    @Excel(name = "邮箱")
     private String email;
 
     private Integer studentStatus;
