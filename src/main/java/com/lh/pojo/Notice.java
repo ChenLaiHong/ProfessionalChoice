@@ -13,6 +13,16 @@ public class Notice {
 
     private String noticeDetails;
 
+    private String noticePerson;
+
+    public String getNoticePerson() {
+        return noticePerson;
+    }
+
+    public void setNoticePerson(String noticePerson) {
+        this.noticePerson = noticePerson;
+    }
+
     public Integer getNoticeId() {
         return noticeId;
     }

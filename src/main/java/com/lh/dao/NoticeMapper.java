@@ -3,6 +3,9 @@ package com.lh.dao;
 import com.lh.pojo.Notice;
 import com.lh.pojo.NoticeExample;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface NoticeMapper {
@@ -33,4 +36,8 @@ public interface NoticeMapper {
     int updateByPrimaryKeyWithBLOBs(Notice record);
 
     int updateByPrimaryKey(Notice record);
+
+    List<Objects> list(Map<String, Object> map);
+
+    Long getTotal(Map<String, Object> map);
 }

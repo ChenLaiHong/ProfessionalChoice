@@ -6,6 +6,7 @@
     <result column="notice_title" jdbcType="VARCHAR" property="noticeTitle" />
     <result column="notice_time" jdbcType="TIMESTAMP" property="noticeTime" />
     <result column="notice_state" jdbcType="INTEGER" property="noticeState" />
+    <result column="notice_person" jdbcType="VARCHAR" property="noticePerson" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lh.pojo.Notice">
     <result column="notice_details" jdbcType="LONGVARCHAR" property="noticeDetails" />
@@ -124,9 +125,9 @@
   </delete>
   <insert id="insert" parameterType="com.lh.pojo.Notice">
     insert into notice (notice_id, notice_title, notice_time, 
-      notice_state, notice_details)
+      notice_state, notice_details,notice_person)
     values (#{noticeId,jdbcType=INTEGER}, #{noticeTitle,jdbcType=VARCHAR}, #{noticeTime,jdbcType=TIMESTAMP}, 
-      #{noticeState,jdbcType=INTEGER}, #{noticeDetails,jdbcType=LONGVARCHAR})
+      #{noticeState,jdbcType=INTEGER}, #{noticeDetails,jdbcType=LONGVARCHAR}, #{noticePerson,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.lh.pojo.Notice">
     insert into notice
@@ -146,6 +147,9 @@
       <if test="noticeDetails != null">
         notice_details,
       </if>
+      <if test="noticePerson != null">
+        notice_person,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="noticeId != null">
@@ -162,6 +166,9 @@
       </if>
       <if test="noticeDetails != null">
         #{noticeDetails,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="noticePerson != null">
+        #{noticePerson,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +196,9 @@
       <if test="record.noticeDetails != null">
         notice_details = #{record.noticeDetails,jdbcType=LONGVARCHAR},
       </if>
+      <if test="record.noticePerson != null">
+        notice_person = #{record.noticePerson,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -200,7 +210,8 @@
       notice_title = #{record.noticeTitle,jdbcType=VARCHAR},
       notice_time = #{record.noticeTime,jdbcType=TIMESTAMP},
       notice_state = #{record.noticeState,jdbcType=INTEGER},
-      notice_details = #{record.noticeDetails,jdbcType=LONGVARCHAR}
+      notice_details = #{record.noticeDetails,jdbcType=LONGVARCHAR},
+      notice_person = #{record.noticePerson,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -238,14 +249,31 @@
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_time = #{noticeTime,jdbcType=TIMESTAMP},
       notice_state = #{noticeState,jdbcType=INTEGER},
-      notice_details = #{noticeDetails,jdbcType=LONGVARCHAR}
+      notice_details = #{noticeDetails,jdbcType=LONGVARCHAR},
+      notice_person = #{noticePerson,jdbcType=VARCHAR}
     where notice_id = #{noticeId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lh.pojo.Notice">
     update notice
     set notice_title = #{noticeTitle,jdbcType=VARCHAR},
       notice_time = #{noticeTime,jdbcType=TIMESTAMP},
-      notice_state = #{noticeState,jdbcType=INTEGER}
+      notice_state = #{noticeState,jdbcType=INTEGER},
+      notice_person = #{noticePerson,jdbcType=VARCHAR}
     where notice_id = #{noticeId,jdbcType=INTEGER}
+
   </update>
+
+  <!-- list集合 -->
+  <select id="list" parameterType="Map" resultMap="ResultMapWithBLOBs">
+    select * from notice
+    order by notice_time DESC
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <!-- getTotal -->
+  <select id="getTotal" parameterType="Map" resultType="Long">
+    select count(*) from notice
+  </select>
 </mapper>

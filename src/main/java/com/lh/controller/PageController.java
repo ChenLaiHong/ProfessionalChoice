@@ -62,6 +62,7 @@ public class PageController {
     @RequestMapping("/toNotice")
     public String toNotice(){
         return "/admin/noticePage";
+//        return "/admin/search";f
     }
     //登陆操作
     @PostMapping("/login")

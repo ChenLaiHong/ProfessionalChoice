@@ -1,6 +1,6 @@
 package com.lh.pojo;
 
-public class Person {
+public class Person extends InputPerson{
     private String loginId;
 
     private String name;

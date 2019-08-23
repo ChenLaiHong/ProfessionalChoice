@@ -13,6 +13,7 @@ import com.lh.utils.ResponseUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,9 @@ import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +93,7 @@ public class MajorController {
         String idsStr[] = ids.split(",");
         JSONObject result = new JSONObject();
 
-        int res = majorService.delete(idsStr);
+        majorService.delete(idsStr);
 
         result.put("success", true);
         ResponseUtil.write(response, result);
@@ -100,8 +103,7 @@ public class MajorController {
     }
 
 
-    @PostMapping("/importExcel")
-    @ResponseBody
+    @RequestMapping("/importExcel")
     public String importExcel2(@RequestParam("files") MultipartFile file,HttpServletRequest request,HttpServletResponse response) {
         // 带结果到页面
         JSONObject jsonResult = new JSONObject();
@@ -111,18 +113,21 @@ public class MajorController {
         importParams.setHeadRows(1);
         importParams.setTitleRows(1);
         // 需要验证
-        importParams.setNeedVerfiy(false);
-
+        importParams.setNeedVerfiy(true);
+        String[] str = {"xls","xlsx"};
+        importParams.setImportFields(str);
         int res = 0;
-        try{
+        try {
             ExcelImportResult<Major> result = ExcelImportUtil.importExcelMore(file.getInputStream(), Major.class,
                     importParams);
             List<Major> majorList = result.getList();
-            res = majorService.inputAll(majorList,request);
-
+            res = majorService.inputAll(majorList, request);
+        }catch (InvalidFormatException e){
+            jsonResult.put("status", "fail");
+            jsonResult.put("message", "批量导入失败！文件格式不正确");
         }catch (Exception e){
             jsonResult.put("status", "fail");
-            jsonResult.put("message", "批量导入失败！请检查文件格式");
+            jsonResult.put("message", "批量导入失败！");
         }
 
         if(res>0){

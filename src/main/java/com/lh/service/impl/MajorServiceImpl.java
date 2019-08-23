@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.*;
 
+import static com.lh.utils.CommentUtils.StringIds;
+
 /**
  * Created by laiHom on 2019/8/20.
  */
@@ -59,19 +61,15 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public int updateMajor(Major major) {
-        return majorMapper.updateByPrimaryKey(major);
+        return majorMapper.updateByPrimaryKeyWithBLOBs(major);
     }
 
     @Override
     public int delete(String[] idsStr) {
-        List ints = new ArrayList();
-        for(int i =0;i<idsStr.length;i++){
-            ints.add(Integer.parseInt(idsStr[i]));
-        }
 
         MajorExample example = new MajorExample();
         MajorExample.Criteria criteria = example.createCriteria();
-        criteria.andMajorIdIn(ints);
+        criteria.andMajorIdIn(StringIds(idsStr));
         return majorMapper.deleteByExample(example);
     }
 }

@@ -1,9 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>友情链接管理页面</title>
+    <title>专业管理页面</title>
 
     <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/icon.css">
@@ -41,24 +40,88 @@
             });
         }
 
-        function openMajorAddDialog(){
-            $("#dlg").dialog("open").dialog("setTitle","添加专业信息");
-            url="/major/save";
-        }
 
+
+        ///////////////////////////////////////////
+        var showDiv = function(str) {
+            var msgw = 350;
+            var msgh = 90;
+            var bordercolor;
+            titleheight =  25; //提示窗口标题高度
+            bordercolor = "#00CCCC"; //提示窗口的边框颜色
+            titlecolor = "#00CCCC"; //提示窗口的标题颜色
+            var sWidth, sHeight;
+            //获取当前窗口尺寸
+            sWidth = document.body.offsetWidth;
+            sHeight = document.body.offsetHeight;
+            //背景div
+            var bgObj = document.createElement("div");
+            bgObj.setAttribute('id', 'alertbgDiv');
+            bgObj.style.position = "absolute";
+            bgObj.style.top = "0";
+            bgObj.style.background = "#E8E8E8";
+            bgObj.style.filter = "progid:DXImageTransform.Microsoft.Alpha(style=3,opacity=25,finishOpacity=75";
+            bgObj.style.opacity = "0.6";
+            bgObj.style.left = "0";
+            bgObj.style.width = sWidth + "px";
+            bgObj.style.height = sHeight + "px";
+            bgObj.style.zIndex = "10000";
+            document.body.appendChild(bgObj);
+            //创建提示窗口的div
+            var msgObj = document.createElement("div");
+            msgObj.setAttribute("id", "alertmsgDiv");
+            msgObj.setAttribute("align", "center");
+            msgObj.style.background = "white";
+            msgObj.style.border = "1px solid " + bordercolor;
+            msgObj.style.position = "absolute";
+            msgObj.style.left = "50%";
+            msgObj.style.font = "12px/1.6em Verdana, Geneva, Arial, Helvetica, sans-serif";
+            //窗口距离左侧和顶端的距离
+            msgObj.style.marginLeft = "-280px";
+            //窗口被卷去的高+（屏幕可用工作区高/2）-150
+            msgObj.style.top = document.body.scrollTop+(window.screen.availHeight/2)- 180 + "px";
+            msgObj.style.width = msgw + "px";
+            msgObj.style.height = msgh + "px";
+            msgObj.style.textAlign = "center";
+            msgObj.style.lineHeight ="25px";
+            msgObj.style.zIndex = "10001";
+            document.body.appendChild(msgObj);
+            //提示信息标题
+            var title=document.createElement("h4");
+            title.setAttribute("id", "alertmsgTitle");
+            title.setAttribute("align", "left");
+            title.style.margin = "0";
+            title.style.padding = "3px";
+            title.style.background = bordercolor;
+            title.style.filter = "progid:DXImageTransform.Microsoft.Alpha(startX=20, startY=20, finishX=100, finishY=100,style=1,opacity=75,finishOpacity=100);";
+            title.style.opacity = "0.75";
+            title.style.border = "1px solid " + bordercolor;
+            title.style.height = "18px";
+            title.style.font = "12px Verdana, Geneva, Arial, Helvetica, sans-serif";
+            title.style.color = "white";
+            title.innerHTML = "提示信息";
+            document.getElementById("alertmsgDiv").appendChild(title);
+            //提示信息
+            var txt = document.createElement("p");
+            txt.setAttribute("id", "msgTxt");
+            txt.style.margin="16px 0";
+            txt.innerHTML = str;
+            document.getElementById("alertmsgDiv").appendChild(txt);
+        };
+        //关闭提示框
+        var closeDiv = function() {
+            document.body.removeChild(document.getElementById("alertbgDiv"));
+            document.getElementById("alertmsgDiv").removeChild(document.getElementById("alertmsgTitle"));
+            document.body.removeChild(document.getElementById("alertmsgDiv"));
+        };
+
+        //执行批量导入功能
+        //1
         function openLink(){
             $("#upl").dialog("open").dialog("setTitle","上传文件");
 
         }
-
-        //执行批量导入功能/////////////////////////////////////////
-        function winClose() {
-            $("#upl").dialog("close");
-            resetValue();
-        }
-
-
-        //执行批量导入功能
+        //2
         function importSubmit(){
 
             $("#fi").form("submit", {
@@ -73,8 +136,6 @@
                         top.$.messager.alert('提示信息', date.message, 'info', function() {
                             $("#dg").datagrid("reload");
                             winClose();
-
-
                         });
                     } else if(date.status == "fail") {
                         top.$.messager.alert('提示信息', date.message, 'error');
@@ -90,11 +151,18 @@
                     return;
                 }
             });
-
-        };
-
-        /////////////////////////////////////////////
-
+        }
+        //3执行批量导入功能z之后关闭窗口
+        function winClose() {
+            $("#upl").dialog("close");
+            resetValue();
+        }
+        //打开添加页面
+        function openMajorAddDialog(){
+            $("#dlg").dialog("open").window("setTitle","添加专业信息");
+            url="/major/save";
+        }
+        //打开修改页面
         function openMajorModifyDialog(){
             var selectedRows=$("#dg").datagrid("getSelections");
             if(selectedRows.length!=1){
@@ -102,7 +170,7 @@
                 return;
             }
             var row=selectedRows[0];
-            $("#dlg").dialog("open").dialog("setTitle","编辑专业信息");
+            $("#dlg").dialog("open").window("setTitle","编辑专业信息");
             $("#fm").form("load",row);
             /**
              * 回显富文本
@@ -110,14 +178,15 @@
             $(function () {
                 document.getElementsByClassName('w-e-text')[0].innerHTML = row.majorDetails;
             })
-
             url="/major/save?majorId="+row.majorId;
         }
 
+        //添加或修改完成的保存操作
         function saveMajor(){
             $("#fm").form("submit",{
                 url:url,
                 onSubmit:function(){
+                    document.getElementById("majorDetails").value = document.getElementsByClassName('w-e-text')[0].innerHTML;
                     return $(this).form("validate");
                 },
                 success:function(result){
@@ -136,21 +205,26 @@
             });
         }
 
+        //将输入框内容置空
         function resetValue(){
             $("#majorName").val("");
             $("#majorCode").val("");
             $("#majorMoney").val("");
             $("#files$").val("");
-            $("#majorDetails").val("");
-
+            document.getElementsByClassName('w-e-text')[0].innerHTML.val("");
         }
 
+        //关闭窗口
         function closeLinkDialog(){
-
             $("#dlg").dialog("close");
             resetValue();
         }
 
+        //修改列的格式
+        function formatDetail(value,row){
+            return '<span title="' + value + '">' + value + '</span>';}
+        function formatId(value,row){
+            return '<input type="hidden" name="' + value + '">'}
     </script>
 </head>
 <body style="margin: 1px">
@@ -160,7 +234,7 @@
     <thead>
     <tr>
         <th field="cb" checkbox="true" align="center"></th>
-        <th field="majorId"  width="20" align="center">编号</th>
+        <th field="majorId"  align="center" formatter="formatId"></th>
         <th field="majorName" width="20" align="center">专业名称</th>
         <th field="majorCode" width="20" align="center">专业代码</th>
         <th field="majorYear" width="20" align="center">专业学制</th>
@@ -168,7 +242,7 @@
         <th field="departmentName" width="20" align="center">专业院系</th>
         <th field="updateTime" width="20" align="center">更新时间</th>
         <th field="personName" width="20" align="center">上传者</th>
-        <th field="majorDetails" width="20" align="center">上传者</th>
+        <th field="majorDetails" width="20" align="center" formatter="formatDetail">专业介绍</th>
     </tr>
     </thead>
 </table>
@@ -184,7 +258,7 @@
 <div id="upl" class="easyui-dialog" style="width:300px;height:200px;padding: 10px 20px"
      closed="true" buttons="#upl-buttons">
 
-    <form id="fi"  enctype="multipart/form-data" method="post">
+    <form id="fi" enctype="multipart/form-data" method="post">
         <table cellspacing="8px">
             选择文件：<input type="file" name="files" id="files" />
         </table>
@@ -243,7 +317,7 @@
                         <div id="editor" style="width: 100%">
 
                         </div>
-                        <input type="hidden"  name="majorDetails">
+                        <input type="hidden" value="" name="majorDetails" id="majorDetails">
                         <!-- end  -->
                     </div>
 

@@ -155,6 +155,7 @@
               </goals>
             </execution>
           </executions>
+
           <configuration>
             <!-- 允许移动生成的文件-->
             <verbose>true</verbose>
