@@ -58,6 +58,7 @@ public class MajorController {
         map.put("size", pageBean.getPageSize());
         List<Major> majorList = majorService.list(map);
         Long total = majorService.getTotal(map);
+        System.out.println("每次都进来统计一下吗？"+page+"和"+rows);
         JSONObject result = new JSONObject();
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
@@ -110,8 +111,8 @@ public class MajorController {
         public ResultData<List<Major>> getAll() throws Exception {
             List<Major> banners = majorService.getAll();
             ResultData<List<Major>> resultData = new ResultData<>();
-            resultData.setResult(banners);
-            resultData.setCode("ok");
+            resultData.setData(banners);
+            resultData.setCode("0");
             return resultData;
 
     }

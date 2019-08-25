@@ -21,4 +21,17 @@ public interface NoticeService {
     int updateNotice(Notice notice);
 
     int delete(String[] idsStr);
+
+
+    List<Objects> searchList(Map<String, Object> listFirst);
+
+    Long getSearchTotal(Map<String, Object> listFirst);
+
+    List<Notice> listF(Map<String, Object> map);
+
+    Integer getTotalF(Map<String, Object> map);
+
+    Notice findById(int i);
+
+
 }

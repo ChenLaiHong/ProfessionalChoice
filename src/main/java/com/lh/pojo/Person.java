@@ -40,8 +40,10 @@ public class Person {
     @Excel(name = "邮箱")
     private String email;
 
+    @Excel(name = "学籍状态",replace = {"无学籍_0","有学籍_1"})
     private Integer studentStatus;
 
+    @Excel(name = "账户状态",replace = {"未修改密码_0","已修改密码_1","不能使用_1"})
     private Integer staticLive;
 
     private Integer roleId;

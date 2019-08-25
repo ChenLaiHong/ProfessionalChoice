@@ -31,6 +31,15 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+    </dependency>
+    <!-- 添加jtl支持 -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
     <dependency>
       <groupId>net.sf.json-lib</groupId>

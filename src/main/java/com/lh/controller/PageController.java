@@ -46,7 +46,7 @@ public class PageController {
 
     @RequestMapping("/main")
     public String main(){
-        return "main";
+        return "/admin/noticeManage";
     }
 
     @RequestMapping("/toStudent")
@@ -61,7 +61,7 @@ public class PageController {
 
     @RequestMapping("/toNotice")
     public String toNotice(){
-        return "/admin/noticePage";
+        return "/admin/noticeManage";
 //        return "/admin/search";f
     }
     //登陆操作

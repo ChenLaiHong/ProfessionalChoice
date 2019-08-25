@@ -246,15 +246,16 @@
     <thead>
     <tr>
         <th field="cb" checkbox="true" align="center"></th>
-        <th field="majorId"  align="center" formatter="formatId"></th>
-        <th field="majorName" width="20" align="center">姓名</th>
-        <th field="majorCode" width="20" align="center">专业代码</th>
-        <th field="majorYear" width="20" align="center">专业学制</th>
-        <th field="majorMoney" width="20" align="center">专业学费</th>
-        <th field="departmentName" width="20" align="center">专业院系</th>
-        <th field="updateTime" width="20" align="center">更新时间</th>
-        <th field="personName" width="20" align="center">上传者</th>
-        <th field="majorDetails" width="20" align="center" formatter="formatDetail">专业介绍</th>
+        <th field="loginId"  align="center">学号</th>
+        <th field="name" width="20" align="center">姓名</th>
+        <th field="gender" width="20" align="center">性别</th>
+        <th field="phone" width="20" align="center">联系电话</th>
+        <th field="qqNumber" width="20" align="center">qq</th>
+        <th field="email" width="20" align="center">邮箱</th>
+        <th field="major" width="20" align="center" formatter="formatMajor">专业</th>
+        <th field="grade" width="20" align="center">年级</th>
+        <th field="studentStatus" width="20" align="center">学籍状态</th>
+        <th field="staticLive" width="20" align="center">账户状态</th>
     </tr>
     </thead>
 </table>
@@ -263,8 +264,9 @@
         <a href="javascript:openMajorAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
         <a href="javascript:openMajorModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
         <a href="javascript:deleteMajor()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
-        <a href="/major/exportExcel" class="easyui-linkbutton" iconCls="icon-redo" plain="true">导出</a>
-        <a href="javascript:openLink()" class="easyui-linkbutton" iconCls="icon-print" plain="true">导入</a>
+        <a href="/student/exportExcelTel" class="easyui-linkbutton" iconCls="icon-put" plain="true">导出模板</a>
+        <a href="/student/exportExcel" class="easyui-linkbutton" iconCls="icon-redo" plain="true">导出信息</a>
+        <a href="javascript:openLink()" class="easyui-linkbutton" iconCls="icon-print" plain="true">导入信息</a>
     </div>
 </div>
 <div id="upl" class="easyui-dialog" style="width:300px;height:200px;padding: 10px 20px"
@@ -325,23 +327,8 @@
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    专业介绍：<br>
-                    <!--<input class="easyui-textbox" data-options="multiline:true" name="majorDetails" style="width:350px;height:100px">-->
 
-                    <div style="width:450px;height:5px">
-                        <!-- 富文本 -->
-                        <div id="editor" style="width: 100%">
 
-                        </div>
-                        <input type="hidden" value="" name="majorDetails" id="majorDetails">
-                        <!-- end  -->
-                    </div>
-
-                </td>
-            </tr>
-            </br>
         </table>
     </form>
 </div>

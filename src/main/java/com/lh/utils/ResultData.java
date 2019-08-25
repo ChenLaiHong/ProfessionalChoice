@@ -7,13 +7,14 @@ import java.util.Date;
  * Created by CHLaih on 2018/4/30.
  */
 public class ResultData<T> {
-    private T result;
+    private T data;
     private String code;
     private String msg;
     private String time;
 
-    public ResultData(T result, String code, String msg, String time) {
-        this.result = result;
+
+    public ResultData(T data, String code, String msg, String time) {
+        this.data = data;
         this.code = code;
         this.msg = msg;
         this.time = time;
@@ -22,13 +23,6 @@ public class ResultData<T> {
     public ResultData() {
     }
 
-    public T getResult() {
-        return result;
-    }
-
-    public void setResult(T result) {
-        this.result = result;
-    }
 
     public String getCode() {
         return code;
@@ -56,13 +50,11 @@ public class ResultData<T> {
         this.time = time;
     }
 
-    @Override
-    public String toString() {
-        return "ResultData{" +
-                "result=" + result +
-                ", code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                ", time='" + time + '\'' +
-                '}';
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }

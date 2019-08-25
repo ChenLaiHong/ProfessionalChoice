@@ -241,6 +241,9 @@
       <if test="noticeDetails != null">
         notice_details = #{noticeDetails,jdbcType=LONGVARCHAR},
       </if>
+      <if test="noticePerson != null">
+        notice_person = #{noticePerson,jdbcType=VARCHAR},
+      </if>
     </set>
     where notice_id = #{noticeId,jdbcType=INTEGER}
   </update>
@@ -275,5 +278,50 @@
   <!-- getTotal -->
   <select id="getTotal" parameterType="Map" resultType="Long">
     select count(*) from notice
+  </select>
+
+  <!-- list搜索集合 -->
+  <select id="searchList" parameterType="Map" resultMap="ResultMapWithBLOBs">
+    select * from notice
+    WHERE #{factor} LIKE '%${keyWords}%'
+    order by notice_time DESC
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <!-- 搜索getTotal -->
+  <select id="getSearchTotal" parameterType="Map" resultType="Long">
+    select count(*) from notice
+    WHERE #{factor} LIKE '%${keyWords}%'
+  </select>
+
+
+
+
+
+  <select id="listF" parameterType="Map" resultMap="ResultMapWithBLOBs">
+    select * from notice
+    <where>
+      <if test="q!=null and q!=''">
+        and (notice_title like #{q}  or notice_details like #{q})
+      </if>
+
+    </where>
+    order by notice_time DESC
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <select id="getTotalF" parameterType="Map" resultType="Integer">
+    select
+    count(*) from notice
+    <where>
+      <if test="q!=null and q!=''">
+        and (notice_title like #{q}  or notice_details like #{q})
+      </if>
+
+    </where>
   </select>
 </mapper>

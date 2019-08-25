@@ -40,4 +40,12 @@ public interface NoticeMapper {
     List<Objects> list(Map<String, Object> map);
 
     Long getTotal(Map<String, Object> map);
+
+    List<Objects> searchList(Map<String, Object> listFirst);
+
+    Long getSearchTotal(Map<String, Object> listFirst);
+
+    List<Notice> listF(Map<String, Object> map);
+
+    Integer getTotalF(Map<String, Object> map);
 }

@@ -114,24 +114,10 @@
         function formatId(value,row){
             return '<input type="hidden" name="' + value + '">'}
 
-        function doSearch(value,name) {
-//            var name1 = name.val();
-            url="/notice/search?name="+name+"&&keyWords="+value;
-            $.get(url,function(result){
-                if(result.success){
-                    $.messager.alert("系统提示","数据已成功删除！");
-                    $("#dg").datagrid("reload");
-                }else{
-                    $.messager.alert("系统提示","数据删除失败！");
-                }
-            },"json");
-//            }if(name1 == "noticeDetails"){
-//                $("#dg").datagrid('load',{
-//                    "noticeDetails":$("#value1").val()
-//                });
-//            }
-                alert('You input: ' + value + '(' + name + ')');
-
+        function searchBlog(){
+            $("#dg").datagrid('load',{
+                "noticeTitle":$("#s_title").val()
+            });
         }
     </script>
 
@@ -158,20 +144,19 @@
         <a href="javascript:openNoticeAddDialog()" class="easyui-linkbutton" iconCls="icon-add" plain="true">添加</a>
         <a href="javascript:openNoticeModifyDialog()" class="easyui-linkbutton" iconCls="icon-edit" plain="true">修改</a>
         <a href="javascript:deleteNotice()" class="easyui-linkbutton" iconCls="icon-remove" plain="true">删除</a>
-        <SPAN style="float: right;">
+        <!--<SPAN style="float: right;" >-->
+
             <!--<form action="/notice/search" method="post">-->
-                <!--<input type="radio" name="factor" value="0" checked>标题-->
-                <!--<input type="radio" name="factor" value="1">内容-->
-                <!--<input type="text" id="s_title" size="20" name="keyWords"/>-->
-            <!--<input type="submit" class="easyui-linkbutton" iconCls="icon-search" plain="true"/>-->
+                <!--<input type="radio" name="factor" value="b" checked>标题-->
+                <!--<input type="radio" name="factor" value="n">内容-->
+                <!--<input type="text" id="keyWords" size="20" name="keyWords"/>-->
+                <!--<input type="submit" class="easyui-linkbutton" iconCls="icon-search"/>-->
             <!--</form>-->
-            <!--<div style="margin:10px 0;"></div>-->
-            <input class="easyui-searchbox" name="keyWords" data-options="prompt:'请输入...',menu:'#mm',searcher:doSearch" style="width:300px"></input>
-            <div id="mm">
-                <div data-options="name:'b',iconCls:'icon-ok'">标题</div>
-                <div data-options="name:'n'">内容</div>
-            </div>
-        </SPAN>
+        <!--</SPAN>-->
+        <div>
+            &nbsp;标题：&nbsp;<input type="text" id="s_title" size="20" onkeydown="if(event.keyCode==13) searchBlog()"/>
+            <a href="javascript:searchBlog()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
+        </div>
     </div>
 </div>
 

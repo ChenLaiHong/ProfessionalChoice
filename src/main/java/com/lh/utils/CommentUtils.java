@@ -27,6 +27,17 @@ public class CommentUtils {
         map.put("size", pageBean.getPageSize());
         return map;
     }
+    public static Map<String, Object> findListFirst(String page,String rows,String keyWords,String factor){
+
+        PageBean pageBean = new PageBean(Integer.parseInt(page),
+                Integer.parseInt(rows));
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("start", pageBean.getStart());
+        map.put("size", pageBean.getPageSize());
+        map.put("keyWords", keyWords);
+        map.put("factor", factor);
+        return map;
+    }
     public static JSONObject findListSecond(List<Objects> list, Long total){
 
         JSONObject result = new JSONObject();
@@ -37,6 +48,17 @@ public class CommentUtils {
         result.put("total", total);
         return result;
     }
+    public static JSONObject findListSecond(List<Notice> list, Long total,String s){
+
+        JSONObject result = new JSONObject();
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
+        JSONArray jsonArray = JSONArray.fromObject(list,jsonConfig);
+        result.put("rows", jsonArray);
+        result.put("total", total);
+        return result;
+    }
+
     public static List StringIds(String[] ids){
         List ints = new ArrayList();
         for(int i =0;i<ids.length;i++){

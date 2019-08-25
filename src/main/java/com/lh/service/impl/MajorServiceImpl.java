@@ -71,6 +71,7 @@ public class MajorServiceImpl implements MajorService {
         MajorExample.Criteria criteria = example.createCriteria();
         criteria.andMajorIdIn(StringIds(idsStr));
 
+
         return majorMapper.deleteByExample(example);
     }
 

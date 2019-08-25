@@ -384,8 +384,8 @@
       (
       #{reddemCode.loginId}, #{reddemCode.name},#{reddemCode.password},
       #{reddemCode.grades},#{reddemCode.gender}, #{reddemCode.phone},
-      #{reddemCode.majorId},#{reddemCode.grade}, #{reddemCode.personStatic},
-      #{reddemCode.qqNumber},#{reddemCode.enrollmentYear}, #{reddemCode.email},
+      #{reddemCode.majorId},#{reddemCode.grade}, 1,
+      #{reddemCode.qqNumber},#{reddemCode.grade}, #{reddemCode.email},
       1,0, 1
       )
     </foreach >

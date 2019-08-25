@@ -14,4 +14,8 @@ public interface StudentService {
     List<Person> findAll();
 
     int inputAll(List<Person> lists,Integer majorId);
+
+    List<Person> getsTudentTel();
+
+    List<Person> getAll();
 }
