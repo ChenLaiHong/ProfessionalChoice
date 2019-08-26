@@ -3,6 +3,8 @@ package com.lh.dao;
 import com.lh.pojo.Person;
 import com.lh.pojo.PersonExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface PersonMapper {
@@ -28,5 +30,9 @@ public interface PersonMapper {
 
     int updateByPrimaryKey(Person record);
 
-    int inputAll(List<Person> lists);
+    int inputAll(Map<String, Object> map);
+
+    List<Person> list(Map<String, Object> map);
+
+    Integer getTotal(Map<String, Object> map);
 }

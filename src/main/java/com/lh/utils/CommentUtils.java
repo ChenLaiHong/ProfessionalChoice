@@ -3,15 +3,12 @@ package com.lh.utils;
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.result.ExcelImportResult;
-import com.lh.pojo.Notice;
-import com.lh.pojo.PageBean;
-import com.lh.pojo.Person;
+import com.lh.pojo.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -82,6 +79,18 @@ public class CommentUtils {
                 importParams);
         List<Object> lists = result.getList();
         return lists;
+    }
+
+    public static com.lh.pojo.Result res(int resultTotal){
+        com.lh.pojo.Result result = new com.lh.pojo.Result();
+        if (resultTotal > 0) {
+            result.setSuccess(true);
+            result.setMsg("操作成功");
+        } else {
+            result.setSuccess(false);
+            result.setMsg("操作失败");
+        }
+        return result;
     }
 
 }

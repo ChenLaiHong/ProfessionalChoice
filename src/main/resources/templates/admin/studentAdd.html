@@ -23,21 +23,32 @@
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
 
-            if(app.noticeTitle.length<1){
+            if(app.loginId.length<1){
                 layer.closeAll();//关闭loading
-                layer.msg('请输入用标题!!!!!!');
+                layer.msg('请输入学号!!!!!!');
                 return ;
             }
-            if(app.noticeDetails.length<1){
+            if(app.name.length<1){
                 layer.closeAll();//关闭loading
-                layer.msg('请输入详情!!!!!!');
+                layer.msg('请输入姓名!!!!!!');
                 return ;
             }
+
+            if(app.grades.length<1){
+                layer.closeAll();//关闭loading
+                layer.msg('请输入班级!!!!!!');
+                return ;
+            }
+
             var save_url = document.getElementById("save_url").value;
-            console.log(save_url+"*******************************")
             $.post(save_url,{
-                noticeTitle:app.noticeTitle
-                ,noticeDetails:app.noticeDetails
+                loginId:app.loginId
+                ,name:app.name
+                ,majorId:$("#majorId").val()
+                ,grades:app.grades
+                ,gradeId:$("#gradeId").val()
+                ,gender:$("#gender").val()
+
             },function(result){
                 if(result.success){
                     //调用 父窗口的  关闭所有窗口 并且刷新 页面
@@ -63,19 +74,49 @@
     <form class="layui-form layui-form-pane">
         <input type="hidden" id="save_url" th:value="${save_url}" >
         <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
+            <label class="layui-form-label" style="color: #00bbee">学号</label>
             <div class="layui-input-block">
-                <input type="text" id="noticeTitle" name="noticeTitle" autocomplete="off" th:value="${notice !=null? notice.noticeTitle:''}" v-model="noticeTitle" placeholder="请输入标题" class="layui-input">
+                <input type="text" id="loginId" name="loginId" autocomplete="off"  v-model="loginId" placeholder="请输入学号" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">详情</label>
+            <label class="layui-form-label" style="color: #00bbee">姓名</label>
             <div class="layui-input-block">
-                <textarea rows="10" cols="50" id="noticeDetails" name="noticeDetails" v-model="noticeDetails"  th:text="${notice !=null? notice.noticeDetails:''}" placeholder="请输入详情">
-                </textarea>
+                <input type="text" id="name" name="name" autocomplete="off"  v-model="name" placeholder="请输入姓名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">性别</label>
+            <div class="layui-input-block">
+                    <select name="gender" id="gender" lay-filter="gender"  >
+                        <option value="0" selected="">男</option>
+                        <option value="1">女</option>
+                    </select>
             </div>
         </div>
 
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">年级</label>
+            <div class="layui-input-block">
+                <select  id="gradeId" name="gradeId" v-model="gradeId">
+                    <option th:each="gradeList : ${gradeList}" th:text="${gradeList.gradeName}" th:value="${gradeList.gradeId}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">专业</label>
+            <div class="layui-input-block">
+                <select  id="majorId" name="majorId" v-model="majorId">
+                    <option th:each="majorList : ${majorList}" th:text="${majorList.majorName}" th:value="${majorList.majorId}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">班级</label>
+            <div class="layui-input-block">
+                <input type="text" id="grades" name="grades" autocomplete="off"  v-model="grades" placeholder="请输入班级" class="layui-input">
+            </div>
+        </div>
     </form>
     <div class="site-demo-button" style="margin-top: 20px;">
         <button id="save" onclick="save()" class="layui-btn site-demo-layedit" data-type="content" th:text="${btn_text}"></button>

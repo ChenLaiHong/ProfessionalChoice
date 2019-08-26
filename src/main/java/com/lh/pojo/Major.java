@@ -3,6 +3,7 @@ package com.lh.pojo;
 import cn.afterturn.easypoi.excel.annotation.Excel;
 
 import java.util.Date;
+import java.util.List;
 
 public class Major {
     private Integer majorId;
@@ -28,6 +29,16 @@ public class Major {
 
     @Excel(name = "专业介绍",orderNum = "6")
     private String majorDetails;
+
+    private List<Person> personList;
+
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
 
     public Integer getMajorId() {
         return majorId;
@@ -104,7 +115,7 @@ public class Major {
     public Major() {
     }
 
-    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date updateTime, String personName, String majorDetails) {
+    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date updateTime, String personName, String majorDetails, List<Person> personList) {
         this.majorId = majorId;
         this.majorName = majorName;
         this.majorCode = majorCode;
@@ -114,5 +125,6 @@ public class Major {
         this.updateTime = updateTime;
         this.personName = personName;
         this.majorDetails = majorDetails;
+        this.personList = personList;
     }
 }

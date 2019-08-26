@@ -51,14 +51,18 @@ public class PageController {
 
     @RequestMapping("/toStudent")
     public String toStudent(){
-        return "/admin/studentPage";
+        return "/admin/studentManage";
     }
 
     @RequestMapping("/toMajor")
     public String toMajor(){
-        return "/admin/majorPage";
+        return "/admin/majorManage";
     }
-
+    //
+    @RequestMapping("/toGrade")
+    public String toGrade(){
+        return "/admin/gradeManage";
+    }
     @RequestMapping("/toNotice")
     public String toNotice(){
         return "/admin/noticeManage";

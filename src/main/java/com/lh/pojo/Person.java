@@ -11,7 +11,6 @@ public class Person {
     @Excel(name = "姓名")
     private String name;
 
-    @Excel(name = "密码")
     private String password;
 
     @Excel(name = "班级")
@@ -25,16 +24,17 @@ public class Person {
 
     private Integer majorId;
 
-    @Excel(name = "年级")
-    private Integer grade;
+    private Major major;
 
-    @Excel(name = "学生状态",replace = {"在读_1","毕业_2","休学_3","退学_4"})
+    private Grade grade;
+
+    private Integer gradeId;
+
     private Integer personStatic;
 
     @Excel(name = "联系qq")
     private String qqNumber;
 
-    @Excel(name = "入学年份")
     private Integer enrollmentYear;
 
     @Excel(name = "邮箱")
@@ -43,11 +43,25 @@ public class Person {
     @Excel(name = "学籍状态",replace = {"无学籍_0","有学籍_1"})
     private Integer studentStatus;
 
-    @Excel(name = "账户状态",replace = {"未修改密码_0","已修改密码_1","不能使用_1"})
     private Integer staticLive;
 
     private Integer roleId;
 
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
+    }
     public String getLoginId() {
         return loginId;
     }
@@ -104,12 +118,12 @@ public class Person {
         this.majorId = majorId;
     }
 
-    public Integer getGrade() {
-        return grade;
+    public Integer getGradeId() {
+        return gradeId;
     }
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
+    public void setGradeId(Integer gradeId) {
+        this.gradeId = gradeId;
     }
 
     public Integer getPersonStatic() {
@@ -165,6 +179,29 @@ public class Person {
     }
 
     public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Person() {
+    }
+
+    public Person(String loginId, String name, String password, String grades, Integer gender, String phone, Integer majorId, Major major, Grade grade, Integer gradeId, Integer personStatic, String qqNumber, Integer enrollmentYear, String email, Integer studentStatus, Integer staticLive, Integer roleId) {
+        this.loginId = loginId;
+        this.name = name;
+        this.password = password;
+        this.grades = grades;
+        this.gender = gender;
+        this.phone = phone;
+        this.majorId = majorId;
+        this.major = major;
+        this.grade = grade;
+        this.gradeId = gradeId;
+        this.personStatic = personStatic;
+        this.qqNumber = qqNumber;
+        this.enrollmentYear = enrollmentYear;
+        this.email = email;
+        this.studentStatus = studentStatus;
+        this.staticLive = staticLive;
         this.roleId = roleId;
     }
 }

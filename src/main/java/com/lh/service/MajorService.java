@@ -28,4 +28,10 @@ public interface MajorService {
     int delete(String[] idsStr);
 
     List<Major> getAll();
+
+    List<Major> listF(Map<String, Object> map);
+
+    Integer getTotalF(Map<String, Object> map);
+
+    Major findById(int i);
 }

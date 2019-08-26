@@ -56,7 +56,7 @@
     //打开添加窗口
     function add(){
         w = 500;
-        h = 400;
+        h = 500;
         checkWindow();
         layer.open({
             type: 2,
@@ -64,7 +64,7 @@
             shadeClose: true,
             shade: 0.8,
             area: [w+'px', h+'px'],
-            content: '/notice/toAdd' //iframe的url
+            content: '/major/toAdd' //iframe的url
         });
     }
 
@@ -72,7 +72,7 @@
     //打开编辑窗口
     function edit(id){
         w = 500;
-        h = 400;
+        h = 500;
         checkWindow();
         layer.open({
             type: 2,
@@ -80,17 +80,31 @@
             shadeClose: true,
             shade: 0.8,
             area: [w+'px', h+'px'],
-            content: '/notice/toEdit?noticeId='+id //iframe的url
+            content: '/major/toEdit?majorId='+id //iframe的url
         });
     }
 
-
+    //打开上传文件窗口
+    function importFile(){
+        w = 250;
+        h = 250;
+        checkWindow();
+        layer.open({
+            type: 2,
+            title: '上传',
+            shadeClose: true,
+            shade: 0.8,
+            area: [w+'px', h+'px'],
+            content: '/major/toImport' //iframe的url
+        });
+    }
+//删除开始***********************
     function del(ids){
         console.log("主键："+ids)
         var index = layer.load(1, {
             shade: [0.1,'#fff'] //0.1透明度的白色背景
         });
-        $.post('/notice/delete',{ids:ids},function(result){
+        $.post('/major/delete',{ids:ids},function(result){
             if(result.success){
                 layer.closeAll();
                 layer.msg('删除成功');
@@ -111,17 +125,15 @@
         var ids = "";
         if(selected.data.length>0){
             $.each(selected.data,function(i,val){
-                ids = ids+val.noticeId+",";
+                ids = ids+val.majorId+",";
             });
         }
         //去掉最后的逗号,
         ids = ids.substring(0,ids.length-1);
         global_ids = ids;
-
         global_ids_len = selected.data.length;
     }
 
-    //删除
     function delSelected(){
         global_ids="";
         global_ids_len=0;
@@ -137,10 +149,12 @@
             });
         }
     }
+    //删除完成***********************
 
+    //修改*******
     function table_edit_update(id,field,value){
         console.log("field是什么？"+field+"value是什么？"+value)
-        $.post('/notice/update?'+field+'='+value,{noticeId:id},function(result){
+        $.post('/major/update?'+field+'='+value,{majorId:id},function(result){
             if(result.success){
                 layer.msg('修改成功');
             }else{
@@ -165,15 +179,10 @@
     }
 
 
+
+
 </script>
 
-<script type="text/html" id="format_state">
-    {{#  if(d.noticeState =='0'){ }}
-    <dd>公示</dd>
-    {{#  } else if(d.noticeState =='1') { }}
-    <dd>下架</dd>
-    {{#  } }}
-</script>
 
 <div class="layui-form" style=" ">
 
@@ -181,7 +190,8 @@
         <div class="layui-btn-group">
             <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
             <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
-            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test3"><i class="layui-icon"></i>导入</button>
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" onclick="importFile()"><i class="layui-icon"></i>导入</button>
+            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" ><i class="layui-icon"></i><a href="/major/exportExcel">导出</a></button>
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -199,7 +209,7 @@
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="set_state">修改状态</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="set_state">查看介绍</a>
         </div>
     </script>
 
@@ -219,17 +229,20 @@
                 , element = layui.element; //元素操作
             table.render({
                 elem: '#table'
-                ,url: '/notice/list',
+                ,url: '/major/list',
                 height: 'full-60',
                 cols: [
                     [
                     {checkbox: true, fixed: true}
-                    ,{field:'noticeId', title: 'ID',width:20}
-                    ,{field:'noticeTitle', title: '标题', width:220,align:"center", edit: 'text'}
-                    ,{field:'noticeDetails', title: '详情', width:450,align:"center"}
-                    ,{field:'noticePerson', title: '发布者', width:100,align:"center"}
-                    ,{field:'noticeTime', title: '创建时间', width:200,align:"center"}
-                    ,{field:'noticeState', title: '状态', width:80,edit: 'text',align:"center", templet: '#format_state'}
+                    ,{field:'majorId', title: 'ID',width:20}
+                    ,{field:'majorName', title: '专业名称', width:100,align:"center", edit: 'text'}
+                    ,{field:'majorCode', title: '专业代码', width:100,align:"center", edit: 'text'}
+                    ,{field:'majorYear', title: '专业学制', width:100,align:"center", edit: 'text'}
+                    ,{field:'majorMoney', title: '专业学费', width:100,align:"center", edit: 'text'}
+                    ,{field:'departmentName', title: '专业院系', width:120,align:"center"}
+                    ,{field:'updateTime', title: '更新时间', width:160,align:"center"}
+                    ,{field:'personName', title: '上传者', width:100,align:"center"}
+                    ,{field:'majorDetails', title: '专业介绍', width:100,edit: 'text',align:"center"}
                     ,{fixed:'right', width:180,title: '操作',align:"center",  toolbar: '#table_bar'}
                 ]
                 ]
@@ -247,13 +260,13 @@
                 console.log('获得当前行数据'+data);
                 if (layEvent === 'del') {
                     //layer.msg('查看操作' + data.id);
-                    console.log(data.noticeId);
-                    del(data.noticeId);
+                    console.log(data.majorId);
+                    del(data.majorId);
                 } else if (layEvent === 'edit') {
 //                    layer.msg('编辑操作' + data.noticeId);
-                    edit(data.noticeId);
+                    edit(data.majorId);
                 }else if(layEvent === 'set_state'){
-                    setState(data.noticeId);
+                    setState(data.majorId);
                 }
             });
 
@@ -264,7 +277,7 @@
                     ,data = obj.data //得到所在行所有键值
                     ,field = obj.field; //得到字段
                 //layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
-                table_edit_update(data.noticeId,field,value);
+                table_edit_update(data.majorId,field,value);
             });
 
 

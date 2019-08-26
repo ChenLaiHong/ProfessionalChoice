@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>导入</title>
+
+    <script	src="/layui/layui/layui.js"></script>
+    <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
+
+    <script type="text/javascript">
+
+        //执行批量导入功能
+
+        function importSubmit(){
+
+            $("#fi").form("submit", {
+                url: "/student/importExcel",
+                success: function(jsonResult) {
+                    var date = eval('('+jsonResult+')');
+                    if(date.status == "ok") {
+                        window.parent.closeDlg(date.message);
+                    } else if(date.status == "fail") {
+                        window.parent.closeDlg(date.message);
+                        return;
+                    }
+                },
+
+            });
+        }
+
+    </script>
+    <style>
+        html, body {
+        }
+        .layui-form-item {
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="upl" style="padding: 10px;">
+    <form id="fi" enctype="multipart/form-data" method="post" class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">年级</label>
+            <div class="layui-input-block">
+                <select  id="gradeId" name="gradeId" v-model="gradeId">
+                    <option th:each="gradeList : ${gradeList}" th:text="${gradeList.gradeName}" th:value="${gradeList.gradeId}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">专业</label>
+            <div class="layui-input-block">
+                <select  id="majorId" name="majorId" v-model="majorId">
+                    <option th:each="majorList : ${majorList}" th:text="${majorList.majorName}" th:value="${majorList.majorId}"></option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="layui-btn" id="upload"><i class="layui-icon"></i>上传文件</button>
+        <br>
+
+        <div class="site-demo-button" style="margin-top: 20px;">
+            <button id="save" onclick="importSubmit()" class="layui-btn site-demo-layedit" data-type="content">导入
+                <!--<a href="javascript:importSubmit()">导入</a>-->
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
+        'upload', 'element' ], function() {
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+        layer = layui.layer //弹层
+            , table = layui.table //表格
+            , carousel = layui.carousel //轮播
+            , upload = layui.upload //上传
+            , element = layui.element; //元素操作
+
+        //指定允许上传的文件类型
+        upload.render({
+            elem: '#upload'
+            ,url: '/upload/'
+            ,accept: 'file' //普通文件
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+    });
+</script>
+</body>
+</html>

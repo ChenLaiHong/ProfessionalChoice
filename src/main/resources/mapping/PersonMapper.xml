@@ -9,7 +9,7 @@
     <result column="gender" jdbcType="INTEGER" property="gender" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="major_id" jdbcType="INTEGER" property="majorId" />
-    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="grade_id" jdbcType="INTEGER" property="gradeId" />
     <result column="person_static" jdbcType="INTEGER" property="personStatic" />
     <result column="qq_number" jdbcType="VARCHAR" property="qqNumber" />
     <result column="enrollment_year" jdbcType="INTEGER" property="enrollmentYear" />
@@ -17,6 +17,10 @@
     <result column="student_status" jdbcType="INTEGER" property="studentStatus" />
     <result column="static_live" jdbcType="INTEGER" property="staticLive" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <association property="grade" column="grade_id" select="com.lh.dao.GradeMapper.selectByPrimaryKey" javaType="com.lh.pojo.Grade">
+    </association>
+    <association property="major" column="major_id" select="com.lh.dao.MajorMapper.selectByPrimaryKey" javaType="com.lh.pojo.Major">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    login_id, name, password, grades, gender, phone, major_id, grade, person_static, 
+    login_id, name, password, grades, gender, phone, major_id, grade_id, person_static,
     qq_number, enrollment_year, email, student_status, static_live, role_id
   </sql>
   <select id="selectByExample" parameterType="com.lh.pojo.PersonExample" resultMap="BaseResultMap">
@@ -113,13 +117,13 @@
   <insert id="insert" parameterType="com.lh.pojo.Person">
     insert into person (login_id, name, password, 
       grades, gender, phone, 
-      major_id, grade, person_static, 
+      major_id, grade_id, person_static,
       qq_number, enrollment_year, email, 
       student_status, static_live, role_id
       )
     values (#{loginId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{grades,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, 
-      #{majorId,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{personStatic,jdbcType=INTEGER}, 
+      #{majorId,jdbcType=INTEGER}, #{gradeId,jdbcType=INTEGER}, #{personStatic,jdbcType=INTEGER},
       #{qqNumber,jdbcType=VARCHAR}, #{enrollmentYear,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
       #{studentStatus,jdbcType=INTEGER}, #{staticLive,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}
       )
@@ -148,8 +152,8 @@
       <if test="majorId != null">
         major_id,
       </if>
-      <if test="grade != null">
-        grade,
+      <if test="gradeId != null">
+        grade_id,
       </if>
       <if test="personStatic != null">
         person_static,
@@ -195,8 +199,8 @@
       <if test="majorId != null">
         #{majorId,jdbcType=INTEGER},
       </if>
-      <if test="grade != null">
-        #{grade,jdbcType=INTEGER},
+      <if test="gradeId != null">
+        #{gradeId,jdbcType=INTEGER},
       </if>
       <if test="personStatic != null">
         #{personStatic,jdbcType=INTEGER},
@@ -251,8 +255,8 @@
       <if test="record.majorId != null">
         major_id = #{record.majorId,jdbcType=INTEGER},
       </if>
-      <if test="record.grade != null">
-        grade = #{record.grade,jdbcType=INTEGER},
+      <if test="record.gradeId != null">
+        grade_id = #{record.gradeId,jdbcType=INTEGER},
       </if>
       <if test="record.personStatic != null">
         person_static = #{record.personStatic,jdbcType=INTEGER},
@@ -289,7 +293,7 @@
       gender = #{record.gender,jdbcType=INTEGER},
       phone = #{record.phone,jdbcType=VARCHAR},
       major_id = #{record.majorId,jdbcType=INTEGER},
-      grade = #{record.grade,jdbcType=INTEGER},
+      grade_id = #{record.gradeId,jdbcType=INTEGER},
       person_static = #{record.personStatic,jdbcType=INTEGER},
       qq_number = #{record.qqNumber,jdbcType=VARCHAR},
       enrollment_year = #{record.enrollmentYear,jdbcType=INTEGER},
@@ -322,8 +326,8 @@
       <if test="majorId != null">
         major_id = #{majorId,jdbcType=INTEGER},
       </if>
-      <if test="grade != null">
-        grade = #{grade,jdbcType=INTEGER},
+      <if test="gradeId != null">
+        grade_id = #{gradeId,jdbcType=INTEGER},
       </if>
       <if test="personStatic != null">
         person_static = #{personStatic,jdbcType=INTEGER},
@@ -357,7 +361,7 @@
       gender = #{gender,jdbcType=INTEGER},
       phone = #{phone,jdbcType=VARCHAR},
       major_id = #{majorId,jdbcType=INTEGER},
-      grade = #{grade,jdbcType=INTEGER},
+      grade_id = #{gradeId,jdbcType=INTEGER},
       person_static = #{personStatic,jdbcType=INTEGER},
       qq_number = #{qqNumber,jdbcType=VARCHAR},
       enrollment_year = #{enrollmentYear,jdbcType=INTEGER},
@@ -369,25 +373,45 @@
   </update>
 
   <!-- 批量插入 -->
-  <insert id ="inputAll" parameterType="java.util.List" >
-    <selectKey resultType ="java.lang.Integer" keyProperty= "id"
-               order= "AFTER">
+
+  <insert id="inputAll" parameterType="java.util.Map">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
-    </selectKey >
+    </selectKey>
     insert into person
-    (login_id, name, password,grades, gender, phone,
-    major_id, grade, person_static,
-    qq_number, enrollment_year, email,
+    (login_id, name, password,grades, gender,
+    major_id, grade_id, person_static,
     student_status, static_live, role_id)
     values
-    <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+    <foreach collection="itemList" item="item" index="index" separator=",">
       (
-      #{reddemCode.loginId}, #{reddemCode.name},#{reddemCode.password},
-      #{reddemCode.grades},#{reddemCode.gender}, #{reddemCode.phone},
-      #{reddemCode.majorId},#{reddemCode.grade}, 1,
-      #{reddemCode.qqNumber},#{reddemCode.grade}, #{reddemCode.email},
-      1,0, 1
+      #{item.loginId},#{item.name},'123456',#{item.grades},#{item.gender},
+      #{majorId},#{gradeId},1,1,1,1
       )
-    </foreach >
-  </insert >
+    </foreach>
+  </insert>
+
+  <select id="list" parameterType="Map" resultMap="BaseResultMap">
+    select * from person
+    <where>
+      <if test="q!=null and q!=''">
+        and (grades like #{q}  or enrollment_year like #{q})
+      </if>
+       and role_id = #{roleId}
+    </where>
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <select id="getTotal" parameterType="Map" resultType="Integer">
+    select
+    count(*) from person
+    <where>
+      <if test="q!=null and q!=''">
+        and (grades like #{q}  or enrollment_year like #{q})
+      </if>
+      and role_id = #{roleId}
+    </where>
+  </select>
 </mapper>

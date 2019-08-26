@@ -79,4 +79,19 @@ public class MajorServiceImpl implements MajorService {
     public List<Major> getAll() {
         return majorMapper.selectByExample(null);
     }
+
+    @Override
+    public List<Major> listF(Map<String, Object> map) {
+        return majorMapper.listF(map);
+    }
+
+    @Override
+    public Integer getTotalF(Map<String, Object> map) {
+        return majorMapper.getTotalF(map);
+    }
+
+    @Override
+    public Major findById(int i) {
+        return majorMapper.selectByPrimaryKey(i);
+    }
 }

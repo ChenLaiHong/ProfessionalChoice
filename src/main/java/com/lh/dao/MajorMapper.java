@@ -43,4 +43,7 @@ public interface MajorMapper {
     Long getTotal(Map<String, Object> map);
 
 
+    List<Major> listF(Map<String, Object> map);
+
+    Integer getTotalF(Map<String, Object> map);
 }

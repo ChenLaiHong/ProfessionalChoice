@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by laiHom on 2019/8/20.
@@ -26,31 +27,19 @@ public class StudentServiceImpl implements StudentService {
         return null;
     }
 
-    //导入学生信息
-    @Override
-    public int inputAll(List<Person> lists,Integer majorId) {
-        for (int i=0; i< lists.size();i++){
-            lists.get(i).setRoleId(1);
-            lists.get(i).setStaticLive(0);
-            lists.get(i).setStudentStatus(1);
-            lists.get(i).setMajorId(majorId);
-        }
-        return personMapper.inputAll(lists);
-    }
+
 
     @Override
     public List<Person> getsTudentTel() {
 
         Person person = new Person();
         person.setLoginId("xxx");
-        person.setName("xxx");
-        person.setPassword("000000");
+        person.setName("张三");
         person.setGender(0);
         person.setPhone("137xxx");
         person.setQqNumber("1185xxx");
         person.setEmail("xxx@qq.com");
         person.setGrades("4班");
-        person.setGrade(2016);
         List<Person> list = new ArrayList<>();
         list.add(person);
         return list;
@@ -62,5 +51,52 @@ public class StudentServiceImpl implements StudentService {
         PersonExample.Criteria criteria = example.createCriteria();
         criteria.andRoleIdEqualTo(1);
         return personMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Person> list(Map<String, Object> map) {
+        return personMapper.list(map);
+    }
+
+    @Override
+    public Integer getTotal(Map<String, Object> map) {
+        return personMapper.getTotal(map);
+    }
+
+    @Override
+    public int add(Person person) {
+        person.setRoleId(1);
+        person.setPassword("123456");
+        person.setPersonStatic(1);
+        person.setStudentStatus(1);
+        person.setStaticLive(1);
+        return personMapper.insertSelective(person);
+    }
+
+    @Override
+    public Person findById(String loginId) {
+        return personMapper.selectByPrimaryKey(loginId);
+    }
+
+    @Override
+    public int update(Person person) {
+        return personMapper.updateByPrimaryKeySelective(person);
+    }
+
+    @Override
+    public void delete(String[] idsStr) {
+        List ints = new ArrayList();
+        for(int i =0;i<idsStr.length;i++){
+            ints.add(idsStr[i]);
+        }
+        PersonExample personExample = new PersonExample();
+        PersonExample.Criteria criteria = personExample.createCriteria();
+        criteria.andLoginIdIn(ints);
+        personMapper.deleteByExample(personExample);
+    }
+
+    @Override
+    public int inputAll(Map<String, Object> map) {
+        return personMapper.inputAll(map);
     }
 }

@@ -23,21 +23,17 @@
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
 
-            if(app.noticeTitle.length<1){
+            if(app.gradeName.length<1){
                 layer.closeAll();//关闭loading
-                layer.msg('请输入用标题!!!!!!');
+                layer.msg('请输入用名称!!!!!!');
                 return ;
             }
-            if(app.noticeDetails.length<1){
-                layer.closeAll();//关闭loading
-                layer.msg('请输入详情!!!!!!');
-                return ;
-            }
+
             var save_url = document.getElementById("save_url").value;
             console.log(save_url+"*******************************")
             $.post(save_url,{
-                noticeTitle:app.noticeTitle
-                ,noticeDetails:app.noticeDetails
+                 gradeName:app.gradeName
+                ,gradeState:$("#gradeState").val()
             },function(result){
                 if(result.success){
                     //调用 父窗口的  关闭所有窗口 并且刷新 页面
@@ -63,16 +59,24 @@
     <form class="layui-form layui-form-pane">
         <input type="hidden" id="save_url" th:value="${save_url}" >
         <div class="layui-form-item">
-            <label class="layui-form-label">标题</label>
+            <label class="layui-form-label">年级名称</label>
             <div class="layui-input-block">
-                <input type="text" id="noticeTitle" name="noticeTitle" autocomplete="off" th:value="${notice !=null? notice.noticeTitle:''}" v-model="noticeTitle" placeholder="请输入标题" class="layui-input">
+                <input type="text" id="noticeTitle" name="gradeName" autocomplete="off" th:value="${grade !=null? grade.gradeName:''}" v-model="gradeName" placeholder="请输入名称" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">详情</label>
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <textarea rows="10" cols="50" id="noticeDetails" name="noticeDetails" v-model="noticeDetails"  th:text="${notice !=null? notice.noticeDetails:''}" placeholder="请输入详情">
-                </textarea>
+                <select name="gradeState" id="gradeState" lay-filter="gradeState"  >
+                    <td th:if="${grade == null}">
+                        <option value="0" selected="">使用</option>
+                        <option value="1">弃用</option>
+                    </td>
+                    <td th:if="${grade != null}">
+                        <option value="0" th:field="*{grade.gradeState}" >使用</option>
+                        <option value="1" th:field="*{grade.gradeState}">弃用</option>
+                    </td>
+                </select>
             </div>
         </div>
 
