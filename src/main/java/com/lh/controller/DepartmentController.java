@@ -2,6 +2,7 @@ package com.lh.controller;
 
 import com.google.gson.Gson;
 import com.lh.pojo.Department;
+import com.lh.pojo.Grade;
 import com.lh.pojo.PageBean;
 import com.lh.pojo.Result;
 import com.lh.service.DepartmentService;
@@ -112,5 +113,21 @@ public class DepartmentController {
         return null;
     }
 
-
+    //更新状态setState
+    @RequestMapping("/setState")
+    public String setState(@RequestParam(value = "departmentId", required = false) String departmentId, HttpServletResponse response)
+            throws Exception {
+        Gson gson = new Gson();
+        Result result = new Result();
+        Department department = departmentService.findById(Integer.parseInt(departmentId));
+        if(department.getDepartmentState() == 0){
+            department.setDepartmentState(1);
+        }else {
+            department.setDepartmentState(0);
+        }
+        departmentService.updateDepartment(department);
+        result.setSuccess(true);
+        ResponseUtil.write(response, gson.toJson(result));
+        return null;
+    }
 }

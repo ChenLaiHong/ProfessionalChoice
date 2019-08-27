@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface DepartmentMapper {
     long countByExample(DepartmentExample example);
 
@@ -35,4 +33,6 @@ public interface DepartmentMapper {
     List<Department> list(Map<String, Object> map);
 
     Integer getTotal(Map<String, Object> map);
+
+    List<Department> getAll();
 }

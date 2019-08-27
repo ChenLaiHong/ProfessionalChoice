@@ -233,6 +233,66 @@ public class DepartmentExample {
             addCriterion("department_name not between", value1, value2, "departmentName");
             return (Criteria) this;
         }
+
+        public Criteria andDepartmentStateIsNull() {
+            addCriterion("department_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateIsNotNull() {
+            addCriterion("department_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateEqualTo(Integer value) {
+            addCriterion("department_state =", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateNotEqualTo(Integer value) {
+            addCriterion("department_state <>", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateGreaterThan(Integer value) {
+            addCriterion("department_state >", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("department_state >=", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateLessThan(Integer value) {
+            addCriterion("department_state <", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateLessThanOrEqualTo(Integer value) {
+            addCriterion("department_state <=", value, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateIn(List<Integer> values) {
+            addCriterion("department_state in", values, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateNotIn(List<Integer> values) {
+            addCriterion("department_state not in", values, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateBetween(Integer value1, Integer value2) {
+            addCriterion("department_state between", value1, value2, "departmentState");
+            return (Criteria) this;
+        }
+
+        public Criteria andDepartmentStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("department_state not between", value1, value2, "departmentState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -168,9 +168,9 @@
 </script>
 
 <script type="text/html" id="format_state">
-    {{#  if(d.gradeState =='0'){ }}
+    {{#  if(d.gradeState =='1'){ }}
     <dd>公示</dd>
-    {{#  } else if(d.gradeState =='1') { }}
+    {{#  } else if(d.gradeState =='0') { }}
     <dd>下架</dd>
     {{#  } }}
 </script>
@@ -180,7 +180,7 @@
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
             <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
+            <!--<button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>-->
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -225,7 +225,7 @@
                     {checkbox: true, fixed: true}
                     ,{field:'gradeId', title: 'ID',width:20}
                     ,{field:'gradeName', title: '年级名称', width:220,align:"center", edit: 'text'}
-                    ,{field:'gradeState', title: '状态', width:80,edit: 'text',align:"center", templet: '#format_state'}
+                    ,{field:'gradeState', title: '状态', width:80,align:"center", templet: '#format_state'}
                     ,{fixed:'right', width:180,title: '操作',align:"center",  toolbar: '#table_bar'}
                 ]
                 ]

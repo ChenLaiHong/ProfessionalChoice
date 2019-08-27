@@ -166,7 +166,13 @@
 
 
 </script>
-
+<script type="text/html" id="format_state">
+    {{#  if(d.departmentState =='1'){ }}
+    <dd>弃用</dd>
+    {{#  } else if(d.departmentState =='0') { }}
+    <dd>在用</dd>
+    {{#  } }}
+</script>
 
 
 <div class="layui-form" style=" ">
@@ -174,7 +180,7 @@
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
             <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
+            <!--<button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>-->
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -192,6 +198,7 @@
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="set_state">修改状态</a>
         </div>
     </script>
 
@@ -218,6 +225,7 @@
                     {checkbox: true, fixed: true}
                     ,{field:'departmentId', title: 'ID',width:20}
                     ,{field:'departmentName', title: '院系名称', width:220,align:"center", edit: 'text'}
+                    ,{field:'departmentState', title: '状态', width:80,align:"center", templet: '#format_state'}
                     ,{fixed:'right', width:180,title: '操作',align:"center",  toolbar: '#table_bar'}
                 ]
                 ]

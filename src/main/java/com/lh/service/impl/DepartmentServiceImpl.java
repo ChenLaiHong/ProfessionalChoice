@@ -23,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentMapper departmentMapper;
     @Override
     public List<Department> getAll() {
-        return departmentMapper.selectByExample(null);
+        return departmentMapper.getAll();
     }
 
     @Override

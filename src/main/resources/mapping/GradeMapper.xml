@@ -221,4 +221,9 @@
 
     </where>
   </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+    select * from grade
+    WHERE grade_state = 1
+  </select>
 </mapper>

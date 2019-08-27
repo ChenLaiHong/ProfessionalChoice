@@ -35,4 +35,6 @@ public interface GradeMapper {
     List<Grade> list(Map<String, Object> map);
 
     Integer getTotal(Map<String, Object> map);
+
+    List<Grade> getAll();
 }

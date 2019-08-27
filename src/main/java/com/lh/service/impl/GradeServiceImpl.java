@@ -55,6 +55,6 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public List<Grade> getAll() {
-        return gradeMapper.selectByExample(null);
+        return gradeMapper.getAll();
     }
 }
