@@ -63,6 +63,13 @@ public class PageController {
     public String toGrade(){
         return "/admin/gradeManage";
     }
+
+    //
+    @RequestMapping("/toDepartment")
+    public String toDepartment(){
+        return "/admin/departmentManage";
+    }
+
     @RequestMapping("/toNotice")
     public String toNotice(){
         return "/admin/noticeManage";
@@ -81,6 +88,16 @@ public class PageController {
         mv.setViewName("index");
         try {
             subject.login(token);
+            //登陆成功
+            HttpSession session=request.getSession();//获取session并将userName存入session对象
+            session.setAttribute("userName", name);
+            List<Notice> list = noticeService.getAll();
+            model.addAttribute("noticeInfo", list);
+            if(person == 4){
+                mv.setViewName("/admin/AdminMain");
+            }else if (person == 1){
+                mv.setViewName("/student/studentMain");
+            }
 
         }catch (UnknownAccountException e){
             //登陆用户名不存在
@@ -91,16 +108,7 @@ public class PageController {
             map.put("msg", "密码错误!");
 
         }
-        //登陆成功
-        HttpSession session=request.getSession();//获取session并将userName存入session对象
-        session.setAttribute("userName", name);
-        List<Notice> list = noticeService.getAll();
-        model.addAttribute("noticeInfo", list);
-        if(person == 4){
-            mv.setViewName("/admin/AdminMain");
-        }else if (person == 1){
-            mv.setViewName("/student/studentMain");
-        }
+
         return mv;
 
     }

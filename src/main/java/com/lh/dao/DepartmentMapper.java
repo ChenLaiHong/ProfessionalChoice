@@ -3,6 +3,8 @@ package com.lh.dao;
 import com.lh.pojo.Department;
 import com.lh.pojo.DepartmentExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -29,4 +31,8 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+
+    List<Department> list(Map<String, Object> map);
+
+    Integer getTotal(Map<String, Object> map);
 }

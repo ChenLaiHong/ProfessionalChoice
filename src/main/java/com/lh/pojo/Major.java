@@ -8,20 +8,19 @@ import java.util.List;
 public class Major {
     private Integer majorId;
 
-    @Excel(name = "专业名称",orderNum = "1")
+    @Excel(name = "专业名称")
     private String majorName;
 
-    @Excel(name = "专业代码",orderNum = "2")
+    @Excel(name = "专业代码")
     private String majorCode;
 
-    @Excel(name = "专业学制",orderNum = "3")
+    @Excel(name = "专业学制")
     private Integer majorYear;
 
-    @Excel(name = "专业学费",orderNum = "4")
+    @Excel(name = "专业学费")
     private Integer majorMoney;
 
-    @Excel(name = "专业院系",orderNum = "5")
-    private String departmentName;
+    private Integer departmentId;
 
     private Date updateTime;
 
@@ -31,6 +30,8 @@ public class Major {
     private String majorDetails;
 
     private List<Person> personList;
+
+    private Department department;
 
     public List<Person> getPersonList() {
         return personList;
@@ -80,12 +81,12 @@ public class Major {
         this.majorMoney = majorMoney;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public Integer getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName == null ? null : departmentName.trim();
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public Date getUpdateTime() {
@@ -115,16 +116,17 @@ public class Major {
     public Major() {
     }
 
-    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, String departmentName, Date updateTime, String personName, String majorDetails, List<Person> personList) {
+    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, Integer departmentId, Date updateTime, String personName, String majorDetails, List<Person> personList, Department department) {
         this.majorId = majorId;
         this.majorName = majorName;
         this.majorCode = majorCode;
         this.majorYear = majorYear;
         this.majorMoney = majorMoney;
-        this.departmentName = departmentName;
+        this.departmentId = departmentId;
         this.updateTime = updateTime;
         this.personName = personName;
         this.majorDetails = majorDetails;
         this.personList = personList;
+        this.department = department;
     }
 }

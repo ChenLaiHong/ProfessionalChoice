@@ -52,9 +52,6 @@ public class StudentController {
 
 
 
-
-
-
     ////////////////////////////
     @RequestMapping("/list")
     public String list(@RequestParam(value = "page", required = false) String page,

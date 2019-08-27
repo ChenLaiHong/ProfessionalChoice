@@ -48,4 +48,6 @@ public interface NoticeMapper {
     List<Notice> listF(Map<String, Object> map);
 
     Integer getTotalF(Map<String, Object> map);
+
+    List<Notice> getAll();
 }

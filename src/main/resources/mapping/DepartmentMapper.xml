@@ -4,6 +4,16 @@
   <resultMap id="BaseResultMap" type="com.lh.pojo.Department">
     <id column="department_id" jdbcType="INTEGER" property="departmentId" />
     <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <collection property="majorList" ofType="com.lh.pojo.Major">
+      <id column="major_id" jdbcType="INTEGER" property="majorId" />
+      <result column="major_name" jdbcType="VARCHAR" property="majorName" />
+      <result column="major_code" jdbcType="VARCHAR" property="majorCode" />
+      <result column="major_year" jdbcType="INTEGER" property="majorYear" />
+      <result column="major_money" jdbcType="INTEGER" property="majorMoney" />
+      <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+      <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="person_name" jdbcType="VARCHAR" property="personName" />
+    </collection>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -161,4 +171,28 @@
     set department_name = #{departmentName,jdbcType=VARCHAR}
     where department_id = #{departmentId,jdbcType=INTEGER}
   </update>
+
+
+  <select id="list" parameterType="Map" resultMap="BaseResultMap">
+    select * from department
+    <where>
+      <if test="q!=null and q!=''">
+        and (department_name like #{q})
+      </if>
+    </where>
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
+  <select id="getTotal" parameterType="Map" resultType="Integer">
+    select
+    count(*) from department
+    <where>
+      <if test="q!=null and q!=''">
+        and (department_name like #{q})
+      </if>
+
+    </where>
+  </select>
 </mapper>

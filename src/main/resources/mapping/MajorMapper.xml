@@ -7,12 +7,14 @@
     <result column="major_code" jdbcType="VARCHAR" property="majorCode" />
     <result column="major_year" jdbcType="INTEGER" property="majorYear" />
     <result column="major_money" jdbcType="INTEGER" property="majorMoney" />
-    <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lh.pojo.Major">
     <result column="major_details" jdbcType="LONGVARCHAR" property="majorDetails" />
+    <association property="department" column="department_id" select="com.lh.dao.DepartmentMapper.selectByPrimaryKey" javaType="com.lh.pojo.Department">
+    </association>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    major_id, major_name, major_code, major_year, major_money, department_name, update_time, 
+    major_id, major_name, major_code, major_year, major_money, department_id, update_time,
     person_name
   </sql>
   <sql id="Blob_Column_List">
@@ -129,11 +131,11 @@
   </delete>
   <insert id="insert" parameterType="com.lh.pojo.Major">
     insert into major (major_id, major_name, major_code, 
-      major_year, major_money, department_name, 
+      major_year, major_money, department_id,
       update_time, person_name, major_details
       )
     values (#{majorId,jdbcType=INTEGER}, #{majorName,jdbcType=VARCHAR}, #{majorCode,jdbcType=VARCHAR}, 
-      #{majorYear,jdbcType=INTEGER}, #{majorMoney,jdbcType=INTEGER}, #{departmentName,jdbcType=VARCHAR}, 
+      #{majorYear,jdbcType=INTEGER}, #{majorMoney,jdbcType=INTEGER}, #{departmentId,jdbcType=INTEGER},
       #{updateTime,jdbcType=TIMESTAMP}, #{personName,jdbcType=VARCHAR}, #{majorDetails,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -155,8 +157,8 @@
       <if test="majorMoney != null">
         major_money,
       </if>
-      <if test="departmentName != null">
-        department_name,
+      <if test="departmentId != null">
+        department_id,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -184,8 +186,8 @@
       <if test="majorMoney != null">
         #{majorMoney,jdbcType=INTEGER},
       </if>
-      <if test="departmentName != null">
-        #{departmentName,jdbcType=VARCHAR},
+      <if test="departmentId != null">
+        #{departmentId,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -222,8 +224,8 @@
       <if test="record.majorMoney != null">
         major_money = #{record.majorMoney,jdbcType=INTEGER},
       </if>
-      <if test="record.departmentName != null">
-        department_name = #{record.departmentName,jdbcType=VARCHAR},
+      <if test="record.departmentId != null">
+        department_id = #{record.departmentName,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -246,7 +248,7 @@
       major_code = #{record.majorCode,jdbcType=VARCHAR},
       major_year = #{record.majorYear,jdbcType=INTEGER},
       major_money = #{record.majorMoney,jdbcType=INTEGER},
-      department_name = #{record.departmentName,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       person_name = #{record.personName,jdbcType=VARCHAR},
       major_details = #{record.majorDetails,jdbcType=LONGVARCHAR}
@@ -261,7 +263,7 @@
       major_code = #{record.majorCode,jdbcType=VARCHAR},
       major_year = #{record.majorYear,jdbcType=INTEGER},
       major_money = #{record.majorMoney,jdbcType=INTEGER},
-      department_name = #{record.departmentName,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       person_name = #{record.personName,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -283,8 +285,8 @@
       <if test="majorMoney != null">
         major_money = #{majorMoney,jdbcType=INTEGER},
       </if>
-      <if test="departmentName != null">
-        department_name = #{departmentName,jdbcType=VARCHAR},
+      <if test="departmentId != null">
+        department_id = #{departmentId,jdbcType=INTEGER},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -304,7 +306,7 @@
       major_code = #{majorCode,jdbcType=VARCHAR},
       major_year = #{majorYear,jdbcType=INTEGER},
       major_money = #{majorMoney,jdbcType=INTEGER},
-      department_name = #{departmentName,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       person_name = #{personName,jdbcType=VARCHAR},
       major_details = #{majorDetails,jdbcType=LONGVARCHAR}
@@ -316,28 +318,28 @@
       major_code = #{majorCode,jdbcType=VARCHAR},
       major_year = #{majorYear,jdbcType=INTEGER},
       major_money = #{majorMoney,jdbcType=INTEGER},
-      department_name = #{departmentName,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       person_name = #{personName,jdbcType=VARCHAR}
     where major_id = #{majorId,jdbcType=INTEGER}
   </update>
 
   <!-- 批量插入 -->
-  <insert id ="insertCodeBatch" parameterType="java.util.List" >
+  <insert id ="inputAll" parameterType="java.util.List" >
     <selectKey resultType ="java.lang.Integer" keyProperty= "id"
                order= "AFTER">
       SELECT LAST_INSERT_ID()
     </selectKey >
     insert into major
-    (major_name, major_code,major_year, major_money, department_name,major_details,update_time,person_name)
+    (major_name, major_code,major_year, major_money, department_id,major_details,update_time,person_name)
     values
-    <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+    <foreach collection ="majorList" item="reddemCode" index= "index" separator =",">
       (
       #{reddemCode.majorName}, #{reddemCode.majorCode},
       #{reddemCode.majorYear},
       #{reddemCode.majorMoney},
-      #{reddemCode.departmentName}, #{reddemCode.majorDetails},
-      now(),#{reddemCode.personName}
+      #{departmentId}, #{reddemCode.majorDetails},
+      now(),#{personName}
       )
     </foreach >
   </insert >
@@ -361,7 +363,7 @@
     select * from major
     <where>
       <if test="q!=null and q!=''">
-        and (major_name like #{q}  or department_name like #{q} or major_details like #{q} or person_name like #{q})
+        and (major_name like #{q}   or major_details like #{q} or person_name like #{q})
       </if>
 
     </where>
@@ -376,7 +378,7 @@
     count(*) from major
     <where>
       <if test="q!=null and q!=''">
-        and (major_name like #{q}  or department_name like #{q} or major_details like #{q} or person_name like #{q})
+        and (major_name like #{q}  or major_details like #{q} or person_name like #{q})
       </if>
 
     </where>

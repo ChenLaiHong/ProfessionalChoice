@@ -22,8 +22,9 @@ public class NoticeServiceImpl implements NoticeService {
     private NoticeMapper noticeMapper;
 
     @Override
-    public List<Notice> getAll() {
-        return noticeMapper.selectByExampleWithBLOBs(null);
+    public List<Notice> getAll(){
+        List<Notice> noticeList = noticeMapper.getAll();
+    return noticeList.subList(0,4);
     }
 
     @Override

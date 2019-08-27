@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,78 +55,6 @@ public class MajorController {
 
     @Autowired
     DepartmentService departmentService;
-    //页面列表展示
-    @RequestMapping("/majorList")
-    public String firstList(@RequestParam(value = "page", required = false) String page,
-                            @RequestParam(value = "rows", required = false) String rows,
-                            HttpServletResponse response) throws Exception {
-        PageBean pageBean = new PageBean(Integer.parseInt(page),
-                Integer.parseInt(rows));
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("start", pageBean.getStart());
-        map.put("size", pageBean.getPageSize());
-        List<Major> majorList = majorService.list(map);
-        Long total = majorService.getTotal(map);
-        System.out.println("每次都进来统计一下吗？"+page+"和"+rows);
-        JSONObject result = new JSONObject();
-        JsonConfig jsonConfig = new JsonConfig();
-        jsonConfig.registerJsonValueProcessor(Date.class, new DateJsonValueProcessor());
-        JSONArray jsonArray = JSONArray.fromObject(majorList,jsonConfig);
-        result.put("rows", jsonArray);
-        result.put("total", total);
-        ResponseUtil.write(response, result);
-        return null;
-    }
-
-    //新增或修改
-    @RequestMapping("/save")
-    public String addMajor(Major major,HttpServletResponse response,HttpServletRequest request) throws Exception {
-        int resultTotal=0; // 操作的记录条数
-        major.setUpdateTime(new Date());
-        major.setPersonName((String) request.getSession().getAttribute("userName"));
-        if(major.getMajorId()==null) {
-            resultTotal = majorService.addMajor(major);
-        }else {
-            resultTotal = majorService.updateMajor(major);
-        }
-        JSONObject result=new JSONObject();
-        if(resultTotal>0){
-            result.put("success", true);
-        }else{
-            result.put("false", false);
-        }
-        ResponseUtil.write(response, result);
-        return null;
-    }
-
-    //删除
-//    @RequestMapping("/delete")
-//    public String delete(@RequestParam("ids") String ids, HttpServletResponse response) throws Exception {
-//        String idsStr[] = ids.split(",");
-//        JSONObject result = new JSONObject();
-//        majorService.delete(idsStr);
-//        result.put("success", true);
-//        ResponseUtil.write(response, result);
-//        return null;
-//    }
-
-    @RequestMapping("/getAll")
-    @ResponseBody
-
-        public ResultData<List<Major>> getAll() throws Exception {
-            List<Major> banners = majorService.getAll();
-            ResultData<List<Major>> resultData = new ResultData<>();
-            resultData.setData(banners);
-            resultData.setCode("0");
-            return resultData;
-
-    }
-
-
-
-
-
-
 
 
     ////////////////////////////
@@ -220,13 +149,26 @@ public class MajorController {
     @RequestMapping("/toImport")
     public ModelAndView toImport() throws Exception {
 
+
         ModelAndView mav = new ModelAndView();
+        List<Department> departmentList = departmentService.getAll();
+        mav.addObject("departmentList", departmentList);
         mav.setViewName("/admin/majorImportExcel");
         return mav;
     }
 
+    @RequestMapping("/showDetail")
+    public ModelAndView showDetail(@RequestParam(value="majorId",required=false)String majorId) throws Exception {
+
+        ModelAndView mav = new ModelAndView();
+        String details = majorService.findDetailsById(majorId);
+        mav.addObject("majorDetails", details);
+        mav.setViewName("/admin/majorDetail");
+        return mav;
+    }
+
     @RequestMapping("/importExcel")
-    public String importExcel2(@RequestParam("files") MultipartFile file,HttpServletRequest request,HttpServletResponse response) {
+    public String importExcel2(@RequestParam("files") MultipartFile file, @RequestParam(value = "departmentId") Integer departmentId,HttpServletRequest request,HttpServletResponse response) {
         // 带结果到页面
         JSONObject jsonResult = new JSONObject();
 
@@ -244,7 +186,11 @@ public class MajorController {
                     importParams);
 
             List<Major> majorList = result.getList();
-            res = majorService.inputAll(majorList, request);
+            Map<String, Object> map = new HashMap<>();
+            map.put("departmentId", departmentId);
+            map.put("personName", (String) request.getSession().getAttribute("userName"));
+            map.put("majorList", majorList);
+            res = majorService.inputAll(map);
         }catch (InvalidFormatException e){
             jsonResult.put("status", "fail");
             jsonResult.put("message", "批量导入失败！文件格式不正确");
@@ -276,6 +222,26 @@ public class MajorController {
         //导出操作
         try {
             Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("专业信息","1"),Major.class,addresses);
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //导出模板
+    @RequestMapping("/exportExcelTel")
+    public void exportTel(HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Major> majorTel = majorService.getMajorTel();
+        // 设置响应输出的头类型(设置响应类型)
+        String fileName = "专业信息模板";
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称(设置下载文件的默认名称)
+        response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
+        //导出操作
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("专业信息(注：其他列可删减)","1"),Major.class,majorTel);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();

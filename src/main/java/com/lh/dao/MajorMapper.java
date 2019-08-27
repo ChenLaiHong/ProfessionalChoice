@@ -36,7 +36,6 @@ public interface MajorMapper {
 
     int updateByPrimaryKey(Major record);
 
-    int insertCodeBatch(List<Major> majorList);
 
     List<Major> list(Map<String, Object> map);
 
@@ -46,4 +45,6 @@ public interface MajorMapper {
     List<Major> listF(Map<String, Object> map);
 
     Integer getTotalF(Map<String, Object> map);
+
+    int inputAll(Map<String, Object> map);
 }

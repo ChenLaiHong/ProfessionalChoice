@@ -13,7 +13,6 @@ public interface MajorService {
 
     Major getMajorById(Integer id);
 
-    int inputAll(List<Major> majorList, HttpServletRequest request);
 
     List<Major> findAll();
 
@@ -34,4 +33,10 @@ public interface MajorService {
     Integer getTotalF(Map<String, Object> map);
 
     Major findById(int i);
+
+    List<Major> getMajorTel();
+
+    String findDetailsById(String majorId);
+
+    int inputAll(Map<String, Object> map);
 }

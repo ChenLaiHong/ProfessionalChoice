@@ -280,26 +280,10 @@
     select count(*) from notice
   </select>
 
-  <!-- list搜索集合 -->
-  <select id="searchList" parameterType="Map" resultMap="ResultMapWithBLOBs">
+  <select id="getAll"  resultMap="ResultMapWithBLOBs">
     select * from notice
-    WHERE #{factor} LIKE '%${keyWords}%'
-    order by notice_time DESC
-    <if test="start!=null and size!=null">
-      limit #{start},#{size}
-    </if>
+    ORDER BY notice_time DESC
   </select>
-
-  <!-- 搜索getTotal -->
-  <select id="getSearchTotal" parameterType="Map" resultType="Long">
-    select count(*) from notice
-    WHERE #{factor} LIKE '%${keyWords}%'
-  </select>
-
-
-
-
-
   <select id="listF" parameterType="Map" resultMap="ResultMapWithBLOBs">
     select * from notice
     <where>
