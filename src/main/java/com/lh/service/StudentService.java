@@ -15,7 +15,7 @@ public interface StudentService {
     List<Person> findAll();
 
 
-    List<Person> getsTudentTel();
+    List<Person> getStudentTel();
 
     List<Person> getAll();
 

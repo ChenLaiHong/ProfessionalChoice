@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public List<Person> getsTudentTel() {
+    public List<Person> getStudentTel() {
 
         Person person = new Person();
         person.setLoginId("xxx");

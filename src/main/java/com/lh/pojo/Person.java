@@ -40,7 +40,6 @@ public class Person {
     @Excel(name = "邮箱")
     private String email;
 
-    @Excel(name = "学籍状态",replace = {"无学籍_0","有学籍_1"})
     private Integer studentStatus;
 
     private Integer staticLive;

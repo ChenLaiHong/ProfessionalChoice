@@ -53,43 +53,7 @@ public class StudentController {
 
 
 
-    //导出信息
-    @RequestMapping("/exportExcel")
-    public void exportExcel(HttpServletResponse response) throws UnsupportedEncodingException {
 
-        List<Person> students = studentService.getAll();
-        // 设置响应输出的头类型(设置响应类型)
-        String fileName = "学生信息";
-        response.setHeader("content-Type", "application/vnd.ms-excel");
-        // 下载文件的默认名称(设置下载文件的默认名称)
-        response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
-        //导出操作
-        try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生信息","1"),Person.class,students);
-            workbook.write(response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    //导出模板
-    @RequestMapping("/exportExcelTel")
-    public void export(HttpServletResponse response) throws UnsupportedEncodingException {
-
-        List<Person> studentTel = studentService.getsTudentTel();
-        // 设置响应输出的头类型(设置响应类型)
-        String fileName = "学生信息模板";
-        response.setCharacterEncoding("utf-8");
-        response.setHeader("content-Type", "application/vnd.ms-excel");
-        // 下载文件的默认名称(设置下载文件的默认名称)
-         response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
-        //导出操作
-        try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生信息(注：性别填写男/女)","1"),Person.class,studentTel);
-            workbook.write(response.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     ////////////////////////////
     @RequestMapping("/list")
@@ -204,29 +168,28 @@ public class StudentController {
         importParams.setHeadRows(1);
         importParams.setTitleRows(1);
         // 需要验证
-        importParams.setNeedVerfiy(true);
+        importParams.setNeedVerfiy(false);
 
 
         int res = 0;
         try {
             ExcelImportResult<Person> result = ExcelImportUtil.importExcelMore(file.getInputStream(), Person.class,
                     importParams);
-            List<Person> lists = result.getList();
-            if(lists != null && lists.size() > 0){
+            List<Person> personList = result.getList();
 
                 Map<String, Object> map = new HashMap<>();
                 map.put("majorId", majorId);
                 map.put("gradeId", gradeId);
-                map.put("lists", lists);
+                map.put("personList", personList);
                 res = studentService.inputAll(map);
-            }
+
 
         }catch (InvalidFormatException e){
             jsonResult.put("status", "fail");
             jsonResult.put("message", "批量导入失败！文件格式不正确");
         }catch (Exception e){
             jsonResult.put("status", "fail");
-            jsonResult.put("message", "批量导入失败！");
+            jsonResult.put("message", "批量导入失败！检查是否学号重复");
         }
 
         if(res>0){
@@ -242,6 +205,45 @@ public class StudentController {
 
     }
 
+    //导出信息
+    @RequestMapping("/exportExcel")
+    public void exportExcel(HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Person> students = studentService.getAll();
+        // 设置响应输出的头类型(设置响应类型)
+        String fileName = "学生信息";
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称(设置下载文件的默认名称)
+        response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
+        //导出操作
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生信息","1"),Person.class,students);
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    //导出模板
+    @RequestMapping("/exportExcelTel")
+    public void export(HttpServletResponse response) throws UnsupportedEncodingException {
+
+        List<Person> studentTel = studentService.getStudentTel();
+        // 设置响应输出的头类型(设置响应类型)
+        String fileName = "学生信息模板";
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("content-Type", "application/vnd.ms-excel");
+        // 下载文件的默认名称(设置下载文件的默认名称)
+        response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
+        //导出操作
+        try {
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("学生信息(注：学号必填，其他列可删减)","1"),Person.class,studentTel);
+            workbook.write(response.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     //编辑与查看全部信息
     public  ModelAndView selectInfo(String id){
         List<Major> majorList = majorService.getAll();

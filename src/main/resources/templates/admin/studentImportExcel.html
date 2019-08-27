@@ -3,7 +3,11 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>导入</title>
-
+    <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
     <script	src="/layui/layui/layui.js"></script>
     <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
 
@@ -12,11 +16,12 @@
         //执行批量导入功能
 
         function importSubmit(){
-
+console.log("进来吗")
             $("#fi").form("submit", {
                 url: "/student/importExcel",
                 success: function(jsonResult) {
                     var date = eval('('+jsonResult+')');
+                    console.log(date)
                     if(date.status == "ok") {
                         window.parent.closeDlg(date.message);
                     } else if(date.status == "fail") {
@@ -39,7 +44,7 @@
 </head>
 <body>
 
-<div id="upl" style="padding: 10px;">
+<div  style="padding: 10px;">
     <form id="fi" enctype="multipart/form-data" method="post" class="layui-form layui-form-pane">
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">年级</label>
@@ -57,11 +62,12 @@
                 </select>
             </div>
         </div>
-        <button type="button" class="layui-btn" id="upload"><i class="layui-icon"></i>上传文件</button>
+        <br>
+        <input type="file" name="files" id="files" value=""/>
         <br>
 
         <div class="site-demo-button" style="margin-top: 20px;">
-            <button id="save" onclick="importSubmit()" class="layui-btn site-demo-layedit" data-type="content">导入
+            <button  onclick="importSubmit()" class="layui-btn site-demo-layedit" data-type="content">导入
                 <!--<a href="javascript:importSubmit()">导入</a>-->
             </button>
         </div>
@@ -78,16 +84,8 @@
             , upload = layui.upload //上传
             , element = layui.element; //元素操作
 
-        //指定允许上传的文件类型
-        upload.render({
-            elem: '#upload'
-            ,url: '/upload/'
-            ,accept: 'file' //普通文件
-            ,done: function(res){
-                console.log(res)
-            }
-        });
     });
 </script>
+
 </body>
 </html>
