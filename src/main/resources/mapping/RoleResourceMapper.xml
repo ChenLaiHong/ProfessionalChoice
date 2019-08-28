@@ -1,28 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.lh.dao.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.lh.pojo.Role">
-    <id column="role_id" jdbcType="INTEGER" property="roleId" />
-    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
-    <collection property="personList" ofType="com.lh.pojo.Person">
-      <id column="login_id" jdbcType="VARCHAR" property="loginId" />
-      <result column="name" jdbcType="VARCHAR" property="name" />
-      <result column="password" jdbcType="VARCHAR" property="password" />
-      <result column="grades" jdbcType="VARCHAR" property="grades" />
-      <result column="gender" jdbcType="INTEGER" property="gender" />
-      <result column="phone" jdbcType="VARCHAR" property="phone" />
-      <result column="major_id" jdbcType="INTEGER" property="majorId" />
-      <result column="grade_id" jdbcType="INTEGER" property="gradeId" />
-      <result column="person_static" jdbcType="INTEGER" property="personStatic" />
-      <result column="qq_number" jdbcType="VARCHAR" property="qqNumber" />
-      <result column="enrollment_year" jdbcType="INTEGER" property="enrollmentYear" />
-      <result column="email" jdbcType="VARCHAR" property="email" />
-      <result column="student_status" jdbcType="INTEGER" property="studentStatus" />
-      <result column="static_live" jdbcType="INTEGER" property="staticLive" />
-      <result column="role_id" jdbcType="INTEGER" property="roleId" />
-    </collection>
+<mapper namespace="com.lh.dao.RoleResourceMapper">
+  <resultMap id="BaseResultMap" type="com.lh.pojo.RoleResource">
+    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="resoure_id" jdbcType="INTEGER" property="resoureId" />
   </resultMap>
-
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -82,15 +64,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, role_name
+    role_id, resoure_id
   </sql>
-  <select id="selectByExample" parameterType="com.lh.pojo.RoleExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.lh.pojo.RoleResourceExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from role
+    from role_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,59 +80,49 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from role
-    where role_id = #{roleId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role
-    where role_id = #{roleId,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.lh.pojo.RoleExample">
-    delete from role
+  <delete id="deleteByExample" parameterType="com.lh.pojo.RoleResourceExample">
+    delete from role_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.lh.pojo.Role">
-    insert into role (role_id, role_name)
-    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.lh.pojo.RoleResource">
+    insert into role_resource (role_id, resoure_id)
+    values (#{roleId,jdbcType=INTEGER}, #{resoureId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.lh.pojo.Role">
-    insert into role
+  <insert id="insertSelective" parameterType="com.lh.pojo.RoleResource">
+    insert into role_resource
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
         role_id,
       </if>
-      <if test="roleName != null">
-        role_name,
+      <if test="resoureId != null">
+        resoure_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
       </if>
-      <if test="roleName != null">
-        #{roleName,jdbcType=VARCHAR},
+      <if test="resoureId != null">
+        #{resoureId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.lh.pojo.RoleExample" resultType="java.lang.Long">
-    select count(*) from role
+  <select id="countByExample" parameterType="com.lh.pojo.RoleResourceExample" resultType="java.lang.Long">
+    select count(*) from role_resource
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update role
+    update role_resource
     <set>
       <if test="record.roleId != null">
         role_id = #{record.roleId,jdbcType=INTEGER},
       </if>
-      <if test="record.roleName != null">
-        role_name = #{record.roleName,jdbcType=VARCHAR},
+      <if test="record.resoureId != null">
+        resoure_id = #{record.resoureId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -158,49 +130,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update role
+    update role_resource
     set role_id = #{record.roleId,jdbcType=INTEGER},
-      role_name = #{record.roleName,jdbcType=VARCHAR}
+      resoure_id = #{record.resoureId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.lh.pojo.Role">
-    update role
-    <set>
-      <if test="roleName != null">
-        role_name = #{roleName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where role_id = #{roleId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.lh.pojo.Role">
-    update role
-    set role_name = #{roleName,jdbcType=VARCHAR}
-    where role_id = #{roleId,jdbcType=INTEGER}
-  </update>
-
-
-  <select id="list" parameterType="Map" resultMap="BaseResultMap">
-    select * from role
-    <where>
-      <if test="q!=null and q!=''">
-        and (role_name like #{q})
-      </if>
-    </where>
-    <if test="start!=null and size!=null">
-      limit #{start},#{size}
-    </if>
-  </select>
-
-  <select id="getTotal" parameterType="Map" resultType="Integer">
-    select
-    count(*) from role
-    <where>
-      <if test="q!=null and q!=''">
-        and (role_name like #{q})
-      </if>
-
-    </where>
-  </select>
 </mapper>

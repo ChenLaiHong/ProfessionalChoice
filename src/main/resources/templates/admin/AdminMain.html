@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <title>后台主页</title>
 
@@ -87,7 +90,8 @@
         <tr>
             <td valign="bottom" align="right" width="50%">
                 <a th:text="${'欢迎 :'+session.userName}"></a>
-
+                <br>
+                <a href="/logout" style="color: #CC2222">退出登录</a>
             </td>
         </tr>
     </table>
@@ -117,7 +121,7 @@
 <div region="west" style="width: 200px" title="导航菜单" split="true">
     <div class="easyui-accordion" data-options="fit:true,border:false">
         <div title="用户管理" data-options="selected:true,iconCls:'icon-item'" style="padding: 10px">
-            <a href="javascript:openTab('学生管理','toStudent','icon-stu')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stu'" style="width: 150px">学生管理</a>
+            <a  href="javascript:openTab('学生管理','toStudent','icon-stu')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stu'" style="width: 150px">学生管理</a>
             <a href="javascript:openTab('教职工管理','toFirstLevel.do','icon-tea')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tea'" style="width: 150px">教职工管理</a>
         </div>
         <div title="专业管理"  data-options="iconCls:'icon-bkgl'" style="padding:10px;">
@@ -127,15 +131,21 @@
         <div title="其他管理" data-options="iconCls:'icon-bklb'" style="padding:10px">
             <a href="javascript:openTab('年级管理','toGrade','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">年级管理</a>
             <a href="javascript:openTab('院系管理','toDepartment','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">院系管理</a>
-
+            <a href="javascript:openTab('角色管理','toRole','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">角色管理</a>
         </div>
+        <shiro:hasRole name="学生">
         <div title="公告管理"  data-options="iconCls:'icon-plgl'" style="padding:10px">
             <a href="javascript:openTab('公告信息管理','toNotice','icon-plgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-plgl'" style="width: 150px;">公告信息管理</a>
         </div>
-        <div title="管理员设置"  data-options="iconCls:'icon-system'" style="padding:10px">
-            <a href="javascript:openPasswordModifyDialog()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-modifyPassword'" style="width: 150px;">修改密码</a>
+        </shiro:hasRole>
+        <shiro:hasPermission name="/info">
+        <div title="信息查询"  data-options="iconCls:'icon-system'" style="padding:10px">
+
+            <a  href="javascript:openPasswordModifyDialog()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-modifyPassword'" style="width: 150px;">修改密码</a>
+
             <a href="javascript:logout()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'" style="width: 150px;">安全退出</a>
         </div>
+        </shiro:hasPermission>
     </div>
 </div>
 <div region="south" style="height: 25px;padding: 5px" align="center">

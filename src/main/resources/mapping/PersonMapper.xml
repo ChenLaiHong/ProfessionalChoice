@@ -379,11 +379,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into person
-    (login_id,name,grades,gender,major_id,grade_id)
+    (login_id,name,password,grades,gender,major_id,grade_id)
     values
     <foreach collection="personList" item="item" index="index" separator=",">
       (
-      #{item.loginId},#{item.name},#{item.grades},#{item.gender},
+      #{item.loginId},#{item.name},#{password},#{item.grades},#{item.gender},
       #{majorId},#{gradeId}
       )
     </foreach>

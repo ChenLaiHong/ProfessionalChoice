@@ -12,6 +12,7 @@ import com.lh.pojo.*;
 import com.lh.service.GradeService;
 import com.lh.service.MajorService;
 import com.lh.service.StudentService;
+import com.lh.utils.MdUtil;
 import com.lh.utils.ResponseUtil;
 import com.lh.utils.StringUtil;
 import net.sf.json.JSONObject;
@@ -98,6 +99,7 @@ public class StudentController {
     @RequestMapping("/add")
     public String add(Person person, HttpServletResponse response, HttpServletRequest request) throws Exception {
 
+        person.setPassword(MdUtil.md5("123456"));
         int resultTotal = studentService.add(person);
         Gson gson = new Gson();
         ResponseUtil.write(response, gson.toJson(res(resultTotal)));
@@ -178,6 +180,7 @@ public class StudentController {
                 map.put("majorId", majorId);
                 map.put("gradeId", gradeId);
                 map.put("personList", personList);
+                map.put("password", MdUtil.md5("123456"));
                 res = studentService.inputAll(map);
 
 

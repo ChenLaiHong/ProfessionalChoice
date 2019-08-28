@@ -1,12 +1,17 @@
 package com.lh.utils;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import com.lh.pojo.Resource;
+import com.lh.service.ResourceService;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +19,8 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
+    @Autowired
+    private ResourceService resourceService;
     /**
      *创建ShiroFilterFactoryBean
      *
@@ -46,12 +53,22 @@ public class ShiroConfig {
         filterMap.put("/login", "anon");
         //登录界面
         filterMap.put("/index", "anon");
-
-        filterMap.put("/main", "anon");
-        filterMap.put("/*","authc");
-
+        //自定义加载权限资源关系
+        List<Resource> resourcesList = resourceService.queryAll();
+        for(Resource resources:resourcesList){
+            if (StringUtil.isNotEmpty(resources.getResoureUrl())) {
+                String permission = "perms[" + resources.getResoureUrl()+ "]";
+                filterMap.put(resources.getResoureUrl(),permission);
+            }
+        }
         //还没登陆时拦截后调整回登陆页面
         shiroFilterFactoryBean.setLoginUrl("/index");
+        //配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
+        filterMap.put("/logout", "logout");
+
+        filterMap.put("/*","authc");
+
+
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
@@ -72,5 +89,12 @@ public class ShiroConfig {
     @Bean(name = "userRealm")
     public UserRealm getRealm(){
         return  new UserRealm();
+    }
+
+
+    // shiro标签与thymeleaf标签结合,必须从写此方法不然html页面那里shiro标签不起效
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 }

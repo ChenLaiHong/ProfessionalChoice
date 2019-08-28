@@ -3,8 +3,12 @@ package com.lh.dao;
 import com.lh.pojo.Role;
 import com.lh.pojo.RoleExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface RoleMapper {
     long countByExample(RoleExample example);
 
@@ -27,4 +31,8 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> list(Map<String, Object> map);
+
+    Integer getTotal(Map<String, Object> map);
 }
