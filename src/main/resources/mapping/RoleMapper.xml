@@ -203,4 +203,12 @@
 
     </where>
   </select>
+
+  <select id="getAllT"  resultMap="BaseResultMap">
+    select * from role
+    <where>
+        and role_id != 1
+        and role_id != 4
+    </where>
+  </select>
 </mapper>

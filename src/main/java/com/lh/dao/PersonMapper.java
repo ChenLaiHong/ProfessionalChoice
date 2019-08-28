@@ -5,6 +5,7 @@ import com.lh.pojo.PersonExample;
 import java.util.List;
 import java.util.Map;
 
+import com.lh.pojo.Teacher;
 import org.apache.ibatis.annotations.Param;
 
 public interface PersonMapper {
@@ -35,4 +36,12 @@ public interface PersonMapper {
     List<Person> list(Map<String, Object> map);
 
     Integer getTotal(Map<String, Object> map);
+
+    List<Person> listT(Map<String, Object> map);
+
+    Integer getTotalT(Map<String, Object> map);
+
+    int inputAllT(Map<String, Object> map);
+
+    List<Teacher> select();
 }

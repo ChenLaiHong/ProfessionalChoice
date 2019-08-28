@@ -20,4 +20,6 @@ public interface RoleService {
     int updateRole(Role role);
 
     void delete(String[] idsStr);
+
+    List<Role> getAll();
 }

@@ -80,6 +80,11 @@ public class PageController {
     public String toRole(){
         return "/admin/roleManage";
     }
+    //
+    @RequestMapping("/toTeacher")
+    public String toTeacher(){
+        return "/admin/teacherManage";
+    }
     //登陆操作
     @PostMapping("/login")
     public String login(HttpServletRequest request, Map<String,Object> map,Model model) {

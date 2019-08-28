@@ -46,6 +46,16 @@ public class Person {
 
     private Integer roleId;
 
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Major getMajor() {
         return major;
     }
@@ -184,7 +194,7 @@ public class Person {
     public Person() {
     }
 
-    public Person(String loginId, String name, String password, String grades, Integer gender, String phone, Integer majorId, Major major, Grade grade, Integer gradeId, Integer personStatic, String qqNumber, Integer enrollmentYear, String email, Integer studentStatus, Integer staticLive, Integer roleId) {
+    public Person(String loginId, String name, String password, String grades, Integer gender, String phone, Integer majorId, Major major, Grade grade, Integer gradeId, Integer personStatic, String qqNumber, Integer enrollmentYear, String email, Integer studentStatus, Integer staticLive, Integer roleId, Role role) {
         this.loginId = loginId;
         this.name = name;
         this.password = password;
@@ -202,5 +212,6 @@ public class Person {
         this.studentStatus = studentStatus;
         this.staticLive = staticLive;
         this.roleId = roleId;
+        this.role = role;
     }
 }

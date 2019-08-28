@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>导入</title>
+
+    <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/icon.css">
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
+    <script	src="/layui/layui/layui.js"></script>
+    <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
+<style type="text/css">
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>
+    <script type="text/javascript">
+
+        //执行批量导入功能
+
+        function importSubmit(){
+
+            $("#fi").form("submit", {
+                url: "/teacher/importExcel",
+                success: function(jsonResult) {
+                    var date = eval('('+jsonResult+')');
+                    if(date.status == "ok") {
+                        window.parent.closeDlg(date.message);
+                    } else if(date.status == "fail") {
+                        window.parent.closeDlg(date.message);
+                        return;
+                    }
+                },
+
+            });
+        }
+
+    </script>
+</head>
+<body style="margin: 1px">
+
+<div id="upl">
+    <form id="fi" enctype="multipart/form-data" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">身份</label>
+            <div class="layui-input-block">
+                <select  id="roleId" name="roleId" v-model="roleId">
+                    <option th:each="roleList : ${roleList}" th:text="${roleList.roleName}" th:value="${roleList.roleId}"></option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <input type="file" name="files" id="files" value=""/>
+        <br>
+
+        <div class="site-demo-button" style="margin-top: 20px;">
+            <button id="save" onclick="importSubmit()" class="layui-btn site-demo-layedit" data-type="content">导入
+                <!--<a href="javascript:importSubmit()">导入</a>-->
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+    layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
+        'upload', 'element' ], function() {
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+        layer = layui.layer //弹层
+            , table = layui.table //表格
+            , carousel = layui.carousel //轮播
+            , upload = layui.upload //上传
+            , element = layui.element; //元素操作
+
+    });
+</script>
+</body>
+</html>

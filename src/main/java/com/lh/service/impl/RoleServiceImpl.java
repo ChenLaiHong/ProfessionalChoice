@@ -52,4 +52,9 @@ public class RoleServiceImpl implements RoleService {
         criteria.andRoleIdIn(StringIds(idsStr));
         roleMapper.deleteByExample(roleExample);
     }
+
+    @Override
+    public List<Role> getAll() {
+        return roleMapper.getAllT();
+    }
 }

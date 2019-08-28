@@ -21,6 +21,15 @@
     </association>
     <association property="major" column="major_id" select="com.lh.dao.MajorMapper.selectByPrimaryKey" javaType="com.lh.pojo.Major">
     </association>
+    <association property="role" column="role_id" select="com.lh.dao.RoleMapper.selectByPrimaryKey" javaType="com.lh.pojo.Role">
+    </association>
+  </resultMap>
+
+  <resultMap id="TeacherResultMap" type="com.lh.pojo.Person">
+    <id column="login_id" jdbcType="VARCHAR" property="loginId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -372,7 +381,7 @@
     where login_id = #{loginId,jdbcType=VARCHAR}
   </update>
 
-  <!-- 批量插入 -->
+  <!-- 批量插入学生 -->
 
   <insert id="inputAll" parameterType="java.util.Map">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -385,6 +394,23 @@
       (
       #{item.loginId},#{item.name},#{password},#{item.grades},#{item.gender},
       #{majorId},#{gradeId}
+      )
+    </foreach>
+  </insert>
+
+  <!-- 批量插入老师 -->
+
+  <insert id="inputAllT" parameterType="java.util.Map">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into person
+    (login_id,name,password,gender,role_id)
+    values
+    <foreach collection="personList" item="item" index="index" separator=",">
+      (
+      #{item.loginId},#{item.name},#{password},#{item.gender},
+      #{roleId}
       )
     </foreach>
   </insert>
@@ -402,6 +428,19 @@
     </if>
   </select>
 
+  <select id="listT" parameterType="Map" resultMap="BaseResultMap">
+    select * from person
+    <where>
+      <if test="q!=null and q!=''">
+        and (name like #{q}  or phone like #{q})
+      </if>
+      and role_id != 1 AND role_id != 4
+    </where>
+    <if test="start!=null and size!=null">
+      limit #{start},#{size}
+    </if>
+  </select>
+
   <select id="getTotal" parameterType="Map" resultType="Integer">
     select
     count(*) from person
@@ -410,6 +449,25 @@
         and (grades like #{q}  or enrollment_year like #{q})
       </if>
       and role_id = #{roleId}
+    </where>
+  </select>
+
+  <select id="getTotalT" parameterType="Map" resultType="Integer">
+    select
+    count(*) from person
+    <where>
+      <if test="q!=null and q!=''">
+        and (name like #{q}  or phone like #{q})
+      </if>
+      and role_id != 1 AND role_id != 4
+    </where>
+  </select>
+
+  <select id="select"  resultMap="TeacherResultMap">
+    select * from person
+    <where>
+      and role_id != 1
+      and role_id != 4
     </where>
   </select>
 </mapper>
