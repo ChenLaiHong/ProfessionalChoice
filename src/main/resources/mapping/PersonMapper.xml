@@ -25,7 +25,7 @@
     </association>
   </resultMap>
 
-  <resultMap id="TeacherResultMap" type="com.lh.pojo.Person">
+  <resultMap id="TeacherResultMap" type="com.lh.pojo.Teacher">
     <id column="login_id" jdbcType="VARCHAR" property="loginId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="gender" jdbcType="INTEGER" property="gender" />
@@ -464,7 +464,7 @@
   </select>
 
   <select id="select"  resultMap="TeacherResultMap">
-    select * from person
+    select login_id,name,gender from person
     <where>
       and role_id != 1
       and role_id != 4

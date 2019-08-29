@@ -3,7 +3,7 @@ package com.lh.pojo;
 public class Resource {
     private Integer resoureId;
 
-    private String resoureName;
+    private String name;
 
     private String resoureUrl;
 
@@ -13,6 +13,16 @@ public class Resource {
 
     private Integer resourceSort;
 
+    private String checked;//是否选中
+
+    public String getChecked() {
+        return checked;
+    }
+
+    public void setChecked(String checked) {
+        this.checked = checked;
+    }
+
     public Integer getResoureId() {
         return resoureId;
     }
@@ -21,12 +31,12 @@ public class Resource {
         this.resoureId = resoureId;
     }
 
-    public String getResoureName() {
-        return resoureName;
+    public String getName() {
+        return name;
     }
 
-    public void setResoureName(String resoureName) {
-        this.resoureName = resoureName == null ? null : resoureName.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getResoureUrl() {

@@ -13,4 +13,6 @@ public interface ResourceService {
     List<Resource> queryAll();
 
     List<Resource> loadPersonResources(Map<String, Object> map);
+
+    List<Resource> queryResourcesListWithSelected(Integer rid);
 }

@@ -211,7 +211,7 @@ public class TeacherController {
         response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
         //导出操作
         try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("教职工信息","1"),Person.class,teachers);
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("教职工信息","1"),Teacher.class,teachers);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,7 +232,7 @@ public class TeacherController {
         response.setHeader("Content-disposition", "attachment;filename="+new String(fileName.getBytes("utf-8"), "iso8859-1")+".xls");
         //导出操作
         try {
-            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("教职工信息(注：工号必填，其他列可删减)","1"),Person.class,studentTel);
+            Workbook workbook = ExcelExportUtil.exportExcel(new ExportParams("教职工信息(注：工号必填，其他列可删减)","1"),Teacher.class,studentTel);
             workbook.write(response.getOutputStream());
         } catch (IOException e) {
             e.printStackTrace();

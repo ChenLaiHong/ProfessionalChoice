@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
@@ -8,41 +8,52 @@
     <!-- 加入移动布局 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
     <meta NAME=”renderer” content=”webkit”>
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+
+
     <!-- 引入manage 的基础css -->
-    <script	src="/layui/layui/layui.js"></script>
+    <script src="/layui/layui/layui.js"></script>
     <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
-    <script	src="/js/manage_base.js"></script>
+    <script src="/js/manage_base.js"></script>
     <link href="/css/manage_base.css" rel="stylesheet"/>
     <!-- 引入manage 的基础css -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/matrix-style.css"/>
+    <link rel="stylesheet" href="/css/metroStyle.css" type="text/css">
+
+
+
 
 
 </head>
 <style>
-    body{
+    body {
         padding-top: 3px;
     }
 </style>
 <body>
+
+<!--<script type="text/javascript" src="/js/jquery.min.js"></script>-->
+
+
 <script>
 
     //用户选中的行ids = 1,2,3,5   len=4
     var global_ids;
     var global_ids_len;
     //用户选中的行ids = 1,2,3,5   len=4
-    var w ;//窗口的宽
-    var h ;//窗口的高
+    var w;//窗口的宽
+    var h;//窗口的高
     //检测定义的宽和高，是否合适。
 
     //子窗口调用 的  关闭窗口方法
-    function closeDlg(msg){
+    function closeDlg(msg) {
         layer.closeAll();
         layer.msg(msg);
         reload_data();
     }
 
     //相当前刷新  重新加载
-    function reload_data(){
+    function reload_data() {
         var q = $("#q").val();
         table.reload('table', {
             where: {
@@ -53,7 +64,7 @@
     }
 
     //打开添加窗口
-    function add(){
+    function add() {
         w = 600;
         h = 600;
         checkWindow();
@@ -62,14 +73,14 @@
             title: '添加',
             shadeClose: true,
             shade: 0.8,
-            area: [w+'px', h+'px'],
+            area: [w + 'px', h + 'px'],
             content: '/role/toAdd' //iframe的url
         });
     }
 
 
     //打开编辑窗口
-    function edit(id){
+    function edit(id) {
         w = 300;
         h = 300;
         checkWindow();
@@ -78,147 +89,168 @@
             title: '修改',
             shadeClose: true,
             shade: 0.8,
-            area: [w+'px', h+'px'],
-            content: '/role/toEdit?roleId='+id //iframe的url
+            area: [w + 'px', h + 'px'],
+            content: '/role/toEdit?roleId=' + id //iframe的url
         });
     }
 
 
-    function del(ids){
-        console.log("主键："+ids)
+    function del(ids) {
+        console.log("主键：" + ids)
         var index = layer.load(1, {
-            shade: [0.1,'#fff'] //0.1透明度的白色背景
+            shade: [0.1, '#fff'] //0.1透明度的白色背景
         });
-        $.post('/role/delete',{ids:ids},function(result){
-            if(result.success){
+        $.post('/role/delete', {ids: ids}, function (result) {
+            if (result.success) {
                 layer.closeAll();
                 layer.msg('删除成功');
                 reload_data();
-            }else{
+            } else {
                 layer.closeAll();
                 layer.msg(result.msg);
             }
-        },'json');
+        }, 'json');
     }
 
-    function getTableSelected(){
+    function getTableSelected() {
         var selected = table.checkStatus("table");
-        if(selected.data.length<1){
+        if (selected.data.length < 1) {
             layer.msg('请选择内容!');
             return;
         }
         var ids = "";
-        if(selected.data.length>0){
-            $.each(selected.data,function(i,val){
-                ids = ids+val.roleId+",";
+        if (selected.data.length > 0) {
+            $.each(selected.data, function (i, val) {
+                ids = ids + val.roleId + ",";
             });
         }
         //去掉最后的逗号,
-        ids = ids.substring(0,ids.length-1);
+        ids = ids.substring(0, ids.length - 1);
         global_ids = ids;
 
         global_ids_len = selected.data.length;
     }
 
     //删除
-    function delSelected(){
-        global_ids="";
-        global_ids_len=0;
+    function delSelected() {
+        global_ids = "";
+        global_ids_len = 0;
         getTableSelected();
-        if(global_ids_len>0){
+        if (global_ids_len > 0) {
             //询问框
-            layer.confirm('您是否要删除这'+global_ids_len+'个吗？', {
-                btn: ['确定删除','取消'] //按钮
-            }, function(){
+            layer.confirm('您是否要删除这' + global_ids_len + '个吗？', {
+                btn: ['确定删除', '取消'] //按钮
+            }, function () {
                 del(global_ids);
-            }, function(){
+            }, function () {
                 layer.msg('您选择了取消');
             });
         }
     }
 
-    function table_edit_update(id,field,value){
-        console.log("field是什么？"+field+"value是什么？"+value)
-        $.post('/role/update?'+field+'='+value,{roleId:id},function(result){
-            if(result.success){
+    function table_edit_update(id, field, value) {
+        console.log("field是什么？" + field + "value是什么？" + value)
+        $.post('/role/update?' + field + '=' + value, {roleId: id}, function (result) {
+            if (result.success) {
                 layer.msg('修改成功');
-            }else{
+            } else {
                 layer.closeAll();
                 layer.msg(result.msg);
             }
-        },'json');
+        }, 'json');
     }
-
 
 
 </script>
 
 
-<div class="layui-form" style=" ">
+<div class="modal fade bs-example-modal-sm" id="selectResources" tabindex="-1" role="dialog"
+     aria-labelledby="selectRoleLabel">
+    <div class="modal-dialog modal-sm" role="document" style="height: 600px; ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="selectRoleLabel">分配权限</h4>
+            </div>
+            <div class="modal-body">
+                <form id="boxRoleForm">
+                    <ul id="treeDemo" class="ztree"></ul>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" onclick="saveRoleResources();" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="layui-form" style=" ">
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
-            <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加
+            </button>
             <!--<button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>-->
+
         </div>
 
-        <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
+        <div class="layui-input-inline" style="  width:  150px; margin-right: -1px;">
             <input class="layui-input" id="q" onkeydown="if(event.keyCode==13) reload_data()" placeholder="模糊查询">
         </div>
 
         <div class="layui-input-inline" style="  width: 113px;">
             <a class="layui-btn layui-btn-normal layui-btn-sm" onclick="reload_data()">查询</a>
         </div>
+        <!--<a href="roles.html">toroles</a>-->
     </div>
 
-
-
-    <table class="layui-hide"   id="table" lay-filter="table"></table>
+    <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
 
+            <a class="layui-btn layui-btn-xs" lay-event="edit_resource">分配权限</a>
         </div>
     </script>
 
 
-
-
     <script>
-        layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
-            'upload', 'element' ], function() {
+        layui.use(['laydate', 'laypage', 'layer', 'table', 'carousel',
+            'upload', 'element'], function () {
             var laydate = layui.laydate //日期
                 , laypage = layui.laypage //分页
-                layer = layui.layer //弹层
-                ,toolbar= 'default'
+            layer = layui.layer //弹层
+                , toolbar = 'default'
                 , table = layui.table //表格
                 , carousel = layui.carousel //轮播
                 , upload = layui.upload //上传
                 , element = layui.element; //元素操作
             table.render({
                 elem: '#table'
-                ,url: '/role/list',
+                , url: '/role/list',
                 height: 'full-60',
                 cols: [
                     [
-                    {checkbox: true, fixed: true}
-                    ,{field:'roleId', title: 'ID',width:20}
-                    ,{field:'roleName', title: '角色名称', width:220,align:"center", edit: 'text'}
-                   ,{fixed:'right', width:180,title: '操作',align:"center",  toolbar: '#table_bar'}
+                        {checkbox: true, fixed: true}
+                        , {field: 'roleId', title: 'ID', width: 20}
+                        , {field: 'roleName', title: '角色名称', width: 220, align: "center", edit: 'text'}
+                        , {fixed: 'right', width: 180, title: '操作', align: "center", toolbar: '#table_bar'}
+                    ]
                 ]
-                ]
-                ,id: 'table'
-                ,page: true
-                ,limits:[20,30,40,50],
-                limit:20
+                , id: 'table'
+                , page: true
+                , limits: [20, 30, 40, 50],
+                limit: 20
             });
 
 
             //监听工具条 table_bar
-            table.on('tool(table)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            table.on('tool(table)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
                 var data = obj.data //获得当前行数据
                     , layEvent = obj.event; //获得 lay-event 对应的值
-                console.log('获得当前行数据'+data);
+                console.log('获得当前行数据' + data);
                 if (layEvent === 'del') {
                     //layer.msg('查看操作' + data.id);
                     console.log(data.roleId);
@@ -226,23 +258,94 @@
                 } else if (layEvent === 'edit') {
 //                    layer.msg('编辑操作' + data.roleId);
                     edit(data.roleId);
-                }else if(layEvent === 'set_state'){
+                } else if (layEvent === 'set_state') {
                     setState(data.roleId);
+                } else if (layEvent === 'edit_resource') {
+                    editResource(data.roleId);
                 }
             });
 
 
             //监听单元格编辑
-            table.on('edit(table)', function(obj){
+            table.on('edit(table)', function (obj) {
                 var value = obj.value //得到修改后的值
-                    ,data = obj.data //得到所在行所有键值
-                    ,field = obj.field; //得到字段
+                    , data = obj.data //得到所在行所有键值
+                    , field = obj.field; //得到字段
                 //layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
-                table_edit_update(data.roleId,field,value);
+                table_edit_update(data.roleId, field, value);
+            });
+        });
+    </script>
+
+    <script src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/js/jquery.ztree.excheck.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        var roleId;
+        function editResource(id) {
+            roleId = id;
+            var setting = {
+                check: {
+                    enable: true,
+                    chkboxType: {"Y": "p", "N": "s"}
+                },
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: "resoureId",
+                        pIdKey: "resourceParentId",
+                    }
+                }
+            };
+
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {rid: id},
+                url: "resource/resourcesWithSelected",
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data)
+                    $.fn.zTree.init($("#treeDemo"), setting, data);
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+
+                    zTree.expandAll(true);
+                    $('#selectResources').modal();
+                }
             });
 
+        }
 
-        });
+        //保存权限的选择
+        function saveRoleResources() {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                checkNode = zTree.getCheckedNodes(true);
+            console.log(checkNode[0].id+"////////////")
+            var ids = new Array();
+            for (var i = 0; i < checkNode.length; i++) {
+                ids.push(checkNode[i].id);
+            }
+            $.ajax({
+                async: false,
+                type: "POST",
+                data: {roleId: roleId, resoureId: ids.join(",")},
+                url: "role/saveRoleResources",
+                success: function (data) {
+                    if (data == "success") {
+                        layer.msg('保存成功');
+                        $('#selectResources').modal('hide');
+                    } else {
+                        layer.msg('保存失败');
+                        $('#selectResources').modal('hide');
+                    }
+                }
+            });
+        }
+
+
     </script>
 </div>
 </body>

@@ -3,7 +3,7 @@
 <mapper namespace="com.lh.dao.ResourceMapper">
   <resultMap id="BaseResultMap" type="com.lh.pojo.Resource">
     <id column="resoure_id" jdbcType="INTEGER" property="resoureId" />
-    <result column="resoure_name" jdbcType="VARCHAR" property="resoureName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="resoure_url" jdbcType="VARCHAR" property="resoureUrl" />
     <result column="resource_type" jdbcType="INTEGER" property="resourceType" />
     <result column="resource_parent_id" jdbcType="INTEGER" property="resourceParentId" />
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    resoure_id, resoure_name, resoure_url, resource_type, resource_parent_id, resource_sort
+    resoure_id, name, resoure_url, resource_type, resource_parent_id, resource_sort
   </sql>
   <select id="selectByExample" parameterType="com.lh.pojo.ResourceExample" resultMap="BaseResultMap">
     select
@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from resource
     where resoure_id = #{resoureId,jdbcType=INTEGER}
@@ -101,12 +101,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.lh.pojo.Resource">
-    insert into resource (resoure_id, resoure_name, resoure_url, 
-      resource_type, resource_parent_id, resource_sort
-      )
-    values (#{resoureId,jdbcType=INTEGER}, #{resoureName,jdbcType=VARCHAR}, #{resoureUrl,jdbcType=VARCHAR}, 
-      #{resourceType,jdbcType=INTEGER}, #{resourceParentId,jdbcType=INTEGER}, #{resourceSort,jdbcType=INTEGER}
-      )
+    insert into resource (resoure_id, name, resoure_url,
+    resource_type, resource_parent_id, resource_sort
+    )
+    values (#{resoureId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{resoureUrl,jdbcType=VARCHAR},
+    #{resourceType,jdbcType=INTEGER}, #{resourceParentId,jdbcType=INTEGER}, #{resourceSort,jdbcType=INTEGER}
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.lh.pojo.Resource">
     insert into resource
@@ -114,8 +114,8 @@
       <if test="resoureId != null">
         resoure_id,
       </if>
-      <if test="resoureName != null">
-        resoure_name,
+      <if test="name != null">
+        name,
       </if>
       <if test="resoureUrl != null">
         resoure_url,
@@ -134,8 +134,8 @@
       <if test="resoureId != null">
         #{resoureId,jdbcType=INTEGER},
       </if>
-      <if test="resoureName != null">
-        #{resoureName,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="resoureUrl != null">
         #{resoureUrl,jdbcType=VARCHAR},
@@ -163,8 +163,8 @@
       <if test="record.resoureId != null">
         resoure_id = #{record.resoureId,jdbcType=INTEGER},
       </if>
-      <if test="record.resoureName != null">
-        resoure_name = #{record.resoureName,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.resoureUrl != null">
         resoure_url = #{record.resoureUrl,jdbcType=VARCHAR},
@@ -186,11 +186,11 @@
   <update id="updateByExample" parameterType="map">
     update resource
     set resoure_id = #{record.resoureId,jdbcType=INTEGER},
-      resoure_name = #{record.resoureName,jdbcType=VARCHAR},
-      resoure_url = #{record.resoureUrl,jdbcType=VARCHAR},
-      resource_type = #{record.resourceType,jdbcType=INTEGER},
-      resource_parent_id = #{record.resourceParentId,jdbcType=INTEGER},
-      resource_sort = #{record.resourceSort,jdbcType=INTEGER}
+    name = #{record.name,jdbcType=VARCHAR},
+    resoure_url = #{record.resoureUrl,jdbcType=VARCHAR},
+    resource_type = #{record.resourceType,jdbcType=INTEGER},
+    resource_parent_id = #{record.resourceParentId,jdbcType=INTEGER},
+    resource_sort = #{record.resourceSort,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -198,8 +198,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.lh.pojo.Resource">
     update resource
     <set>
-      <if test="resoureName != null">
-        resoure_name = #{resoureName,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="resoureUrl != null">
         resoure_url = #{resoureUrl,jdbcType=VARCHAR},
@@ -218,7 +218,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lh.pojo.Resource">
     update resource
-    set resoure_name = #{resoureName,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
       resoure_url = #{resoureUrl,jdbcType=VARCHAR},
       resource_type = #{resourceType,jdbcType=INTEGER},
       resource_parent_id = #{resourceParentId,jdbcType=INTEGER},
@@ -227,10 +227,21 @@
   </update>
 
   <select id="loadPersonResources" parameterType="java.util.HashMap" resultMap="BaseResultMap">
-    SELECT re.resoure_id,re.resoure_name,re.resource_parent_id,re.resoure_url
+    SELECT re.resoure_id,re.name,re.resource_parent_id,re.resoure_url
     FROM resource re LEFT JOIN role_resource rr
     ON re.resoure_id = rr.resoure_id
     WHERE rr.role_id=#{roleId}
+    ORDER BY re.resource_sort ASC
+  </select>
+
+
+  <select id="queryResourcesListWithSelected" parameterType="int" resultMap="BaseResultMap">
+    SELECT re.resoure_id,re.name,re.resource_parent_id,re.resoure_url,re.resource_type,
+    (CASE WHEN EXISTS(SELECT 1
+    FROM role_resource rr WHERE rr.resoure_id=re.resoure_id AND rr.role_id=#{rid})
+    THEN 'true' ELSE 'false' END) AS checked
+    FROM resource re
+    WHERE re.resource_parent_id !=0
     ORDER BY re.resource_sort ASC
   </select>
 </mapper>

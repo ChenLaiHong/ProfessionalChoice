@@ -6,9 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface ResourceMapper {
     long countByExample(ResourceExample example);
 
@@ -31,6 +29,8 @@ public interface ResourceMapper {
     int updateByPrimaryKeySelective(Resource record);
 
     int updateByPrimaryKey(Resource record);
+
+    List<Resource> queryResourcesListWithSelected(Integer rid);
 
     List<Resource> loadPersonResources(Map<String, Object> map);
 }

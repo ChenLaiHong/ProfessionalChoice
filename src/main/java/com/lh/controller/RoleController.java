@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import com.lh.pojo.Role;
 import com.lh.pojo.PageBean;
 import com.lh.pojo.Result;
+import com.lh.pojo.RoleResource;
+import com.lh.service.RoleResourceService;
 import com.lh.service.RoleService;
 import com.lh.utils.ResponseUtil;
 import com.lh.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,6 +33,8 @@ public class RoleController {
 
     @Autowired
     private RoleService roleService;
+    @Autowired
+    private RoleResourceService roleResourceService;
     @RequestMapping("/list")
     public String list(@RequestParam(value = "page", required = false) String page,
                        @RequestParam(value = "limit", required = false) String rows,
@@ -112,5 +117,17 @@ public class RoleController {
         return null;
     }
 
-
+    //分配角色
+    @RequestMapping("/saveRoleResources")
+    public String saveRoleResources(RoleResource roleResource){
+        if(StringUtils.isEmpty(roleResource.getRoleId()))
+            return "error";
+        try {
+            roleResourceService.addRoleResource(roleResource);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
 }
