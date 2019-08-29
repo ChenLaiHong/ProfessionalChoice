@@ -3,7 +3,7 @@ package com.lh.pojo;
 public class RoleResource {
     private Integer roleId;
 
-    private Integer resoureId;
+    private String resoureId;
 
     public Integer getRoleId() {
         return roleId;
@@ -13,11 +13,11 @@ public class RoleResource {
         this.roleId = roleId;
     }
 
-    public Integer getResoureId() {
+    public String getResoureId() {
         return resoureId;
     }
 
-    public void setResoureId(Integer resoureId) {
+    public void setResoureId(String resoureId) {
         this.resoureId = resoureId;
     }
 }
