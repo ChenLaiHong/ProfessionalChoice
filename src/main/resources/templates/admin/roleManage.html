@@ -17,7 +17,7 @@
     <link href="/css/manage_base.css" rel="stylesheet"/>
     <!-- 引入manage 的基础css -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/matrix-style.css"/>
+    <!--<link rel="stylesheet" href="/css/matrix-style.css"/>-->
     <link rel="stylesheet" href="/css/metroStyle.css" type="text/css">
 
 
@@ -277,7 +277,6 @@
         });
     </script>
 
-    <script src="/js/layer.js"></script>
     <script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="/js/jquery.ztree.core.js"></script>
     <script type="text/javascript" src="/js/jquery.ztree.excheck.js"></script>
@@ -326,7 +325,7 @@
             console.log(checkNode[0].resoureId+"////////////")
             var ids = new Array();
             for (var i = 0; i < checkNode.length; i++) {
-                ids.push(checkNode[i].id);
+                ids.push(checkNode[i].resoureId);
             }
             $.ajax({
                 async: false,

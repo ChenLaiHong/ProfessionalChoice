@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,6 +120,7 @@ public class RoleController {
 
     //分配角色
     @RequestMapping("/saveRoleResources")
+    @ResponseBody
     public String saveRoleResources(RoleResource roleResource){
         if(StringUtils.isEmpty(roleResource.getRoleId()))
             return "error";

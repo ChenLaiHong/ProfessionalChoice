@@ -21,6 +21,7 @@ public class RoleResourceServiceImpl implements RoleResourceService{
         RoleResourceExample roleResourceExample = new RoleResourceExample();
         RoleResourceExample.Criteria criteria = roleResourceExample.createCriteria();
         criteria.andRoleIdEqualTo(roleResource.getRoleId());
+
         roleResourceMapper.deleteByExample(roleResourceExample);
         //添加
         if(!StringUtils.isEmpty(roleResource.getResoureId())){
