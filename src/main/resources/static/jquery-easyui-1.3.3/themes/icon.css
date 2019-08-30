@@ -85,9 +85,14 @@
 }
 
 .icon-bklb{
-	background:url('usericons/bklb.png') no-repeat center center;
+	background:url('usericons/role.png') no-repeat center center;
 }
-
+.icon-dept{
+	background:url('usericons/dept.png') no-repeat center center;
+}
+.icon-grade{
+	background:url('usericons/grade.png') no-repeat center center;
+}
 .icon-plgl{
 	background:url('usericons/plgl.png') no-repeat center center;
 }

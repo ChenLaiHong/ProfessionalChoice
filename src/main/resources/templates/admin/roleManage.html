@@ -190,9 +190,9 @@
 <div class="layui-form" style=" ">
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
-            <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加
+            <button shiro:hasPermission="/addRole" onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加
             </button>
-            <!--<button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>-->
+            <!--<button shiro:hasPermission="/addDepartment" type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>-->
 
         </div>
 
@@ -209,8 +209,7 @@
     <table class="layui-hide" id="table" lay-filter="table"></table>
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-
+            <a shiro:hasPermission="/editRole" class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
             <a class="layui-btn layui-btn-xs" lay-event="edit_resource">分配权限</a>
         </div>
     </script>

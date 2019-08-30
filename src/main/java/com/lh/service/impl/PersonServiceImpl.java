@@ -31,11 +31,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person getUserName(String username) {
+    public Person getUserName(String username,int state) {
         PersonExample personExample = new PersonExample();
         personExample.createCriteria().andLoginIdEqualTo(username);
         List<Person> personList = personMapper.selectByExample(personExample);
-        if(personList.size()>0){
+        if(personList.size()>0 && personList.get(0).getRoleId() == state){
             return personList.get(0);
         }
         return null;

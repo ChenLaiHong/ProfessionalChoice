@@ -9,5 +9,5 @@ import com.lh.pojo.Person;
 public interface PersonService {
     Person login(String name, String password);
 
-    Person getUserName(String username);
+    Person getUserName(String username,int state);
 }

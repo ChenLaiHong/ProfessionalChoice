@@ -91,24 +91,26 @@ public class PageController {
     public String login(HttpServletRequest request, Map<String,Object> map,Model model) {
         String name = request.getParameter("adminName");
         String password = request.getParameter("adminPassword");
+        int state = Integer.parseInt(request.getParameter("state"));
+        request.getSession().setAttribute("state", state);
         //获取subject
         Subject subject = SecurityUtils.getSubject();
         //封装用户信息
         UsernamePasswordToken token = new UsernamePasswordToken(name, MdUtil.md5(password));
 
         try {
+
             subject.login(token);
             //登陆成功
 
-            HttpSession session=request.getSession();//获取session并将userName存入session对象
-            session.setAttribute("userName", name);
+            request.getSession().removeAttribute("state");
             List<Notice> list = noticeService.getAll();
             model.addAttribute("noticeInfo", list);
             return "/admin/AdminMain";
 
         }catch (UnknownAccountException e){
             //登陆用户名不存在
-            map.put("msg", "用户不存在!");
+            map.put("msg", "请检查用户名、密码、身份！");
 
         }catch (IncorrectCredentialsException e){
             //登陆失败，密码错误

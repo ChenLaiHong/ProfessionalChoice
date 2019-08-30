@@ -13,7 +13,11 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,16 +60,21 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         System.out.println("认证逻辑");
+        HttpServletRequest request =((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session=request.getSession();
+        int state= (int) session.getAttribute("state");
+        //
+
         //shiro判断逻辑，判断用户名和密码
         //1、判断用户名
         UsernamePasswordToken token = (UsernamePasswordToken)authenticationToken;
-        Person person = personService.getUserName(token.getUsername());
+        Person person = personService.getUserName(token.getUsername(),state);
 
         if(person == null){
             //用户不存在
             return null;//shiro底层会抛出UnKnowAccountException
         }
-
+        request.getSession().setAttribute("userName", person.getName());
         return new SimpleAuthenticationInfo(person,person.getPassword(), "");
     }
 }

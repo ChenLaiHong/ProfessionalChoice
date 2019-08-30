@@ -179,9 +179,9 @@
 
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
-            <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
-            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test3"><i class="layui-icon"></i>导入</button>
+            <button shiro:hasPermission="/addNotice" onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button shiro:hasPermission="/delNotice" type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
+            <button shiro:hasPermission="/addNotice" type="button" class="layui-btn layui-btn-normal layui-btn-sm" id="test3"><i class="layui-icon"></i>导入</button>
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -197,9 +197,8 @@
 
     <table class="layui-hide"   id="table" lay-filter="table"></table>
     <script type="text/html" id="table_bar">
-        <div class="layui-btn-group">
+        <div shiro:hasPermission="/editNotice" class="layui-btn-group">
             <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
-
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="set_state">修改状态</a>
         </div>
     </script>

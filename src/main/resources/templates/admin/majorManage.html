@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
@@ -191,11 +191,11 @@
 
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
-            <button onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
-            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" onclick="importFile()"><i class="layui-icon"></i>导入</button>
-            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" ><i class="layui-icon"></i><a href="/major/exportExcel">导出</a></button>
-            <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" ><i class="layui-icon"></i><a href="/major/exportExcelTel">导出模板</a></button>
+            <button shiro:hasPermission="/addMajor" onclick="add()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button shiro:hasPermission="/delMajor" type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
+            <button shiro:hasPermission="/addMajor" type="button" class="layui-btn layui-btn-normal layui-btn-sm" onclick="importFile()"><i class="layui-icon"></i>导入</button>
+            <button shiro:hasPermission="/exportMajor" type="button" class="layui-btn layui-btn-normal layui-btn-sm" ><i class="layui-icon"></i><a href="/major/exportExcel">导出</a></button>
+            <button shiro:hasPermission="/addMajor" type="button" class="layui-btn layui-btn-normal layui-btn-sm" ><i class="layui-icon"></i><a href="/major/exportExcelTel">导出模板</a></button>
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -210,7 +210,7 @@
     <table class="layui-hide"   id="table" lay-filter="table"></table>
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            <a shiro:hasPermission="/editMajor" class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="showDetail">查看介绍</a>
         </div>
     </script>
