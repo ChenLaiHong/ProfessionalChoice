@@ -75,6 +75,7 @@ public class UserRealm extends AuthorizingRealm {
             return null;//shiro底层会抛出UnKnowAccountException
         }
         request.getSession().setAttribute("userName", person.getName());
+        request.getSession().setAttribute("id", person.getLoginId());
         return new SimpleAuthenticationInfo(person,person.getPassword(), "");
     }
 }

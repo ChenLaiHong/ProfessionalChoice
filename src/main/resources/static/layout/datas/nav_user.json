@@ -1,0 +1,65 @@
+[
+	{
+		"title": "用户管理",
+		"icon": "&#x1002;",
+		"spread": false,
+		"children": [
+			{
+				"title": "用户列表",
+				"icon": "fa-check-square-o",
+				"href": "/index/showUserListPage"
+			}
+		]
+	},
+	{
+		"title": "理赔管理",
+		"icon": "&#x1002;",
+		"spread": false,
+		"children": [
+			{
+				"title": "理赔单位列表",
+				"icon": "fa-check-square-o",
+				"href": "/index/showClaimTypeListPage"
+			},
+			{
+				"title": "理赔问题列表",
+				"icon": "fa-check-square-o",
+				"href": "/index/showClaimProblemListPage"
+			},
+			{
+				"title": "背景图设置",
+				"icon": "fa-check-square-o",
+				"href": "/claimOther/showClaimOther"
+			},
+			{
+				"title": "网点文件列表",
+				"icon": "fa-check-square-o",
+				"href": "/index/showClaimOtherNetworkListPage"
+			}
+		]
+	},
+	{
+		"title": "邀请界面管理",
+		"icon": "&#x1002;",
+		"spread": false,
+		"children": [
+			{
+				"title": "内容展示",
+				"icon": "fa-check-square-o",
+				"href": "/invitation/showInvitation/invitationShowForm"
+			}
+		]
+	},
+	{
+		"title": "模版界面管理",
+		"icon": "&#x1002;",
+		"spread": false,
+		"children": [
+			{
+				"title": "模版内容",
+				"icon": "fa-check-square-o",
+				"href": "/template/forwardTemplateList"
+			}
+		]
+	}
+ ]
