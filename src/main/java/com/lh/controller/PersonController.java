@@ -10,6 +10,9 @@ import com.lh.service.StudentService;
 
 import com.lh.utils.DateUtil;
 import com.lh.utils.FileUploadUtil;
+import com.lh.utils.MdUtil;
+import com.lh.utils.ResponseUtil;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +68,7 @@ public class PersonController {
 //
 
     @RequestMapping("/saveInfo")
-    public String list(Person person,@RequestParam("personPhoto") MultipartFile file, HttpServletRequest request) throws Exception {
+    public String list(Person person,@RequestParam("personPhoto") MultipartFile file) throws Exception {
         if (!file.isEmpty()) {
 
             String imageName = DateUtil.getCurrentDateStr() + "."
@@ -92,6 +95,25 @@ public class PersonController {
         return "redirect:/person/toInfo";
     }
 
+    //修改密码
+    @RequestMapping("/modifyPassword")
+    public String modifyPassword( @RequestParam(value = "password") String password,@RequestParam(value = "newPassword") String newPassword, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject result1=new JSONObject();
+        Person person = studentService.findById((String) request.getSession().getAttribute("id"));
+        if(!person.getPassword().equals(MdUtil.md5(password))){
+            result1.put("false", false);
+        }else {
+            person.setPassword(MdUtil.md5(newPassword));
+            int result = studentService.update(person);
 
+            if (result > 0) {
+                result1.put("success", true);
+            } else {
+                result1.put("false", false);
+            }
+        }
+        ResponseUtil.write(response, result1);
+        return null;
+    }
 
 }

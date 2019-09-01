@@ -29,23 +29,18 @@
                 });
             }
         }
-        function logout(){
-            $.messager.confirm("系统提示","您确定要退出系统吗？",function(r){
-                if(r){
-                    window.location.href='${pageContext.request.contextPath}/admin/loginOut.do';
-                }
-            });
-        }
+
 
         function openPasswordModifyDialog(){
             $("#dlg").dialog("open").dialog("setTitle","修改密码");
-            url="${pageContext.request.contextPath}/admin/modifyPassword.do?adminId=${adminUser.adminId}";
+            url="/person/modifyPassword";
         }
 
         function modifyPassword(){
             $("#fm").form("submit",{
                 url:url,
                 onSubmit:function(){
+                    var password=$("#password").val();
                     var newPassword=$("#newPassword").val();
                     var newPassword2=$("#newPassword2").val();
                     if(!$(this).form("validate")){
@@ -53,6 +48,10 @@
                     }
                     if(newPassword!=newPassword2){
                         $.messager.alert("系统提示","确认密码输入错误！");
+                        return false;
+                    }
+                    if(password == ""){
+                        $.messager.alert("系统提示","原密码不能为空！");
                         return false;
                     }
                     return true;
@@ -64,7 +63,7 @@
                         resetValue();
                         $("#dlg").dialog("close");
                     }else{
-                        $.messager.alert("系统提示","密码修改失败！");
+                        $.messager.alert("系统提示","原密码不正确！");
                         return;
                     }
                 }
@@ -134,7 +133,7 @@
 
         <div title="信息查询"  data-options="iconCls:'icon-system'" style="padding:10px">
             <a  href="javascript:openPasswordModifyDialog()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-modifyPassword'" style="width: 150px;">修改密码</a>
-            <a href="javascript:openTab('个人信息','person/toInfo','icon-plgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'" style="width: 150px;">个人信息</a>
+            <a href="javascript:openTab('个人信息','person/toInfo','icon-plgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-info'" style="width: 150px;">个人信息</a>
         </div>
     </div>
 </div>
@@ -147,8 +146,8 @@
     <form id="fm" method="post">
         <table cellspacing="8px">
             <tr>
-                <td>用户名：</td>
-                <td><input type="text" id="userName" name="userName" readonly="readonly" value="${adminUser.adminName}" style="width: 200px"/></td>
+                <td>旧密码：</td>
+                <td><input type="password" id="password" name="password" style="width: 200px"/></td>
             </tr>
             <tr>
                 <td>新密码：</td>

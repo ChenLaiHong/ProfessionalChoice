@@ -122,6 +122,10 @@
 	background:url('usericons/exit.png') no-repeat center center;
 }
 
+.icon-info{
+	background:url('usericons/info.png') no-repeat center center;
+}
+
 .icon-submit{
 	background:url('usericons/submit.png') no-repeat center center;
 }

@@ -85,19 +85,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">联系电话</label>
             <div class="layui-input-block">
-                <input type="text" id="phone" name="phone" autocomplete="off" th:value="${person.phone}" v-model="phone" class="layui-input">
+                <input type="text" id="phone" name="phone" autocomplete="off" th:value="${person.phone}" v-model="phone" class="layui-input" placeholder="请输入手机" lay-verify="phone">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">邮箱</label>
             <div class="layui-input-block">
-                <input type="text" id="email" name="email" autocomplete="off" th:value="${person.email}" v-model="email"  class="layui-input">
+                <input type="text" id="email" name="email" autocomplete="off" th:value="${person.email}" v-model="email"  class="layui-input" placeholder="请输入邮箱" lay-verify="email">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">QQ号</label>
             <div class="layui-input-block">
-                <input type="text" id="qqNumber" name="qqNumber" autocomplete="off" th:value="${person.qqNumber}" v-model="qqNumber"  class="layui-input">
+                <input type="text" id="qqNumber" name="qqNumber" autocomplete="off" th:value="${person.qqNumber}" v-model="qqNumber"  class="layui-input" placeholder="请输入QQ号" lay-verify="number">
             </div>
         </div>
         <div class="layui-form-item">
