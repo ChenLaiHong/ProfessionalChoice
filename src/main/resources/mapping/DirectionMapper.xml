@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.dao.DirectionMapper">
+
+    <select id="listDirection" resultType="direction" parameterType="direction">
+        select d.*,g.grade_name from direction d inner JOIN grade g
+        on g.grade_id = d.grade_id
+        <where>
+            <if test="deleteFlag != null">
+                and d.delete_flag = 0
+            </if>
+            <if test="majorId != null">
+                and d.major_id = #{majorId}
+            </if>
+            <if test="name != null">
+                and name LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
