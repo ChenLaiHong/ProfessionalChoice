@@ -12,14 +12,14 @@ import java.util.List;
 public interface DirectionMapper {
 
     /**
-     * 添加专业方向
+     * 添加专业方向大
      * @param direction
      * @return
      */
     @Insert("insert direction (name, details," +
-            "operation_username, major_id, grade_id, create_time, update_time, delete_flag) values" +
+            "operation_username, major_id, grade_id, create_time, update_time, delete_flag, limit_number, selected_number) values" +
             "(#{name}, #{details}, #{operationUsername}, #{majorId}, " +
-            "#{gradeId}, #{createTime}, #{updateTime}, #{deleteFlag})")
+            "#{gradeId}, #{createTime}, #{updateTime}, #{deleteFlag}, #{limitNumber}, #{selectedNumber})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
     int insertDirection(Direction direction);
 
@@ -29,7 +29,7 @@ public interface DirectionMapper {
      * @return
      */
     @Update("update direction set name = #{name}, details =  #{details}," +
-            "update_time = #{updateTime}, grade_id = #{gradeId} where id = #{id}")
+            "update_time = #{updateTime}, grade_id = #{gradeId}, limit_number = #{limitNumber} where id = #{id}")
     int updateDirection(Direction direction);
 
     /**

@@ -59,4 +59,14 @@ public class Direction {
      * 方向是否删除的标志
      */
     private boolean deleteFlag;
+
+    /**
+     * 限选人数
+     */
+    private Integer limitNumber;
+
+    /**
+     * 已选人数
+     */
+    private Integer selectedNumber;
 }

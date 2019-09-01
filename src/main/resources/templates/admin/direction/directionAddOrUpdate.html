@@ -32,14 +32,13 @@
             // 获取专业Id
             var majorId = $("#majorId").val();
             var save_url = document.getElementById("save_url").value;
-            console.log(app.departmentName+"*******************************"+app.majorYear)
+
             $.post(save_url, {
                  name: app.name
                 ,majorId: majorId
                 ,details: app.details
+                ,limitNumber: app.limitNumber
                 ,gradeId:$("#gradeId").val()
-
-
             },function(result){
                 if(result.success){
                     //调用 父窗口的  关闭所有窗口 并且刷新 页面
@@ -89,6 +88,13 @@
                     </td>
                 </select>
 
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">限选人数</label>
+            <div class="layui-input-block">
+                <input type="text" id="limitNumber" name="limitNumber" autocomplete="off" th:value="${direction !=null? direction.limitNumber:''}" v-model="limitNumber" limitNumber="请输入限选人数" class="layui-input">
             </div>
         </div>
 
