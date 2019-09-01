@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication(scanBasePackages = {"com.lh"})
 @RestController
 @MapperScan("com.lh.dao")
-public class App 
-{
+public class App {
 
-    public static void main( String[] args )
-    {
-
+    public static void main( String[] args ) {
         SpringApplication.run(App.class,args);
     }
 }
