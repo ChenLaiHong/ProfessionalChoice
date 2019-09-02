@@ -79,7 +79,7 @@ public class ChoiceTaskController {
 
     @RequestMapping("save")
     @ResponseBody
-    public Result saveChoiceTask(ChoiceTask choiceTask, HttpServletRequest request) {
+    public Result saveChoiceTask(ChoiceTask choiceTask, HttpServletRequest request, String time) {
         // 创建人名
         choiceTask.setCreateUsername((String) request.getSession().getAttribute("userName"));
         return res(choiceTaskService.insertChoiceTask(choiceTask));

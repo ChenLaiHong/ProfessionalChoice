@@ -12,12 +12,10 @@
     <script type="text/javascript" src="/js/jquery.min.js"></script>
     <!--添加  vue.js 支持加载-->
     <script>
-
         function save(){
             var index = layer.load(1, {
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
-
             var save_url = document.getElementById("save_url").value;
             console.log("开始时间" + startTimeValue)
             console.log("jies时间" + endTimeValue)
@@ -35,7 +33,6 @@
                     layer.msg(result.msg);
                 }
             },'json');
-
         }
     </script>
     <style>
@@ -58,7 +55,7 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="color: #00bbee">开始时间</label>
+            <label class="layui-form-label" style="color: #00bbee">结束时间</label>
             <div class="layui-input-block">
                 <input type="text" id="endTime" name="endTime" autocomplete="off" v-model="endTime"  class="layui-input">
             </div>
@@ -133,24 +130,20 @@
             , carousel = layui.carousel //轮播
             , upload = layui.upload //上传
             , element = layui.element; //元素操作
-
         // 渲染日期组件
         laydate.render({
             elem: '#startTime',
             type: 'datetime',
             format: 'yyyy-MM-dd HH:mm:ss',
-            value: new Date(st),
             done: function (value, date, endDate) {
                 startTimeValue = value;
             }
         })
-
         // 渲染日期组件
         laydate.render({
             elem: '#endTime',
             type: 'datetime',
             format: 'yyyy-MM-dd HH:mm:ss',
-            value: new Date(et),
             done: function (value, date, endDate) {
                 endTimeValue = value;
             }
@@ -161,10 +154,8 @@
     var app = new Vue({
         el : '#app',
         data : {
-
         }
     });
-
 </script>
 
 

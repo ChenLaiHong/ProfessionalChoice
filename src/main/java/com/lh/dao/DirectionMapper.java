@@ -58,5 +58,12 @@ public interface DirectionMapper {
     @Select("select * from direction where id = #{id} and delete_flag = 0")
     Direction getDirectionById(int id);
 
+    @Select("select d.* from direction d \n" +
+            "inner join choice_task ct\n" +
+            "on d.major_id = ct.major_id\n" +
+            "and d.grade_id = ct.grade_id\n" +
+            "where ct.id = #{id}")
+    List<Direction> listDirectionByChoiceTaskId(int id);
+
 
 }

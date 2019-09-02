@@ -7,12 +7,17 @@ package com.lh.utils;
 public class RedisKey {
 
     /**
-     * 选课任务哈希集合的Key
+     * 缓存选课任务哈希集合的Key
      */
     public static final String CHOICE_TASK = "choiceTask";
 
     /**
-     * 保存用户信息的哈希集合Key
+     * 缓存用户信息的哈希集合Key
      */
     public static final String USER = "user";
+
+    /**
+     * 缓存用户的选择方向信息的哈希集合Key
+     */
+    public static final String USER_CHOICE = "userChoice";
 }

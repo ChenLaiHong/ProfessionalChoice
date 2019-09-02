@@ -69,6 +69,7 @@ public class DirectionController {
         // 查询数据
         Direction direction= new Direction();
         direction.setName(queryKey);
+        direction.setMajorId(majorId);
         PageInfo<Direction> pageInfo = directionService.listDirection(direction, myPageInfo);
 
         // 返回给前台的数据

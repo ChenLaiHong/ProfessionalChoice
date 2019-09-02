@@ -15,6 +15,9 @@
             <if test="name != null">
                 and name LIKE CONCAT('%',#{name},'%')
             </if>
+            <if test="majorId != null">
+                and major_id = #{majorId}
+            </if>
         </where>
     </select>
 </mapper>
