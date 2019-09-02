@@ -212,6 +212,7 @@
         <div class="layui-btn-group">
             <a shiro:hasPermission="/editMajor" class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="showDetail">查看介绍</a>
+            <a shiro:hasPermission="/directionManager" class="layui-btn layui-btn-xs" lay-event="directionManager">方向管理</a>
         </div>
     </script>
 
@@ -266,9 +267,11 @@
                     edit(data.majorId);
                 }else if(layEvent === 'showDetail'){
                     showDetail(data.majorId);
+                } else if(layEvent === 'directionManager') {
+                    console.log("adadadad00")
+                    window.location.href="/direction/page?majorId=" + data.majorId
                 }
             });
-
 
             //监听单元格编辑
             table.on('edit(table)', function(obj){

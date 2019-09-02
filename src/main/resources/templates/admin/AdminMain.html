@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <title>后台主页</title>
 
@@ -120,7 +120,7 @@
             <a shiro:hasPermission="/toStudent" href="javascript:openTab('学生管理','toStudent','icon-stu')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stu'" style="width: 150px">学生管理</a>
             <a shiro:hasPermission="/toTeacher" href="javascript:openTab('教职工管理','toTeacher','icon-tea')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tea'" style="width: 150px">教职工管理</a>
             <a shiro:hasPermission="/toMajor" href="javascript:openTab('专业管理','toMajor','icon-big')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-big'" style="width: 150px;">专业管理</a>
-            <a shiro:hasPermission="/toDirection" href="javascript:openTab('专业方向管理','toReleasesOut.do','icon-small')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-small'" style="width: 150px;">专业方向管理</a>
+            <a shiro:hasPermission="/choiceTask/page" href="javascript:openTab('方向选报任务管理','choiceTask/page','icon-small')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-small'" style="width: 150px;">方向选报任务管理</a>
             <a shiro:hasPermission="/toGrade" href="javascript:openTab('年级管理','toGrade','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-grade'" style="width: 150px;">年级管理</a>
             <a shiro:hasPermission="/toDepartment" href="javascript:openTab('院系管理','toDepartment','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-dept'" style="width: 150px;">院系管理</a>
             <a shiro:hasRole ="管理员" href="javascript:openTab('角色管理','toRole','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">角色管理</a>
