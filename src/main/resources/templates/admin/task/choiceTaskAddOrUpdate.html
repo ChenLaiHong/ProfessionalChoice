@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- 加入移动布局 -->
+    <meta name="viewport"	content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no" />
+    <!-- 加入移动布局 -->
+    <!--添加  vue.js 支持加载-->
+    <script src="/js/vue.min.js"></script>
+    <script	src="/layui/layui/layui.js"></script>
+    <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <!--添加  vue.js 支持加载-->
+    <script>
+
+        function save(){
+            var index = layer.load(1, {
+                shade: [0.1,'#fff'] //0.1透明度的白色背景
+            });
+
+            var save_url = document.getElementById("save_url").value;
+            console.log("开始时间" + startTimeValue)
+            console.log("jies时间" + endTimeValue)
+            $.post(save_url, {
+                startTime: startTimeValue
+                ,endTime: endTimeValue
+                ,gradeId: $("#gradeId").val()
+                ,majorId: $("#majorId").val()
+            },function(result){
+                if(result.success){
+                    //调用 父窗口的  关闭所有窗口 并且刷新 页面
+                    window.parent.closeDlg(result.msg);
+                }else{
+                    layer.closeAll();//关闭loading
+                    layer.msg(result.msg);
+                }
+            },'json');
+
+        }
+    </script>
+    <style>
+        html, body {
+        }
+        .layui-form-item {
+            margin-bottom: 3px;
+        }
+    </style>
+</head>
+<body id="app">
+<div style="padding: 10px;">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" id="save_url" th:value="${save_url}" >
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="startTime" name="startTime" autocomplete="off" v-model="startTime"  class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" id="endTime" name="endTime" autocomplete="off" v-model="endTime"  class="layui-input">
+            </div>
+        </div>
+
+
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">选报方向年级</label>
+            <div class="layui-input-block">
+                <select  id="gradeId" name="gradeId" v-model="gradeId">
+                    <td th:if="${choiceTask != null}">
+                        <option th:selected="${choiceTask.gradeId eq supplier.gradeId}"
+                                th:each="supplier:${gradeList}"
+                                th:value="${supplier.gradeId}"
+                                th:text="${supplier.gradeName}" >
+                        </option>
+                    </td>
+
+                    <td th:if="${choiceTask == null}">
+                        <option th:each="grade : ${gradeList}" th:text="${grade.gradeName}" th:value="${grade.gradeId}"></option>
+                    </td>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="color: #00bbee">选报方向专业</label>
+            <div class="layui-input-block">
+                <select  id="majorId" name="majorId" v-model="majorId">
+                    <td th:if="${choiceTask != null}">
+                        <option th:selected="${choiceTask.majorId eq supplier.majorId}"
+                                th:each="supplier:${majorList}"
+                                th:value="${supplier.majorId}"
+                                th:text="${supplier.majorName}" >
+                        </option>
+                    </td>
+
+                    <td th:if="${choiceTask == null}">
+                        <option th:each="major : ${majorList}" th:text="${major.majorName}" th:value="${major.majorId}"></option>
+                    </td>
+                </select>
+
+            </div>
+        </div>
+    </form>
+    <div class="site-demo-button" style="margin-top: 20px;">
+        <button id="save" onclick="save()" class="layui-btn site-demo-layedit" data-type="content" th:text="${btn_text}"></button>
+    </div>
+
+    <!-- 开始时间 -->
+    <input type="hidden" id="updateStartTime" name="updateStartTime" th:value="${choiceTask !=null ? choiceTask.startTimeLong : '1534766888000'}">
+    <!-- 结束时间 -->
+    <input type="hidden" id="updateEndTime" name="updateEndTime" th:value="${choiceTask !=null ? choiceTask.endTimeLong : '1534766888000'}">
+</div>
+
+
+<script>
+    var startTimeValue;
+    var endTimeValue;
+    var st = $("#updateStartTime").val()
+    console.log("st=" + st);
+    var et = $("#updateEndTime").val()
+    console.log("et=" + st)
+    layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
+        'upload', 'element'], function() {
+        var laydate = layui.laydate //日期
+            , laypage = layui.laypage //分页
+        layer = layui.layer //弹层
+            , table = layui.table //表格
+            , carousel = layui.carousel //轮播
+            , upload = layui.upload //上传
+            , element = layui.element; //元素操作
+
+        // 渲染日期组件
+        laydate.render({
+            elem: '#startTime',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            value: new Date(st),
+            done: function (value, date, endDate) {
+                startTimeValue = value;
+            }
+        })
+
+        // 渲染日期组件
+        laydate.render({
+            elem: '#endTime',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            value: new Date(et),
+            done: function (value, date, endDate) {
+                endTimeValue = value;
+            }
+        })
+    });
+</script>
+<script>
+    var app = new Vue({
+        el : '#app',
+        data : {
+
+        }
+    });
+
+</script>
+
+
+</body>
+</html>

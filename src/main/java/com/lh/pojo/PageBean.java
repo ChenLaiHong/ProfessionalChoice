@@ -1,6 +1,9 @@
 package com.lh.pojo;
 
 
+import lombok.Data;
+
+@Data
 public class PageBean {
 
 	private int page;
