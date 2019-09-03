@@ -97,6 +97,11 @@ public class TaskSelectedController {
 
         // 查询出方向
         List<Direction> directionList = directionMapper.listDirectionByChoiceTaskId(id);
+        // 从redis查询方向的已选人数
+        for (Direction direction : directionList) {
+            int num = (Integer)redisUtil.get(RedisKey.DIRECTION_SELECTED + String.valueOf(direction.getId()));
+            direction.setSelectedNumber(num);
+        }
         modelAndView.addObject("directionList", directionList);
         modelAndView.addObject("btn_text", "选择方向");
         modelAndView.setViewName("/admin/selected/taskSelectedAddOrUpdate");

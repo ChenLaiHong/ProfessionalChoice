@@ -48,19 +48,19 @@
         <input type="hidden" id="save_url" th:value="${save_url}" >
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="color: #00bbee">选报方向年级</label>
+            <label class="layui-form-label" style="color: #00bbee">选报方向</label>
             <div class="layui-input-block">
                 <select  id="gradeId" name="gradeId" v-model="gradeId">
                     <td th:if="${task != null}">
                         <option th:selected="${task.directionId eq supplier.id}"
                                 th:each="supplier:${directionList}"
                                 th:value="${supplier.id}"
-                                th:text="${supplier.name}" >
+                                th:text="${supplier.name} + '        限选人数 ' + ${supplier.limitNumber} + '    已选人数 ' + ${supplier.selectedNumber}" >
                         </option>
                     </td>
 
                     <td th:if="${task == null}">
-                        <option th:each="grade : ${directionList}" th:text="${grade.name}" th:value="${grade.id}"></option>
+                        <option th:each="grade : ${directionList}" th:text="${grade.name} + '        限选人数 ' + ${grade.limitNumber} + '    已选人数 ' + ${grade.selectedNumber}" th:value="${grade.id}"></option>
                     </td>
                 </select>
 

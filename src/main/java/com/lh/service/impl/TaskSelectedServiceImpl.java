@@ -64,25 +64,34 @@ public class TaskSelectedServiceImpl implements TaskSelectedService {
          * 等于0，将表示该方向还是可以选的
          * redis的decr命令是并发安全的
          */
-        Long number = redisUtil.decr(String.valueOf(taskSelected.getDirectionId()), 1);
+        Long number = redisUtil.decr(RedisKey.DIRECTION_LIMIT + String.valueOf(taskSelected.getDirectionId()), 1);
         // 人数已满，选方向失败
         if (number < 0) {
             result.setSuccess(false);
             result.setMsg("方向人数已满，选择失败");
             return result;
         }
-
-        // 将选方向信息保存进数据库
-        taskSelected.setCreateTime(new Date());
-        taskSelected.setUpdateTime(new Date());
-        taskSelected.setUserId(user.getLoginId());
-        int num = taskSelectedMapper.insertTaskSelected(taskSelected);
-        // 选方向成功，查询出详细数据保存进redis
-        TaskSelected queryResult = taskSelectedMapper.getTaskSelectedById(taskSelected.getId());
-        // key为学生信息id，value为选方向数据
-        redisUtil.hset(RedisKey.USER_CHOICE, queryResult.getUserId(), JSON.toJSONString(queryResult));
-        result.setSuccess(true);
-        result.setMsg("选择成功");
+        try {
+            // 将选方向信息保存进数据库
+            taskSelected.setCreateTime(new Date());
+            taskSelected.setUpdateTime(new Date());
+            taskSelected.setUserId(user.getLoginId());
+            int num = taskSelectedMapper.insertTaskSelected(taskSelected);
+            // 选方向成功，查询出详细数据保存进redis
+            TaskSelected queryResult = taskSelectedMapper.getTaskSelectedById(taskSelected.getId());
+            // key为学生信息id，value为选方向数据
+            redisUtil.hset(RedisKey.USER_CHOICE, queryResult.getUserId(), JSON.toJSONString(queryResult));
+            result.setSuccess(true);
+            result.setMsg("选择成功");
+            // 已选人数加1
+            redisUtil.incr(RedisKey.DIRECTION_SELECTED + String.valueOf(taskSelected.getDirectionId()), 1);
+        } catch (Exception e) {
+            // 保存失败，撤销redis修改的数据
+            redisUtil.decr(RedisKey.DIRECTION_SELECTED + String.valueOf(taskSelected.getDirectionId()), 1);
+            redisUtil.incr(RedisKey.DIRECTION_LIMIT + String.valueOf(taskSelected.getDirectionId()), 1);
+            result.setSuccess(false);
+            result.setMsg("发生未知错误，选课失败");
+        }
         return result;
     }
 
@@ -123,23 +132,43 @@ public class TaskSelectedServiceImpl implements TaskSelectedService {
          * 等于0，将表示该方向还是可以选的
          * redis的decr命令是并发安全的
          */
-        Long number = redisUtil.decr(String.valueOf(taskSelected.getDirectionId()), 1);
+        Long number = redisUtil.decr(RedisKey.DIRECTION_LIMIT + String.valueOf(taskSelected.getDirectionId()), 1);
         // 人数已满，选方向失败
         if (number < 0) {
             result.setSuccess(false);
             result.setMsg("方向人数已满，选择失败");
             return result;
+        } else {
+            redisUtil.incr(RedisKey.DIRECTION_SELECTED + String.valueOf(taskSelected.getDirectionId()), 1);
         }
 
-        // 将选方向信息保存进数据库
-        taskSelected.setUpdateTime(new Date());
-        int num = taskSelectedMapper.updateTaskSelected(taskSelected);
-        // 修改选方向成功，查询出详细数据保存进redis
-        TaskSelected queryResult = taskSelectedMapper.getTaskSelectedById(taskSelected.getId());
-        // key为学生信息id，value为选方向数据
-        redisUtil.hset(RedisKey.USER_CHOICE, queryResult.getUserId(), JSON.toJSONString(queryResult));
-        result.setSuccess(true);
-        result.setMsg("修改成功");
+        // 选择新方向成功，查询出旧数据
+        TaskSelected beforeTaskSelected = taskSelectedMapper.getBeforeTaskSelectedById(taskSelected.getId());
+        // 修改原来选择的方向的redis数据
+        // 减少已选择人数
+        redisUtil.decr(RedisKey.DIRECTION_SELECTED + String.valueOf(beforeTaskSelected.getDirectionId()), 1);
+        // 增加限制人数
+        redisUtil.incr(RedisKey.DIRECTION_LIMIT + String.valueOf(beforeTaskSelected.getDirectionId()), 1);
+
+        try {
+            // 将选方向信息保存进数据库
+            taskSelected.setUpdateTime(new Date());
+            int num = taskSelectedMapper.updateTaskSelected(taskSelected);
+            // 修改选方向成功，查询出详细数据保存进redis
+            TaskSelected queryResult = taskSelectedMapper.getTaskSelectedById(taskSelected.getId());
+            // key为学生信息id，value为选方向数据
+            redisUtil.hset(RedisKey.USER_CHOICE, queryResult.getUserId(), JSON.toJSONString(queryResult));
+            result.setSuccess(true);
+            result.setMsg("修改成功");
+        } catch (Exception e) {
+            // 修改失败，撤销redis的数据
+            redisUtil.decr(RedisKey.DIRECTION_SELECTED + String.valueOf(taskSelected.getDirectionId()), 1);
+            redisUtil.incr(RedisKey.DIRECTION_LIMIT + String.valueOf(taskSelected.getDirectionId()), 1);
+            redisUtil.incr(RedisKey.DIRECTION_SELECTED + String.valueOf(beforeTaskSelected.getDirectionId()), 1);
+            redisUtil.decr(RedisKey.DIRECTION_LIMIT + String.valueOf(beforeTaskSelected.getDirectionId()), 1);
+            result.setSuccess(false);
+            result.setMsg("发生未知错误，选课失败");
+        }
         return result;
     }
 

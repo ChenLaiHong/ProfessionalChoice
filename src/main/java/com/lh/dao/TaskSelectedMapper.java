@@ -28,5 +28,8 @@ public interface TaskSelectedMapper {
             "where ts.id = #{id}")
     TaskSelected getTaskSelectedById(int id);
 
+    @Select("select * from task_selected where id = #{id}")
+    TaskSelected getBeforeTaskSelectedById(int id);
+
 
 }

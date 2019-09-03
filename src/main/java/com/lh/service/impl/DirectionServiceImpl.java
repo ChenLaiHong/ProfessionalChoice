@@ -30,9 +30,12 @@ public class DirectionServiceImpl implements DirectionService {
     public int insertDirection(Direction direction) {
         direction.setCreateTime(new Date());
         direction.setUpdateTime(new Date());
+        direction.setSelectedNumber(0);
         int num = directionMapper.insertDirection(direction);
         // 方向添加成功，将方向的限制人数添加到Redis，key为方向id，value为方向限选人数
-        redisUtil.incr(String.valueOf(direction.getId()), direction.getLimitNumber());
+        redisUtil.incr(RedisKey.DIRECTION_LIMIT + String.valueOf(direction.getId()), direction.getLimitNumber());
+        // 选课初始人数，方向刚添加，人数仍为0
+        redisUtil.incr(RedisKey.DIRECTION_SELECTED + String.valueOf(direction.getId()), 0);
         return num;
     }
 
@@ -44,7 +47,7 @@ public class DirectionServiceImpl implements DirectionService {
         direction = directionMapper.getDirectionById(direction.getId());
         // 方向修改成功，修改redis缓存，注意不能直接重置value，要修改为限选人数 - 已选人数
         // 因为后台是通过判断redis缓存判断value不为0才进行选课
-        redisUtil.incr(String.valueOf(direction.getId()), direction.getLimitNumber() - direction.getSelectedNumber());
+        redisUtil.incr(RedisKey.DIRECTION_LIMIT + String.valueOf(direction.getId()), direction.getLimitNumber() - direction.getSelectedNumber());
         return num;
     }
 
@@ -55,7 +58,8 @@ public class DirectionServiceImpl implements DirectionService {
             direction.setId(Integer.valueOf(id));
             directionMapper.deleteDirection(direction);
             // 删除redis缓存
-            redisUtil.del(String.valueOf(direction.getId()));
+            redisUtil.del(RedisKey.DIRECTION_LIMIT + String.valueOf(direction.getId()));
+            redisUtil.del(RedisKey.DIRECTION_SELECTED + String.valueOf(direction.getId()));
         }
     }
 
@@ -65,6 +69,12 @@ public class DirectionServiceImpl implements DirectionService {
         PageHelper.startPage(myPageInfo.getPage(), myPageInfo.getPerPage());
         // 查询方向信息并封装成分页对象
         PageInfo<Direction> pageInfo = new PageInfo<>(directionMapper.listDirection(direction));
+        // 管理员查询的时候将redis里面的已选择人数保存到数据库
+        for (Direction d: pageInfo.getList()) {
+            Integer num = (Integer) redisUtil.get(RedisKey.DIRECTION_SELECTED + String.valueOf(d.getId()));
+            d.setSelectedNumber(num);
+            directionMapper.updateDirectionSelectNumber(d);
+        }
         return pageInfo;
     }
 

@@ -29,6 +29,19 @@
                 layer.msg('请输入方向介绍!!!!!!');
                 return;
             }
+
+            // 判断限制人数是不是数字
+            if (app.limitNumber.length < 1 ) {
+                layer.closeAll();
+                layer.msg("请输入方向限制人数")
+                return;
+            } else if (parseFloat(app.limitNumber).toString() == "NaN") {
+                layer.closeAll();
+                layer.msg("限制人数只能为数字")
+                return;
+            }
+
+
             // 获取专业Id
             var majorId = $("#majorId").val();
             var save_url = document.getElementById("save_url").value;
@@ -67,7 +80,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">方向名</label>
             <div class="layui-input-block">
-                <input type="text" id="name" name="name" autocomplete="off" th:value="${direction !=null? direction.name:''}" v-model="name" placeholder="请输入专业名称" class="layui-input">
+                <input type="text" id="name" name="name" autocomplete="off" th:value="${direction !=null? direction.name:''}" v-model="name" placeholder="请输入方向名" class="layui-input">
             </div>
         </div>
 

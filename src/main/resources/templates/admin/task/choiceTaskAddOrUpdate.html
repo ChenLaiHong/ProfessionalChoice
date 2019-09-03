@@ -17,8 +17,17 @@
                 shade: [0.1,'#fff'] //0.1透明度的白色背景
             });
             var save_url = document.getElementById("save_url").value;
-            console.log("开始时间" + startTimeValue)
-            console.log("jies时间" + endTimeValue)
+
+            if (startTimeValue === null) {
+                layer.closeAll();
+                layer.msg("请选择开始时间");
+                return;
+            }
+            if (endTimeValue === null) {
+                layer.closeAll();
+                layer.msg("请选择结束时间");
+                return;
+            }
             $.post(save_url, {
                 startTime: startTimeValue
                 ,endTime: endTimeValue
@@ -64,7 +73,7 @@
 
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="color: #00bbee">选报方向年级</label>
+            <label class="layui-form-label" style="color: #00bbee">选报年级</label>
             <div class="layui-input-block">
                 <select  id="gradeId" name="gradeId" v-model="gradeId">
                     <td th:if="${choiceTask != null}">
@@ -84,7 +93,7 @@
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="color: #00bbee">选报方向专业</label>
+            <label class="layui-form-label" style="color: #00bbee">选报专业</label>
             <div class="layui-input-block">
                 <select  id="majorId" name="majorId" v-model="majorId">
                     <td th:if="${choiceTask != null}">

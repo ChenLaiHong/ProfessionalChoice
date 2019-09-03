@@ -65,5 +65,8 @@ public interface DirectionMapper {
             "where ct.id = #{id}")
     List<Direction> listDirectionByChoiceTaskId(int id);
 
+    @Update("update direction set selected_number = #{selectedNumber} where id = #{id}")
+    int updateDirectionSelectNumber(Direction direction);
+
 
 }

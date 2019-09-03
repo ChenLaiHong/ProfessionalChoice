@@ -20,4 +20,14 @@ public class RedisKey {
      * 缓存用户的选择方向信息的哈希集合Key
      */
     public static final String USER_CHOICE = "userChoice";
+
+    /**
+     * 方向限制人数前缀
+     */
+    public static final String DIRECTION_LIMIT = "directionLimit_";
+
+    /**
+     * 方向已选人数前缀
+     */
+    public static final String DIRECTION_SELECTED = "directionSelected_";
 }
