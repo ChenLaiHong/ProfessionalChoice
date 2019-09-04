@@ -3,6 +3,7 @@ package com.lh.service.impl;
 import com.lh.dao.GradeMapper;
 import com.lh.pojo.Grade;
 import com.lh.pojo.GradeExample;
+import com.lh.pojo.Major;
 import com.lh.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,15 @@ public class GradeServiceImpl implements GradeService {
     @Override
     public void delete(String[] idsStr) {
 
-        GradeExample gradeExample = new GradeExample();
-        GradeExample.Criteria criteria = gradeExample.createCriteria();
-        criteria.andGradeIdIn(StringIds(idsStr));
-        gradeMapper.deleteByExample(gradeExample);
+//        GradeExample gradeExample = new GradeExample();
+//        GradeExample.Criteria criteria = gradeExample.createCriteria();
+//        criteria.andGradeIdIn(StringIds(idsStr));
+//        gradeMapper.deleteByExample(gradeExample);
+        for (int i=0;i<idsStr.length;i++){
+            Grade grade = gradeMapper.selectByPrimaryKey(Integer.valueOf(idsStr[i]));
+            grade.setGradeState(0);
+            gradeMapper.updateByPrimaryKeySelective(grade);
+        }
     }
 
     @Override

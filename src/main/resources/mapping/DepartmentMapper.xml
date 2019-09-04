@@ -197,6 +197,7 @@
       <if test="q!=null and q!=''">
         and (department_name like #{q})
       </if>
+      and department_state = 0
     </where>
     <if test="start!=null and size!=null">
       limit #{start},#{size}
@@ -210,6 +211,7 @@
       <if test="q!=null and q!=''">
         and (department_name like #{q})
       </if>
+      and department_state = 0
     </where>
   </select>
 

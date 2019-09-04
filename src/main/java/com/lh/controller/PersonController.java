@@ -8,15 +8,13 @@ import com.lh.service.ImageService;
 import com.lh.service.MajorService;
 import com.lh.service.StudentService;
 
-import com.lh.utils.DateUtil;
-import com.lh.utils.FileUploadUtil;
-import com.lh.utils.MdUtil;
-import com.lh.utils.ResponseUtil;
+import com.lh.utils.*;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -49,11 +47,11 @@ public class PersonController {
     public ModelAndView toInfo(HttpServletRequest request){
         Person person = studentService.findById((String) request.getSession().getAttribute("id"));
         Image image = imageService.findById((String) request.getSession().getAttribute("id"));
-        String personPhoto = "/upload/imgs/";
-        if(image != null){
-            personPhoto += image.getPersonPhoto();
-        }
-
+//        String personPhoto = "F:/project/IdeaProjects/javaProjects/ProfessionalChoice/src/main/resources/static/upload/imgs/";
+//        if(image != null){
+//            personPhoto += image.getPersonPhoto();
+//        }
+        String personPhoto = image.getPersonPhoto();
         ModelAndView mav = new ModelAndView();
         List<Major> majorList = majorService.getAll();
         List<Grade> gradeList = gradeService.getAll();
@@ -68,23 +66,23 @@ public class PersonController {
 //
 
     @RequestMapping("/saveInfo")
-    public String list(Person person,@RequestParam("personPhoto") MultipartFile file) throws Exception {
+    public String list(HttpServletRequest req,Person person,@RequestParam("personPhoto") MultipartFile file) throws Exception {
         if (!file.isEmpty()) {
 
             String imageName = DateUtil.getCurrentDateStr() + "."
                     + file.getOriginalFilename().split("\\.")[1];
-            // 存放上传图片的文件夹
+
+            // 存放上传图片文件夹
             File fileDir = getImgDirFile();
-            // 构建真实的文件路径
+            // 构建真实的文件路径的
             File newFile = new File(fileDir.getAbsolutePath() + File.separator + imageName);
             System.out.println(newFile.getAbsolutePath()+"**********************");
             file.transferTo(newFile);
             Image image = new Image();
+            image.setPersonId(person.getLoginId());
+            image.setPersonPhoto(imageName);
             Image result = imageService.findById(person.getLoginId());
             if(result == null){
-
-                image.setPersonId(person.getLoginId());
-                image.setPersonPhoto(imageName);
                 imageService.inster(image);
             }else {
                 imageService.update(image);
@@ -115,5 +113,8 @@ public class PersonController {
         ResponseUtil.write(response, result1);
         return null;
     }
+
+
+
 
 }

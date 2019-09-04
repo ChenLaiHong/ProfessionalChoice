@@ -10,6 +10,7 @@
     <result column="department_id" jdbcType="INTEGER" property="departmentId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="person_name" jdbcType="VARCHAR" property="personName" />
+    <result column="major_state" jdbcType="INTEGER" property="majorState" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lh.pojo.Major">
     <result column="major_details" jdbcType="LONGVARCHAR" property="majorDetails" />
@@ -309,7 +310,8 @@
       department_id = #{departmentId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       person_name = #{personName,jdbcType=VARCHAR},
-      major_details = #{majorDetails,jdbcType=LONGVARCHAR}
+      major_details = #{majorDetails,jdbcType=LONGVARCHAR},
+      major_state = #{majorState,jdbcType=INTEGER}
     where major_id = #{majorId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.lh.pojo.Major">
@@ -320,7 +322,8 @@
       major_money = #{majorMoney,jdbcType=INTEGER},
       department_id = #{departmentId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      person_name = #{personName,jdbcType=VARCHAR}
+      person_name = #{personName,jdbcType=VARCHAR},
+      major_state = #{majorState,jdbcType=INTEGER}
     where major_id = #{majorId,jdbcType=INTEGER}
   </update>
 
@@ -365,7 +368,7 @@
       <if test="q!=null and q!=''">
         and (major_name like #{q}   or major_details like #{q} or person_name like #{q})
       </if>
-
+        and major_state != 0
     </where>
     order by update_time DESC
     <if test="start!=null and size!=null">
@@ -380,8 +383,13 @@
       <if test="q!=null and q!=''">
         and (major_name like #{q}  or major_details like #{q} or person_name like #{q})
       </if>
-
+        and major_state != 0
     </where>
   </select>
 
+  <select id="getAll" resultMap="ResultMapWithBLOBs">
+    select * from major
+    where major_state != 0
+    order by update_time DESC
+  </select>
 </mapper>

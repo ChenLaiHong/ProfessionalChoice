@@ -29,6 +29,24 @@ public class Major {
     @Excel(name = "专业介绍",orderNum = "6")
     private String majorDetails;
 
+    private Integer majorState;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Integer getMajorState() {
+        return majorState;
+    }
+
+    public void setMajorState(Integer majorState) {
+        this.majorState = majorState;
+    }
+
     private List<Person> personList;
 
     private Department department;
@@ -116,7 +134,7 @@ public class Major {
     public Major() {
     }
 
-    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, Integer departmentId, Date updateTime, String personName, String majorDetails, List<Person> personList, Department department) {
+    public Major(Integer majorId, String majorName, String majorCode, Integer majorYear, Integer majorMoney, Integer departmentId, Date updateTime, String personName, String majorDetails, int majorState, List<Person> personList, Department department) {
         this.majorId = majorId;
         this.majorName = majorName;
         this.majorCode = majorCode;
@@ -126,6 +144,7 @@ public class Major {
         this.updateTime = updateTime;
         this.personName = personName;
         this.majorDetails = majorDetails;
+        this.majorState = majorState;
         this.personList = personList;
         this.department = department;
     }

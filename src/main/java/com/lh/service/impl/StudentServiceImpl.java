@@ -36,9 +36,6 @@ public class StudentServiceImpl implements StudentService {
         person.setLoginId("xxx");
         person.setName("张三");
         person.setGender(0);
-        person.setPhone("137xxx");
-        person.setQqNumber("1185xxx");
-        person.setEmail("xxx@qq.com");
         person.setGrades("4班");
         List<Person> list = new ArrayList<>();
         list.add(person);
@@ -66,10 +63,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public int add(Person person) {
         person.setRoleId(1);
-        person.setPassword("123456");
-        person.setPersonStatic(1);
-        person.setStudentStatus(1);
-        person.setStaticLive(1);
         return personMapper.insertSelective(person);
     }
 

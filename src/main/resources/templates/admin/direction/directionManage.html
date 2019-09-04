@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>方向管理</title>
@@ -138,8 +138,8 @@
 
     <div class="layui-table-toolbar" style="margin-bottom: 3px;">
         <div class="layui-btn-group">
-            <button onclick="openSavePage()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
-            <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
+            <button shiro:hasPermission="/addDirection" onclick="openSavePage()" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe654;</i>添加</button>
+            <button shiro:hasPermission="/delDirection" type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="delSelected()"><i class="layui-icon"></i>删除</button>
         </div>
 
         <div class="layui-input-inline" style="  width: 150px; margin-right: -1px;">
@@ -156,7 +156,7 @@
     <table class="layui-hide"   id="table" lay-filter="table"></table>
     <script type="text/html" id="table_bar">
         <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+            <a shiro:hasPermission="/updateDirection" class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="showDetail">查看方向介绍</a>
         </div>
     </script>

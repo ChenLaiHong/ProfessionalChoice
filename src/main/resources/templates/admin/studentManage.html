@@ -226,8 +226,6 @@
     </script>
 
 
-
-
     <script>
         layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
             'upload', 'element' ], function() {
@@ -282,7 +280,6 @@
                 }
             });
 
-
             //监听单元格编辑
             table.on('edit(table)', function(obj){
                 var value = obj.value //得到修改后的值
@@ -291,8 +288,6 @@
                 //layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
                 table_edit_update(data.loginId,field,value);
             });
-
-
         });
     </script>
 </div>

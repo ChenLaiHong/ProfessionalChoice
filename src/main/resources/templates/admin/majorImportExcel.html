@@ -3,7 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>导入</title>
-
     <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.3/themes/icon.css">
     <script type="text/javascript" src="/jquery-easyui-1.3.3/jquery.min.js"></script>
@@ -11,34 +10,7 @@
     <script type="text/javascript" src="/jquery-easyui-1.3.3/locale/easyui-lang-zh_CN.js"></script>
     <script	src="/layui/layui/layui.js"></script>
     <link href="/layui/layui/css/layui.css" rel="stylesheet"/>
-<style type="text/css">
-    .file {
-        position: relative;
-        display: inline-block;
-        background: #D0EEFF;
-        border: 1px solid #99D3F5;
-        border-radius: 4px;
-        padding: 4px 12px;
-        overflow: hidden;
-        color: #1E88C7;
-        text-decoration: none;
-        text-indent: 0;
-        line-height: 20px;
-    }
-    .file input {
-        position: absolute;
-        font-size: 100px;
-        right: 0;
-        top: 0;
-        opacity: 0;
-    }
-    .file:hover {
-        background: #AADFFD;
-        border-color: #78C3F3;
-        color: #004974;
-        text-decoration: none;
-    }
-</style>
+
     <script type="text/javascript">
 
         //执行批量导入功能
@@ -50,6 +22,7 @@
                 success: function(jsonResult) {
                     var date = eval('('+jsonResult+')');
                     if(date.status == "ok") {
+                        layer.closeAll();
                         window.parent.closeDlg(date.message);
                     } else if(date.status == "fail") {
                         window.parent.closeDlg(date.message);
@@ -61,11 +34,18 @@
         }
 
     </script>
+    <style>
+        html, body {
+        }
+        .layui-form-item {
+            margin-bottom: 3px;
+        }
+    </style>
 </head>
 <body style="margin: 1px">
 
 <div id="upl">
-    <form id="fi" enctype="multipart/form-data" method="post">
+    <form id="fi" enctype="multipart/form-data" method="post" class="layui-form layui-form-pane">
         <div class="layui-form-item">
             <label class="layui-form-label" style="color: #00bbee">院系</label>
             <div class="layui-input-block">

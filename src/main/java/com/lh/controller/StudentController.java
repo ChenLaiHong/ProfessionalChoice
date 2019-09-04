@@ -159,7 +159,7 @@ public class StudentController {
     }
 
     @RequestMapping("/importExcel")
-    public String importExcel2(@RequestParam("files") MultipartFile file, @RequestParam(value = "majorId") Integer majorId, @RequestParam(value = "gradeId") Integer gradeId, HttpServletResponse response) {
+    public String importExcel2(@RequestParam("files") MultipartFile file, @RequestParam(value = "majorId") Integer majorId, @RequestParam(value = "gradeId") Integer gradeId, HttpServletResponse response) throws Exception {
         // 带结果到页面
         JSONObject jsonResult = new JSONObject();
         ImportParams importParams = new ImportParams();
@@ -196,11 +196,9 @@ public class StudentController {
             jsonResult.put("status", "ok");
             jsonResult.put("message", "批量导入成功！");
         }
-        try {
-            ResponseUtil.write(response, jsonResult);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        ResponseUtil.write(response, jsonResult);
+
         return null;
 
     }

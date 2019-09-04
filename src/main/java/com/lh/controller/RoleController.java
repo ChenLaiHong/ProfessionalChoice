@@ -60,8 +60,6 @@ public class RoleController {
     }
 
 
-
-
     @RequestMapping("/toAdd")
     public ModelAndView toAdd() throws Exception {
         ModelAndView mav = new ModelAndView();

@@ -142,13 +142,12 @@ public class MajorController {
         Result result = new Result();
         majorService.delete(idsStr);
         result.setSuccess(true);
-        ResponseUtil.write(response, gson.toJson(result));
+        ResponseUtil.write(response,gson.toJson(result));
         return null;
     }
     //打开上传窗口toImport
     @RequestMapping("/toImport")
     public ModelAndView toImport() throws Exception {
-
 
         ModelAndView mav = new ModelAndView();
         List<Department> departmentList = departmentService.getAll();

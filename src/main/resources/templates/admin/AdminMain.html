@@ -115,7 +115,7 @@
 </div>
 <div region="west" style="width: 200px" title="导航菜单" split="true">
     <div class="easyui-accordion" data-options="fit:true,border:false">
-        <shiro:hasAnyRoles name= "管理员, 辅导员, 老师">
+        <!--<shiro:hasAnyRoles name= "管理员, 辅导员, 老师">-->
         <div  title="系统管理" data-options="selected:true,iconCls:'icon-item'" style="padding: 10px">
             <a shiro:hasPermission="/toStudent" href="javascript:openTab('学生管理','toStudent','icon-stu')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-stu'" style="width: 150px">学生管理</a>
             <a shiro:hasPermission="/toTeacher" href="javascript:openTab('教职工管理','toTeacher','icon-tea')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-tea'" style="width: 150px">教职工管理</a>
@@ -126,12 +126,13 @@
             <a shiro:hasRole ="管理员" href="javascript:openTab('角色管理','toRole','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">角色管理</a>
             <a shiro:hasPermission="/toNotice" href="javascript:openTab('公告信息管理','toNotice','icon-plgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-plgl'" style="width: 150px;">公告信息管理</a>
         </div>
-        </shiro:hasAnyRoles>
+        <!--</shiro:hasAnyRoles>-->
 
         <div title="信息查询"  data-options="iconCls:'icon-system'" style="padding:10px">
             <a href="javascript:openPasswordModifyDialog()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-modifyPassword'" style="width: 150px;">修改密码</a>
             <a href="javascript:openTab('个人信息','person/toInfo','icon-plgl')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-info'" style="width: 150px;">个人信息</a>
-            <a href="javascript:openTab('选报方向','task/page','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-info'" style="width: 150px;">选报方向</a>
+
+            <a shiro:hasPermission="/chooceDirection" href="javascript:openTab('选报方向','task/page','icon-bklb')" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-info'" style="width: 150px;">选报方向</a>
         </div>
     </div>
 </div>

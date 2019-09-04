@@ -47,7 +47,7 @@
         <input type="hidden" id="personId" th:value="${person.loginId}" >
 
         <div class="layui-form-item">
-            <img id="pro_topPicShow" th:src="${personPhoto}" alt=" " style="height: 120px;width: 120px">
+            <img id="pro_topPicShow" th:src="${'/upload/'+personPhoto}" alt=" " style="height: 120px;width: 120px">
             <button type="button" class="layui-btn" id="uploadBtn1" onclick="upLoad1()">上传图片</button>
             <input id="pro_topPic" name="personPhoto" type="file" style="display: none">
 

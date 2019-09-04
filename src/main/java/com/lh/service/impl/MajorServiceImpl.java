@@ -55,19 +55,19 @@ public class MajorServiceImpl implements MajorService {
     }
 
     @Override
-    public int delete(String[] idsStr) {
+    public void delete(String[] idsStr) {
 
-        MajorExample example = new MajorExample();
-        MajorExample.Criteria criteria = example.createCriteria();
-        criteria.andMajorIdIn(StringIds(idsStr));
+        for (int i=0;i<idsStr.length;i++){
+            Major major = majorMapper.selectByPrimaryKey(Integer.valueOf(idsStr[i]));
+            major.setMajorState(0);
+            majorMapper.updateByPrimaryKeyWithBLOBs(major);
+        }
 
-
-        return majorMapper.deleteByExample(example);
     }
 
     @Override
     public List<Major> getAll() {
-        return majorMapper.selectByExample(null);
+        return majorMapper.getAll();
     }
 
     @Override

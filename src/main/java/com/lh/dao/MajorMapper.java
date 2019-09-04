@@ -47,4 +47,6 @@ public interface MajorMapper {
     Integer getTotalF(Map<String, Object> map);
 
     int inputAll(Map<String, Object> map);
+
+    List<Major> getAll();
 }

@@ -21,10 +21,10 @@ console.log("进来吗")
                 url: "/student/importExcel",
                 success: function(jsonResult) {
                     var date = eval('('+jsonResult+')');
-                    console.log(date)
-                    if(date.status == "ok") {
+                    console.log(date.status)
+                    if(date.status = "ok") {
                         window.parent.closeDlg(date.message);
-                    } else if(date.status == "fail") {
+                    } else if(date.status = "fail") {
                         window.parent.closeDlg(date.message);
                         return;
                     }
