@@ -11,6 +11,7 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -45,7 +46,7 @@ public class UserRealm extends AuthorizingRealm {
         map.put("roleId",person.getRoleId());
         Role role = roleService.getById(person.getRoleId());
         List<Resource> resourcesList = resourceService.loadPersonResources(map);
-        System.out.println("拿资源？**************");
+        System.out.println("会不会每次进来拿资源？==========================");
         // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         for(Resource resource: resourcesList){
@@ -74,8 +75,12 @@ public class UserRealm extends AuthorizingRealm {
             //用户不存在
             return null;//shiro底层会抛出UnKnowAccountException
         }
-        request.getSession().setAttribute("userName", person.getName());
-        request.getSession().setAttribute("id", person.getLoginId());
+//        request.getSession().setAttribute("userName", person.getName());
+//        request.getSession().setAttribute("id", person.getLoginId());
+        // 当验证都通过后，把用户信息放在session里
+        Session session2 = SecurityUtils.getSubject().getSession();
+        session2.setAttribute("userName", person.getName());
+        session2.setAttribute("id", person.getLoginId());
         return new SimpleAuthenticationInfo(person,person.getPassword(), "");
     }
 }

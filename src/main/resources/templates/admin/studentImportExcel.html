@@ -20,12 +20,15 @@ console.log("进来吗")
             $("#fi").form("submit", {
                 url: "/student/importExcel",
                 success: function(jsonResult) {
-                    var date = eval('('+jsonResult+')');
-                    console.log(date.status)
-                    if(date.status = "ok") {
-                        window.parent.closeDlg(date.message);
-                    } else if(date.status = "fail") {
-                        window.parent.closeDlg(date.message);
+                    var data = eval('('+jsonResult+')');
+
+                    if(data.status == "ok") {
+                        console.log(data.status)
+                        layer.close(layer.index);
+                        window.parent.closeDlg(data.message);
+                    } else if(data.status == "fail") {
+                        layer.close(layer.index);
+                        window.parent.closeDlg(data.message);
                         return;
                     }
                 },
@@ -74,8 +77,9 @@ console.log("进来吗")
     </form>
 </div>
 <script>
-    layui.use([ 'laydate', 'laypage', 'layer', 'table', 'carousel',
+    layui.use([ 'laydate', 'laypage', 'layer', 'table', 'form',
         'upload', 'element' ], function() {
+        var form = layui.form;
         var laydate = layui.laydate //日期
             , laypage = layui.laypage //分页
         layer = layui.layer //弹层

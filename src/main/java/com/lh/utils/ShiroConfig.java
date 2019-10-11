@@ -3,10 +3,14 @@ package com.lh.utils;
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.lh.pojo.Resource;
 import com.lh.service.ResourceService;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.ehcache.EhCacheCache;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -72,6 +76,11 @@ public class ShiroConfig {
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;
     }
+
+    @Bean
+    public EhCacheManager getCache(){
+        return new EhCacheManager();
+    }
     /**
      *创建DefaultWebSecurityManager
      *
@@ -81,6 +90,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         //关联realm
         securityManager.setRealm(userRealm);
+        securityManager.setCacheManager(getCache());
         return securityManager;
     }
     /**

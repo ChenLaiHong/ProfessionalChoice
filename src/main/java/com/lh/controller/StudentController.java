@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -159,6 +160,7 @@ public class StudentController {
     }
 
     @RequestMapping("/importExcel")
+    @ResponseBody
     public String importExcel2(@RequestParam("files") MultipartFile file, @RequestParam(value = "majorId") Integer majorId, @RequestParam(value = "gradeId") Integer gradeId, HttpServletResponse response) throws Exception {
         // 带结果到页面
         JSONObject jsonResult = new JSONObject();

@@ -36,6 +36,7 @@
 
             var save_url = document.getElementById("save_url").value;
             $.post(save_url,{
+                loginId:app.loginId,
                 name:app.name
                 ,gender:$("#gender").val()
                 ,roleId:$("#roleId").val()
