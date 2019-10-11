@@ -5,17 +5,17 @@
 开发环境 <br>
 =====
 
-语言：java <br>
-IDE:  IntelliJ IDEA  <br>
-依赖管理：Maven <br>
-数据库：mysql <br>
+语言：java8 <br>
+IDE:  IntelliJ IDEA 2017  <br>
+依赖管理：Maven 3.6 <br>
+数据库：mysql 5.6 <br>
 
 开发技术 <br>
 =====
 
 后端 <br>
 ----
-基础框架： spring boot <br>
+基础框架： Spring Boot <br>
 持久层框架：Mybatis <br>
 安全框架：Apache Shiro <br>
 缓存： redis <br>
